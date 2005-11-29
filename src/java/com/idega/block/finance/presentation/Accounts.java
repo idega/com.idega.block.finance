@@ -213,7 +213,7 @@ public class Accounts extends Finance {
 		T.add(getText(localize("persona_id","Personal ID")),1,2);
 		T.add(getHeader(localize("account_id","Account ID")),1,3);
 		try {
-			User user = (User)getFinanceService().getAccountUserHome().findByPrimaryKey(new Integer(iUserId));
+			User user = getFinanceService().getAccountUserHome().findByPrimaryKey(new Integer(iUserId));
 			T.add(getText(user.getName()),2,1);
 			T.add(getText(user.getPersonalID()),2,2);
 		} catch (RemoteException e) {
@@ -342,7 +342,7 @@ public class Accounts extends Finance {
 					M.remove(uid);
 				} else{
 					try {
-						U = (User)getFinanceService().getAccountUserHome().findByPrimaryKey(uid);
+						U = getFinanceService().getAccountUserHome().findByPrimaryKey(uid);
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (FinderException e) {

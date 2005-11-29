@@ -106,7 +106,7 @@ public class AccountTariffer extends Finance {
 				if (accountId != null && accountId.intValue() > 0) {
 					parse(iwc);
 					try {
-						account = (FinanceAccount)getFinanceService().getAccountHome().findByPrimaryKey(accountId);
+						account = getFinanceService().getAccountHome().findByPrimaryKey(accountId);
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (FinderException e) {

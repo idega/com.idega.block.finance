@@ -616,7 +616,7 @@ public class TariffAssessments extends Finance {
 			AccountUser u;
 			while (iter.hasNext()) {
 				u = (AccountUser) iter.next();
-				map.put((Integer) u.getPrimaryKey(), u);
+				map.put(u.getPrimaryKey(), u);
 			}
 			return map;
 		}

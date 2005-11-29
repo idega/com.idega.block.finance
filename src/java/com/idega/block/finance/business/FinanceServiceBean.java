@@ -300,7 +300,7 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			AccountKey ti;
 			for (Iterator iter = coll.iterator(); iter.hasNext();) {
 				ti = (AccountKey) iter.next();
-				T.put((Integer)ti.getPrimaryKey(), ti);
+				T.put(ti.getPrimaryKey(), ti);
 			}
 			return T;
 		} else
@@ -314,7 +314,7 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			TariffKey ti;
 			for (Iterator iter = coll.iterator(); iter.hasNext();) {
 				ti = (TariffKey) iter.next();
-				T.put((Integer) ti.getPrimaryKey(), ti);
+				T.put(ti.getPrimaryKey(), ti);
 			}
 			return T;
 		} else

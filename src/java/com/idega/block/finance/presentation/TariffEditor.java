@@ -547,8 +547,8 @@ public class TariffEditor extends Finance {
 							iPrice = iPrice * getAddFactor(ti.getNewValue(), ti.getOldValue());
 					}
 				}
-				iPrice = new Float(TextSoap.decimalFormat((double) iPrice, iNumberOfDecimals)).floatValue();
-				oldPrice = new Float(TextSoap.decimalFormat((double) oldPrice, iNumberOfDecimals)).floatValue();
+				iPrice = new Float(TextSoap.decimalFormat(iPrice, iNumberOfDecimals)).floatValue();
+				oldPrice = new Float(TextSoap.decimalFormat(oldPrice, iNumberOfDecimals)).floatValue();
 				if (bRoundAmounts) {
 					iPrice = Math.round((double) iPrice);
 					oldPrice = Math.round((double) oldPrice);
@@ -864,7 +864,7 @@ public class TariffEditor extends Finance {
 					}
 					drpIx.setSelectedElement(ixType);
 				}
-				iPrice = new Float(TextSoap.decimalFormat((double) iPrice, iNumberOfDecimals)).floatValue();
+				iPrice = new Float(TextSoap.decimalFormat(iPrice, iNumberOfDecimals)).floatValue();
 
 				if (bRoundAmounts)
 					iPrice = Math.round((double) iPrice);

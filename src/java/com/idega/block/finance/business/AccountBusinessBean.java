@@ -224,7 +224,7 @@ public class AccountBusinessBean extends IBOServiceBean implements AccountBusine
        Hashtable H = new Hashtable(len);
        for (Iterator iter = L.iterator(); iter.hasNext();) {
        	AccountKey AK = (AccountKey)  iter.next();
-         H.put((Integer)AK.getPrimaryKey(),AK);
+         H.put(AK.getPrimaryKey(),AK);
        }
        return H;
      }
@@ -239,7 +239,7 @@ public class AccountBusinessBean extends IBOServiceBean implements AccountBusine
   	      Hashtable H = new Hashtable(len);
   	      for (Iterator iter = L.iterator(); iter.hasNext();) {
   	      	TariffKey AK = (TariffKey) iter.next();
-  	        H.put((Integer)(AK.getPrimaryKey()),AK);
+  	        H.put(AK.getPrimaryKey(),AK);
   	      }
   	      return H;
   	    }
