@@ -1,5 +1,5 @@
 /*
- * $Id: BankInfoBusinessBean.java,v 1.2 2005/05/31 09:45:57 palli Exp $ Created
+ * $Id: BankInfoBusinessBean.java,v 1.3 2006/01/20 17:57:24 sigtryggur Exp $ Created
  * on Feb 18, 2005
  * 
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -17,6 +17,10 @@ import javax.ejb.EJBException;
 import javax.ejb.FinderException;
 import javax.ejb.RemoveException;
 
+import com.idega.block.finance.data.Bank;
+import com.idega.block.finance.data.BankBranch;
+import com.idega.block.finance.data.BankBranchHome;
+import com.idega.block.finance.data.BankHome;
 import com.idega.block.finance.data.BankInfo;
 import com.idega.block.finance.data.BankInfoHome;
 import com.idega.business.IBOServiceBean;
@@ -25,10 +29,10 @@ import com.idega.user.data.Group;
 
 /**
  * 
- * Last modified: $Date: 2005/05/31 09:45:57 $ by $Author: palli $
+ * Last modified: $Date: 2006/01/20 17:57:24 $ by $Author: sigtryggur $
  * 
  * @author <a href="mailto:birna@idega.com">birna</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class BankInfoBusinessBean extends IBOServiceBean implements BankInfoBusiness {
 
@@ -36,7 +40,15 @@ public class BankInfoBusinessBean extends IBOServiceBean implements BankInfoBusi
 		return (BankInfoHome) IDOLookup.getHome(BankInfo.class);
 	}
 
-	public boolean insertBankInfoContract(Group club, String div, String group, String branch, String accountId,
+	public BankHome getBankHome() throws java.rmi.RemoteException {
+		return (BankHome) IDOLookup.getHome(Bank.class);
+	}
+
+	public BankBranchHome getBankBranchHome() throws java.rmi.RemoteException {
+		return (BankBranchHome) IDOLookup.getHome(BankBranch.class);
+	}
+
+	public boolean insertBankInfoContract(Group club, String div, String group, int branch, String accountId,
 			String ssn, String name, String username, String password) {
 
 		try {
@@ -54,7 +66,8 @@ public class BankInfoBusinessBean extends IBOServiceBean implements BankInfoBusi
 			if (group != null && !"-1".equals(group)) {
 				bi.setGroupId(Integer.valueOf(group).intValue());
 			}
-			bi.setClaimantsBankBranchNumber(branch);
+			//bi.set
+			bi.setClaimantsBankBranchId(branch);
 			bi.setAccountBook(66);
 			bi.setAccountId(accountId);
 			bi.setClaimantsSSN(ssn);
