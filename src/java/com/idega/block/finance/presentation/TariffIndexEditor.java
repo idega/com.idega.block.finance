@@ -94,12 +94,12 @@ public class TariffIndexEditor extends Finance {
     
     LinkTable.setWidth(last,"100%");
     Link Link1 = new Link(getHeader(iwrb.getLocalizedString("view","View")));
-    Link1.addParameter(this.strAction,String.valueOf(this.ACT1));
+    Link1.addParameter(TariffIndexEditor.strAction,String.valueOf(this.ACT1));
     //Link1.addParameter(Finance.getCategoryParameter(iCategoryId));
     Link Link2 = new Link(getHeader(iwrb.getLocalizedString("change","Change")));
    
    
-    Link2.addParameter(this.strAction,String.valueOf(this.ACT2));
+    Link2.addParameter(TariffIndexEditor.strAction,String.valueOf(this.ACT2));
     //Link2.addParameter(Finance.getCategoryParameter(iCategoryId));
     if(isAdmin){
       LinkTable.add(Link1,1,1);
@@ -209,7 +209,7 @@ public class TariffIndexEditor extends Finance {
     }
    
     inputTable.add(new HiddenInput("ti_count", String.valueOf(inputcount) ));
-    inputTable.add(new HiddenInput(this.strAction,String.valueOf(this.ACT3 )));
+    inputTable.add(new HiddenInput(TariffIndexEditor.strAction,String.valueOf(this.ACT3 )));
     inputTable.add(Finance.getCategoryParameter(iCategoryId));
    
     inputTable.addButton(new SubmitButton("save","Save"));

@@ -689,8 +689,8 @@ public class TariffEditor extends Finance {
 		}
 
 		Table T3 = new Table(8, 1);
-		T3.setWidth(T3.HUNDRED_PERCENT);
-		T3.setWidth(5, 1, T3.HUNDRED_PERCENT);
+		T3.setWidth(Table.HUNDRED_PERCENT);
+		T3.setWidth(5, 1, Table.HUNDRED_PERCENT);
 		T3.setColumnAlignment(6, "right");
 		T3.setColumnAlignment(7, "right");
 
@@ -708,7 +708,7 @@ public class TariffEditor extends Finance {
 		Table T4 = new Table();
 		T4.setCellpadding(0);
 		T4.setCellpadding(0);
-		T4.setWidth(T4.HUNDRED_PERCENT);
+		T4.setWidth(Table.HUNDRED_PERCENT);
 		T4.add(T3, 1, 1);
 		T4.add(T, 1, 2);
 

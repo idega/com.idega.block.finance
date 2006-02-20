@@ -11,6 +11,7 @@ import com.idega.block.finance.data.TariffGroup;
 import com.idega.business.IBOLookup;
 import com.idega.idegaweb.IWApplicationContext;
 import com.idega.idegaweb.IWBundle;
+import com.idega.idegaweb.IWMainApplication;
 import com.idega.idegaweb.IWResourceBundle;
 import com.idega.idegaweb.presentation.IWAdminWindow;
 import com.idega.presentation.IWContext;
@@ -175,7 +176,7 @@ public class TariffGroupWindow extends IWAdminWindow {
 	public void main(IWContext iwc) throws Exception {
 		super.main(iwc);
 
-		core = iwc.getIWMainApplication().getBundle(iwc.getIWMainApplication().CORE_BUNDLE_IDENTIFIER);
+		core = iwc.getIWMainApplication().getBundle(IWMainApplication.CORE_BUNDLE_IDENTIFIER);
 		iwrb = getResourceBundle(iwc);
 		addTitle(iwrb.getLocalizedString("tariff_group_editor", "Tariffgroup Editor"));
 		control(iwc);

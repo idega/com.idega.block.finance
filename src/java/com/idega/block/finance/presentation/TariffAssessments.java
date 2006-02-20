@@ -254,7 +254,7 @@ public class TariffAssessments extends Finance {
 				
 				else {
 					
-					 if(iwc.isParameterSet(collectionNavigator.getParameterName())){
+					 if(iwc.isParameterSet(CollectionNavigator.getParameterName())){
 						try {
 							Collection accs = getFinanceService().getAccountHome().findByAssessmentRound(roundID, 1,getCollectionIndex());
 							if(accs!=null && !accs.isEmpty()){
@@ -469,17 +469,17 @@ public class TariffAssessments extends Finance {
 			
 			Link Link1 =new Link(getHeader(localize("view", "View")));
 			
-			Link1.addParameter(this.PRM_ACTION, String.valueOf(this.ACT1));
+			Link1.addParameter(TariffAssessments.PRM_ACTION, String.valueOf(TariffAssessments.ACT1));
 			Link1.addParameter(PRM_GROUP_ID, groupID.toString());
 			
 			Link Link2 = new Link(getHeader(localize("new", "New")));
 			
-			Link2.addParameter(this.PRM_ACTION, String.valueOf(this.ACT2));
+			Link2.addParameter(TariffAssessments.PRM_ACTION, String.valueOf(TariffAssessments.ACT2));
 			Link2.addParameter(PRM_GROUP_ID, groupID.toString());
 			
 			Link Link3 = new Link(getHeader(localize("preview", "Preview")));
 			
-			Link3.addParameter(this.PRM_ACTION, String.valueOf(this.ACT6));
+			Link3.addParameter(TariffAssessments.PRM_ACTION, String.valueOf(TariffAssessments.ACT6));
 			Link3.addParameter(PRM_GROUP_ID, groupID.toString());
 		
 		
@@ -727,10 +727,10 @@ public class TariffAssessments extends Finance {
 				
 			}
 			
-			T.setAlignment(2,1,T.HORIZONTAL_ALIGN_RIGHT);
-			T.setAlignment(2,2,T.HORIZONTAL_ALIGN_RIGHT);
-			T.setAlignment(4,1,T.HORIZONTAL_ALIGN_RIGHT);
-			T.setAlignment(4,2,T.HORIZONTAL_ALIGN_RIGHT);
+			T.setAlignment(2,1,Table.HORIZONTAL_ALIGN_RIGHT);
+			T.setAlignment(2,2,Table.HORIZONTAL_ALIGN_RIGHT);
+			T.setAlignment(4,1,Table.HORIZONTAL_ALIGN_RIGHT);
+			T.setAlignment(4,2,Table.HORIZONTAL_ALIGN_RIGHT);
 			T.setWidth(1,"100");
 			T.setWidth(2,"100");
 			T.setWidth(3,"50");
@@ -825,7 +825,7 @@ public class TariffAssessments extends Finance {
 					row++;
 				}
 				T.add(getAmountText((total)), 5, row);
-				T.setWidth(T.HUNDRED_PERCENT);
+				T.setWidth(Table.HUNDRED_PERCENT);
 				T.setCellpadding(2);
 				T.setCellspacing(1);
 				T.setHorizontalZebraColored(getZebraColor1(), getZebraColor2());
@@ -940,7 +940,7 @@ public class TariffAssessments extends Finance {
 		row++;
 		
 		T.setWidth("100%");
-		T.add(new HiddenInput(this.PRM_ACTION, String.valueOf(this.ACT3)));
+		T.add(new HiddenInput(TariffAssessments.PRM_ACTION, String.valueOf(TariffAssessments.ACT3)));
 		T.add(new HiddenInput(PRM_GROUP_ID, String.valueOf(groupID)));
 		return T;
 	}
