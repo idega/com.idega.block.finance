@@ -5,8 +5,6 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
-
 import javax.ejb.EJBException;
 import javax.ejb.FinderException;
 
@@ -69,8 +67,6 @@ public class TariffAssessments extends Finance {
 	private Collection accountEntries = null;
 	private Collection accounts = null;
 	private Collection assessments = null;
-	
-	private boolean showAll = false;
 	
 	private CollectionNavigator collectionNavigator =null;
 	
@@ -599,29 +595,6 @@ public class TariffAssessments extends Finance {
 		}
 		return T;
 	}
-	private Map mapOfAccountUsers(Integer assessmentRoundId) {
-		//List L =
-		// FinanceFinder.getInstance().listOfAccountUsersByRoundId(iAssessmentRoundId);
-		Collection users = null;
-		try {
-			users = getFinanceService().getAccountUserHome().findByAssessmentRound(assessmentRoundId);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (FinderException e) {
-			e.printStackTrace();
-		}
-		if (users != null) {
-			Iterator iter = users.iterator();
-			Map map = new java.util.HashMap();
-			AccountUser u;
-			while (iter.hasNext()) {
-				u = (AccountUser) iter.next();
-				map.put(u.getPrimaryKey(), u);
-			}
-			return map;
-		}
-		return null;
-	}
 	private PresentationObject getTableOfAssessmentAccounts(IWContext iwc) throws RemoteException {
 		Table T = new Table();
 		
@@ -960,10 +933,6 @@ public class TariffAssessments extends Finance {
 		L.addParameter(PRM_GROUP_ID, iGroupId.toString());
 		L.setFontSize(Edit.textFontSize);
 		return L;
-	}
-	
-	private String getLocalizedAssessmentStatus(String status){
-		return localize("assessmentstatus."+status,status);
 	}
 	
 	public void main(IWContext iwc) {

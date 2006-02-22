@@ -16,8 +16,6 @@ import com.idega.block.finance.data.BankInfo;
 import com.idega.block.finance.data.BankInfoHome;
 import com.idega.data.IDOLookup;
 import com.idega.data.IDOLookupException;
-import com.idega.user.data.Group;
-import com.idega.user.data.GroupHome;
 import com.idega.user.data.User;
 import com.idega.user.data.UserHome;
 
@@ -27,12 +25,9 @@ import com.idega.user.data.UserHome;
  */
 public class BankInvoiceFileManager implements BankFileManager {
 
-	private int groupID = -1;
-
 	private BankInfo bankInfo = null;
 
 	public BankInvoiceFileManager(int groupID) {
-		this.groupID = groupID;
 		bankInfo = getBankInfo(groupID);
 	}
 
@@ -655,23 +650,5 @@ public class BankInvoiceFileManager implements BankFileManager {
 			}
 		}
 		return u;
-	}
-
-	private Group getGroupByGroupId(int groupId) {
-		Group g = null;
-		GroupHome gh = null;
-		try {
-			gh = (GroupHome) IDOLookup.getHome(Group.class);
-		} catch (IDOLookupException e) {
-			e.printStackTrace();
-		}
-		if (gh != null) {
-			try {
-				g = gh.findByPrimaryKey(new Integer(groupId));
-			} catch (FinderException e1) {
-				e1.printStackTrace();
-			}
-		}
-		return g;
 	}
 }
