@@ -249,8 +249,14 @@ public class AccountEntryBMPBean extends com.idega.data.GenericEntity implements
   public int getUserId() {
   		return getIntColumnValue(getColumnNameUserId());
   }
+  public User getUser() {
+		return (User) getColumnValue(getColumnNameUserId());
+  }
   public void setUserId(int userId) {
   		setColumn(getColumnNameUserId(), userId);
+  }
+  public void setUser(User user) {
+		setColumn(getColumnNameUserId(), user);
   }
   public Timestamp getDisallowanceDate() {
   		return getTimestampColumnValue(getColumnNameDisallowanceDate());
