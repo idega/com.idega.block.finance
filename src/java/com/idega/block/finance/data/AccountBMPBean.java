@@ -193,7 +193,7 @@ public class AccountBMPBean extends CategoryEntityBMPBean implements Account,Fin
     sql.append(" a,ic_user u ");
     sql.append(" where a.ic_user_id = u.ic_user_id");
     sql.append(" and a.");
-    sql.append(com.idega.block.finance.data.AccountBMPBean.getColumnCategoryId());
+    sql.append(CategoryEntityBMPBean.getColumnCategoryId());
     sql.append(" = ");
     sql.append(iCategoryId);
     if(id!=null && !"".equals(id)){
