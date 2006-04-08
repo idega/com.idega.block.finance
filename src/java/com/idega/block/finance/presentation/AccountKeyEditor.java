@@ -108,7 +108,7 @@ public class AccountKeyEditor extends Finance {
     Collection keys = null;
 	java.util.Map hk = null;
 	try {
-		keys = getFinanceService().getAccountKeyHome().findByCategory(getFinanceCategoryId());;
+		keys = getFinanceService().getAccountKeyHome().findByCategory(getFinanceCategoryId());
 		hk = getFinanceService().getAccountBusiness().getTariffKeyMap();
 	} catch (RemoteException e) {
 		e.printStackTrace();
