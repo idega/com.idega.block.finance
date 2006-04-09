@@ -266,8 +266,9 @@ public class AccountPhoneEntryBMPBean extends com.idega.data.GenericEntity imple
 			setColumn(getColumnNameStatus(), status);
 			setLastUpdated(com.idega.util.IWTimestamp.getTimestampRightNow());
 		}
-		else
+		else {
 			throw new IllegalStateException("Undefined state : " + status);
+		}
 	}
 
 	// interface specific:

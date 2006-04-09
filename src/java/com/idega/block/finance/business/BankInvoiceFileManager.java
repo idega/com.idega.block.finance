@@ -28,11 +28,11 @@ public class BankInvoiceFileManager implements BankFileManager {
 	private BankInfo bankInfo = null;
 
 	public BankInvoiceFileManager(int groupID) {
-		bankInfo = getBankInfo(groupID);
+		this.bankInfo = getBankInfo(groupID);
 	}
 
 	public BankInvoiceFileManager(BankInfo info) {
-		bankInfo = info;
+		this.bankInfo = info;
 	}
 
 	/*
@@ -41,8 +41,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 	 * @see com.idega.block.finance.business.BankFileManager#getAccountBook(int)
 	 */
 	public int getAccountBook() {
-		if (bankInfo != null) {
-			return bankInfo.getAccountBook();
+		if (this.bankInfo != null) {
+			return this.bankInfo.getAccountBook();
 		} else {
 			return 66;
 		}
@@ -69,8 +69,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 	 * @see com.idega.block.finance.business.BankFileManager#getBankId(int)
 	 */
 	public String getBankBranchNumber() {
-		if (bankInfo != null) {
-			return bankInfo.getClaimantsBankBranch().getBankBranchNumber();
+		if (this.bankInfo != null) {
+			return this.bankInfo.getClaimantsBankBranch().getBankBranchNumber();
 		} else {
 			return "";
 		}
@@ -88,24 +88,24 @@ public class BankInvoiceFileManager implements BankFileManager {
 	 * @see com.idega.block.finance.business.BankFileManager#getClaimantsAccountId(int)
 	 */
 	public String getClaimantsAccountId() {
-		if (bankInfo != null) {
-			return bankInfo.getAccountId();
+		if (this.bankInfo != null) {
+			return this.bankInfo.getAccountId();
 		} else {
 			return "";
 		}
 	}
 
 	public String getClaimantSSN() {
-		if (bankInfo != null) {
-			return bankInfo.getClaimantsSSN();
+		if (this.bankInfo != null) {
+			return this.bankInfo.getClaimantsSSN();
 		} else {
 			return "";
 		}
 	}
 
 	public String getClaimantName() {
-		if (bankInfo != null) {
-			return bankInfo.getClaimantsName();
+		if (this.bankInfo != null) {
+			return this.bankInfo.getClaimantsName();
 		} else {
 			return "";
 		}
@@ -247,8 +247,9 @@ public class BankInvoiceFileManager implements BankFileManager {
 		AccountEntry ae = getAccountEntry(invoiceNumber);
 		if (ae != null) {
 			Date date = ae.getDueDate();
-			if (date != null)
+			if (date != null) {
 				cal.setTime(date);
+			}
 			return cal;
 		} else {
 			return null;
@@ -328,8 +329,9 @@ public class BankInvoiceFileManager implements BankFileManager {
 		AccountEntry ae = getAccountEntry(invoiceNumber);
 		if (ae != null) {
 			Date date = ae.getFinalDueDate();
-			if (date != null)
+			if (date != null) {
 				cal.setTime(date);
+			}
 			return cal;
 		}
 		return null;
@@ -341,8 +343,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 	 * @see com.idega.block.finance.business.BankFileManager#getLoginName()
 	 */
 	public String getUsername() {
-		if (bankInfo != null) {
-			return bankInfo.getUsername();
+		if (this.bankInfo != null) {
+			return this.bankInfo.getUsername();
 		}
 		return "";
 	}
@@ -353,8 +355,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 	 * @see com.idega.block.finance.business.BankFileManager#getLoginPsw()
 	 */
 	public String getPassword() {
-		if (bankInfo != null) {
-			return bankInfo.getPassword();
+		if (this.bankInfo != null) {
+			return this.bankInfo.getPassword();
 		}
 		return "";
 	}

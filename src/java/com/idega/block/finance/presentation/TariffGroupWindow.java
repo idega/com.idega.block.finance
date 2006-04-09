@@ -59,16 +59,17 @@ public class TariffGroupWindow extends IWAdminWindow {
 	private void control(IWContext iwc) throws Exception {
 		debugParameters(iwc);
 		Integer iCategoryId = new Integer(Finance.parseCategoryId(iwc));
-		finServ = getFinanceService(iwc);
+		this.finServ = getFinanceService(iwc);
 		if (iCategoryId.intValue() > 0) {
 			Integer groupId = null;
-			if (iwc.isParameterSet(prmGroup))
+			if (iwc.isParameterSet(prmGroup)) {
 				groupId = Integer.valueOf(iwc.getParameter(prmGroup));
+			}
 			if (iwc.isParameterSet(actSave) || iwc.isParameterSet(actSave + ".x")) {
 				groupId = processCategoryForm(iwc, iCategoryId, groupId);
 			}
 			if (groupId != null) {
-				addCategoryFields(finServ.getTariffGroupHome().findByPrimaryKey(groupId), iCategoryId);
+				addCategoryFields(this.finServ.getTariffGroupHome().findByPrimaryKey(groupId), iCategoryId);
 			}
 			else {
 				addCategoryFields(null, iCategoryId);
@@ -86,7 +87,7 @@ public class TariffGroupWindow extends IWAdminWindow {
 		Integer handlerId = Integer.valueOf(iwc.getParameter("fhandler"));
 		TariffGroup group = null;
 		try {
-			group = finServ.createOrUpdateTariffGroup(groupId, sName, sInfo, handlerId, UseIndex, categoryID);
+			group = this.finServ.createOrUpdateTariffGroup(groupId, sName, sInfo, handlerId, UseIndex, categoryID);
 			return (Integer) group.getPrimaryKey();
 		}
 		catch (RemoteException e) {
@@ -103,21 +104,21 @@ public class TariffGroupWindow extends IWAdminWindow {
 
 	private void addCategoryFields(TariffGroup group, Integer iCategoryId) {
 
-		String sGroup = iwrb.getLocalizedString("tariffgroup", "Tariffgroup");
-		String sName = iwrb.getLocalizedString("name", "Name");
-		String sDesc = iwrb.getLocalizedString("description", "Description");
-		String sHandlers = iwrb.getLocalizedString("handlers", "Handlers");
-		String sIndex = iwrb.getLocalizedString("useindices", "Use indices");
+		String sGroup = this.iwrb.getLocalizedString("tariffgroup", "Tariffgroup");
+		String sName = this.iwrb.getLocalizedString("name", "Name");
+		String sDesc = this.iwrb.getLocalizedString("description", "Description");
+		String sHandlers = this.iwrb.getLocalizedString("handlers", "Handlers");
+		String sIndex = this.iwrb.getLocalizedString("useindices", "Use indices");
 		boolean hasCategory = group != null ? true : false;
 
-		Link newLink = new Link(core.getImage("/shared/create.gif"));
+		Link newLink = new Link(this.core.getImage("/shared/create.gif"));
 		newLink.addParameter(prmCategory, -1);
 
 		Collection L = null;
 		Collection L2 = null;
 		try {
-			L = finServ.getTariffGroupHome().findByCategory(iCategoryId);
-			L2 = finServ.getFinanceHandlerInfoHome().findAll();
+			L = this.finServ.getTariffGroupHome().findByCategory(iCategoryId);
+			L2 = this.finServ.getFinanceHandlerInfoHome().findAll();
 		}
 		catch (RemoteException e) {
 			e.printStackTrace();
@@ -160,15 +161,17 @@ public class TariffGroupWindow extends IWAdminWindow {
 		addLeft(Finance.getCategoryParameter(iCategoryId.intValue()));
 		if (hasCategory) {
 			Integer id = (Integer) group.getPrimaryKey();
-			if (group.getName() != null)
+			if (group.getName() != null) {
 				tiName.setContent(group.getName());
-			if (group.getInfo() != null)
+			}
+			if (group.getInfo() != null) {
 				taDesc.setContent(group.getInfo());
+			}
 			groups.setSelectedElement(id.toString());
 			useIndexes.setChecked(group.getUseIndex());
 			handlers.setSelectedElement(String.valueOf(group.getHandlerId()));
 		}
-		SubmitButton save = new SubmitButton(iwrb.getLocalizedImageButton("save", "Save"), actSave);
+		SubmitButton save = new SubmitButton(this.iwrb.getLocalizedImageButton("save", "Save"), actSave);
 		addSubmitButton(save);
 
 	}
@@ -176,9 +179,9 @@ public class TariffGroupWindow extends IWAdminWindow {
 	public void main(IWContext iwc) throws Exception {
 		super.main(iwc);
 
-		core = iwc.getIWMainApplication().getBundle(IWMainApplication.CORE_BUNDLE_IDENTIFIER);
-		iwrb = getResourceBundle(iwc);
-		addTitle(iwrb.getLocalizedString("tariff_group_editor", "Tariffgroup Editor"));
+		this.core = iwc.getIWMainApplication().getBundle(IWMainApplication.CORE_BUNDLE_IDENTIFIER);
+		this.iwrb = getResourceBundle(iwc);
+		addTitle(this.iwrb.getLocalizedString("tariff_group_editor", "Tariffgroup Editor"));
 		control(iwc);
 	}
 

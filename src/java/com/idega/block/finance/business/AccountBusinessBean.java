@@ -228,8 +228,9 @@ public class AccountBusinessBean extends IBOServiceBean implements AccountBusine
        }
        return H;
      }
-     else
-       return null;
+		else {
+			return null;
+		}
   }
 
   public Map getTariffKeyMap(){
@@ -243,8 +244,9 @@ public class AccountBusinessBean extends IBOServiceBean implements AccountBusine
   	      }
   	      return H;
   	    }
-  	    else
-  	      return null;
+				else {
+					return null;
+				}
   }
 
 
@@ -279,11 +281,13 @@ public class AccountBusinessBean extends IBOServiceBean implements AccountBusine
         Vector V = new Vector(hash.values());
         return V;
       }
-      else
-        return null;
+			else {
+				return null;
+			}
     }
-    else
-      return null;
+		else {
+			return null;
+		}
   }
 
   public  Account createNewAccount(int iUserId, String sName,String sExtra, int iCashierId,String type,int iCategoryId)throws java.rmi.RemoteException,javax.ejb.CreateException{

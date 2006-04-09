@@ -28,7 +28,7 @@ import com.idega.presentation.ui.TextInput;
  */
 public class TariffKeyEditor extends Finance {
 	public String strAction = "tke_action";
-	protected final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
+	protected static final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
 	public String getLocalizedNameKey() {
 		return "tariffkey";
 	}
@@ -36,14 +36,14 @@ public class TariffKeyEditor extends Finance {
 		return "Tariffkey";
 	}
 	protected void control(IWContext iwc) {
-		if (isAdmin) {
+		if (this.isAdmin) {
 			try {
 				PresentationObject MO = new Text();
-				if (iwc.getParameter(strAction) == null) {
+				if (iwc.getParameter(this.strAction) == null) {
 					MO = getMain(iwc);
 				}
-				if (iwc.getParameter(strAction) != null) {
-					String sAct = iwc.getParameter(strAction);
+				if (iwc.getParameter(this.strAction) != null) {
+					String sAct = iwc.getParameter(this.strAction);
 					int iAct = Integer.parseInt(sAct);
 					switch (iAct) {
 						case ACT1 :
@@ -68,8 +68,10 @@ public class TariffKeyEditor extends Finance {
 			} catch (Exception S) {
 				S.printStackTrace();
 			}
-		} else
+		}
+		else {
 			add(getErrorText(localize("access_denied", "Access denies")));
+		}
 	}
 	protected PresentationObject makeTabTable(int iCategoryId, int iTariffGroupId) {
 		Table T = new Table();
@@ -85,13 +87,13 @@ public class TariffKeyEditor extends Finance {
 		LinkTable.setWidth(last, "100%");
 		Link Link1 = new Link(getHeader(localize("view", "View")));
 		
-		Link1.addParameter(this.strAction, String.valueOf(this.ACT1));
+		Link1.addParameter(this.strAction, String.valueOf(ACT1));
 		//Link1.addParameter(Finance.getCategoryParameter(getFinanceCategoryId()));
 		Link Link2 = new Link(getHeader(localize("change", "Change")));
 		
-		Link2.addParameter(this.strAction, String.valueOf(this.ACT2));
+		Link2.addParameter(this.strAction, String.valueOf(ACT2));
 		//Link2.addParameter(Finance.getCategoryParameter(getFinanceCategoryId()));
-		if (isAdmin) {
+		if (this.isAdmin) {
 			LinkTable.add(Link1, 1, 1);
 			LinkTable.add(Link2, 2, 1);
 		}
@@ -110,8 +112,9 @@ public class TariffKeyEditor extends Finance {
 			e.printStackTrace();
 		}
 		int count = 0;
-		if (keys != null)
+		if (keys != null) {
 			count = keys.size();
+		}
 		keyTable = new Table(3, count + 1);
 		keyTable.setWidth("100%");
 		keyTable.setHorizontalZebraColored(getZebraColor1(), getZebraColor2());
@@ -122,7 +125,7 @@ public class TariffKeyEditor extends Finance {
 		keyTable.add(getHeader("Nr"), 1, 1);
 		keyTable.add(getHeader(localize("name", "Name")), 2, 1);
 		keyTable.add(getHeader(localize("info", "Info")), 3, 1);
-		if (isAdmin) {
+		if (this.isAdmin) {
 			if (count > 0) {
 				TariffKey key;
 				int row = 2;
@@ -152,8 +155,9 @@ public class TariffKeyEditor extends Finance {
 		}
 		//FinanceFinder.getInstance().listOfTariffKeys(iCategoryId);
 		int count = 0;
-		if (keys != null)
+		if (keys != null) {
 			count = keys.size();
+		}
 		int inputcount = count + 5;
 		DataTable inputTable = getDataTable();
 		inputTable.setWidth("100%");
@@ -195,7 +199,7 @@ public class TariffKeyEditor extends Finance {
 		}
 		inputTable.add(Finance.getCategoryParameter(getFinanceCategoryId().intValue()));
 		inputTable.add(new HiddenInput("tke_count", String.valueOf(inputcount)));
-		inputTable.add(new HiddenInput(this.strAction, String.valueOf(this.ACT3)));
+		inputTable.add(new HiddenInput(this.strAction, String.valueOf(ACT3)));
 		
 		SubmitButton save = new SubmitButton(localize("save", "Save"));
 		save = (SubmitButton) setStyle(save,STYLENAME_INTERFACE_BUTTON);
