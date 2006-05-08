@@ -53,9 +53,8 @@ public class TariffAssessments extends Finance {
 	private static final String PRM_ROUND_ID = "ass_round_id";
 	private static final String PRM_GROUP_ID = "tass_grp";
 	private static final String PRM_SHOW_ALL = "shw_all";
-	protected static final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5, ACT6 = 6, ACT7 = 7, ACT8 = 8;
+	protected static final int ACT6 = 6, ACT7 = 7, ACT8 = 8;
 	public static final String PRM_ACTION = "tt_action";
-	protected boolean isAdmin = false;
 	private Integer groupID = null;
 
 	private FinanceHandler handler = null;
@@ -502,12 +501,12 @@ public class TariffAssessments extends Finance {
 
 			Link Link1 = new Link(getHeader(localize("view", "View")));
 
-			Link1.addParameter(TariffAssessments.PRM_ACTION, String.valueOf(TariffAssessments.ACT1));
+			Link1.addParameter(TariffAssessments.PRM_ACTION, String.valueOf(ACT1));
 			Link1.addParameter(PRM_GROUP_ID, this.groupID.toString());
 
 			Link Link2 = new Link(getHeader(localize("new", "New")));
 
-			Link2.addParameter(TariffAssessments.PRM_ACTION, String.valueOf(TariffAssessments.ACT2));
+			Link2.addParameter(TariffAssessments.PRM_ACTION, String.valueOf(ACT2));
 			Link2.addParameter(PRM_GROUP_ID, this.groupID.toString());
 
 			Link Link3 = new Link(getHeader(localize("preview", "Preview")));
@@ -981,7 +980,7 @@ public class TariffAssessments extends Finance {
 		row++;
 
 		T.setWidth("100%");
-		T.add(new HiddenInput(TariffAssessments.PRM_ACTION, String.valueOf(TariffAssessments.ACT3)));
+		T.add(new HiddenInput(TariffAssessments.PRM_ACTION, String.valueOf(ACT3)));
 		T.add(new HiddenInput(PRM_GROUP_ID, String.valueOf(this.groupID)));
 		return T;
 	}

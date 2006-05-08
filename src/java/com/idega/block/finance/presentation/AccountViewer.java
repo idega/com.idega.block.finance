@@ -38,7 +38,7 @@ public class AccountViewer extends Finance {
 	private Image image;
 	private String sDebetColor, sKreditColor;
 	private final String prmFromDate = "from_date", prmToDate = "to_date";
-	public static final String prmUserId = "user_id", prmAccountId = "fin_acc_id";
+	public static final String prmUserId = "user_id";
 	public static final String prmClean = "av_clean";
 	private Collection accounts = null;
 	private User eUser = null;

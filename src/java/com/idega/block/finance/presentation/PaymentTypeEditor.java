@@ -3,11 +3,11 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
+
 import javax.ejb.FinderException;
 import javax.faces.component.UIComponent;
+
 import com.idega.block.finance.data.PaymentType;
-import com.idega.idegaweb.IWBundle;
-import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.PresentationObject;
 import com.idega.presentation.Table;
@@ -37,11 +37,7 @@ import com.idega.presentation.util.Edit;
  */
 public class PaymentTypeEditor extends Finance {
 	public String strAction = "tke_action";
-	protected static final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
-	protected boolean isAdmin = false;
 	private final static String IW_BUNDLE_IDENTIFIER = "com.idega.block.finance";
-	protected IWResourceBundle iwrb;
-	protected IWBundle iwb;
 	public String getLocalizedNameKey() {
 		return "paymenttype";
 	}

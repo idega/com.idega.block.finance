@@ -74,8 +74,6 @@ public class EntryGroups extends Finance {
 
 	protected static final String PARAM_ENTRY_GROUP_ID = "entry_group_id";
 
-	protected static final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
-
 	public String strAction = "tt_action";
 
 	public String getLocalizedNameKey() {

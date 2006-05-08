@@ -39,7 +39,6 @@ public class TariffIndexEditor extends Finance {
 	public static String ElType = com.idega.block.finance.data.TariffIndexBMPBean.B;
 	public static String HeatType = com.idega.block.finance.data.TariffIndexBMPBean.C;
 	public static String[] Types = { RentType, ElType, HeatType };
-	protected static final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
 
 	public String getLocalizedNameKey() {
 		return "indices";

@@ -28,7 +28,6 @@ import com.idega.presentation.ui.TextInput;
  */
 public class TariffKeyEditor extends Finance {
 	public String strAction = "tke_action";
-	protected static final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
 	public String getLocalizedNameKey() {
 		return "tariffkey";
 	}

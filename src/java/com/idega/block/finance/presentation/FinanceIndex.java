@@ -1,13 +1,12 @@
 
 package com.idega.block.finance.presentation;
 
-import com.idega.idegaweb.IWBundle;
-import com.idega.idegaweb.IWResourceBundle;
+import java.util.List;
+import java.util.Vector;
+
 import com.idega.presentation.Block;
 import com.idega.presentation.BlockMenu;
 import com.idega.presentation.IWContext;
-import java.util.List;
-import java.util.Vector;
 
 /**
  *
@@ -17,9 +16,6 @@ import java.util.Vector;
 public class FinanceIndex extends Finance {
 
   private final static String IW_BUNDLE_IDENTIFIER="com.idega.block.finance";
-  protected IWResourceBundle iwrb;
-  protected IWBundle iwb;
-  private int iCategoryId = -1;
   private List FinanceObjects = null;
 
   public FinanceIndex() {

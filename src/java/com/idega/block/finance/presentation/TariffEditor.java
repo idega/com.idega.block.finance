@@ -44,9 +44,7 @@ import com.idega.util.text.TextSoap;
 
 public class TariffEditor extends Finance {
 
-	protected static final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4;
-
-	protected static final int ACT5 = 5, ACT6 = 6, ACT7 = 7, ACT8 = 8;
+	protected static final int ACT6 = 6, ACT7 = 7, ACT8 = 8;
 
 	public String strAction = "te_action";
 
