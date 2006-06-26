@@ -9,6 +9,11 @@
   <inceptionYear>2000</inceptionYear>
   <shortDescription>Finance</shortDescription>
   <versions>
+    <version>
+      <id>3.1.0</id>
+      <name>3.1.0</name>
+      <tag>FINANCE_3_1_0</tag>
+    </version>
   </versions>
   <branches/>
   <developers>
