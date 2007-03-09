@@ -1,15 +1,20 @@
 <document>
-  <properties>
-    <title>Entity changes</title>
-    <author email="tryggvi@idega.com">Tryggvi Larusson</author>
-  </properties>
-  <body>
-  
-	<release version="3.1.0" date="2006-06-19">
-      <action dev="tryggvil" type="update">
-      	New version to be included in ePlatform 3.1 Release.
-      </action>  
-    </release>
+	<properties>
+		<title>Entity changes</title>
+		<author email="tryggvi@idega.com">Tryggvi Larusson</author>
+	</properties>
+	<body>
+		<release version="3.1.1" date="2007-03-09">
+			<action dev="palli" type="update">
+				Updating and fixing dependencies to create a new sunnan3
+				application.
+			</action>
+		</release>
 
-  </body>
+		<release version="3.1.0" date="2006-06-19">
+			<action dev="tryggvil" type="update">
+				New version to be included in ePlatform 3.1 Release.
+			</action>
+		</release>
+	</body>
 </document>
