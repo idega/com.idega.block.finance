@@ -21,9 +21,9 @@ public class EntryKeyBMPBean extends com.idega.data.GenericEntity implements com
   }
   public void initializeAttributes() {
     addAttribute(getIDColumnName());
-    addAttribute("name","Heiti",true,true,"java.lang.String");
-    addAttribute("positive","Færslugerð",true,true,"java.lang.Boolean");
-    addAttribute("extra_info","Lýsing",true,true,"java.lang.String");
+    addAttribute("name","Name",true,true,"java.lang.String");
+    addAttribute("positive","Entry typeï¿½",true,true,"java.lang.Boolean");
+    addAttribute("extra_info","Description",true,true,"java.lang.String");
   }
   public String getEntityName() {
     return "fin_entry_key";
