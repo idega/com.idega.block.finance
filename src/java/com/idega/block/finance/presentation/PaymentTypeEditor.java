@@ -3,11 +3,11 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
-
 import javax.ejb.FinderException;
 import javax.faces.component.UIComponent;
-
 import com.idega.block.finance.data.PaymentType;
+import com.idega.idegaweb.IWBundle;
+import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.PresentationObject;
 import com.idega.presentation.Table;
@@ -37,7 +37,11 @@ import com.idega.presentation.util.Edit;
  */
 public class PaymentTypeEditor extends Finance {
 	public String strAction = "tke_action";
+	protected final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
+	protected boolean isAdmin = false;
 	private final static String IW_BUNDLE_IDENTIFIER = "com.idega.block.finance";
+	protected IWResourceBundle iwrb;
+	protected IWBundle iwb;
 	public String getLocalizedNameKey() {
 		return "paymenttype";
 	}
@@ -93,11 +97,11 @@ public class PaymentTypeEditor extends Finance {
 		LinkTable.setWidth(last, "100%");
 		Link Link1 = new Link(this.iwrb.getLocalizedString("view", "View"));
 		Link1.setFontColor(Edit.colorLight);
-		Link1.addParameter(this.strAction, String.valueOf(ACT1));
+		Link1.addParameter(this.strAction, String.valueOf(this.ACT1));
 		Link1.addParameter(Finance.getCategoryParameter(iCategoryId));
 		Link Link2 = new Link(this.iwrb.getLocalizedString("change", "Change"));
 		Link2.setFontColor(Edit.colorLight);
-		Link2.addParameter(this.strAction, String.valueOf(ACT2));
+		Link2.addParameter(this.strAction, String.valueOf(this.ACT2));
 		Link2.addParameter(Finance.getCategoryParameter(iCategoryId));
 		if (this.isAdmin) {
 			LinkTable.add(Link1, 1, 1);
@@ -123,8 +127,8 @@ protected PresentationObject getMain(IWContext iwc,int iCategoryId){
 	int count = 0;
 
     if(types !=null) {
-			count = types.size();
-		}
+		count = types.size();
+	}
 
     keyTable = new Table(6,count+1);
 
@@ -259,7 +263,7 @@ protected PresentationObject getMain(IWContext iwc,int iCategoryId){
 			inputTable.add(idInput);
 		}
 		myForm.add(new HiddenInput("tke_count", String.valueOf(inputcount)));
-		myForm.add(new HiddenInput(this.strAction, String.valueOf(ACT3)));
+		myForm.add(new HiddenInput(this.strAction, String.valueOf(this.ACT3)));
 		myForm.add(inputTable);
 		SubmitButton save = new SubmitButton(this.iwrb.getLocalizedString("save", "Save"));
 		Edit.setStyle(save);

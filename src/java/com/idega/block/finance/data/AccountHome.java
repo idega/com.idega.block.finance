@@ -1,17 +1,33 @@
 package com.idega.block.finance.data;
 
 
-public interface AccountHome extends com.idega.data.IDOHome
-{
- public Account create() throws javax.ejb.CreateException;
- public Account findByPrimaryKey(Object pk) throws javax.ejb.FinderException;
- public java.util.Collection findAllByUserId(int p0)throws javax.ejb.FinderException;
- public java.util.Collection findAllByUserIdAndType(int p0,java.lang.String p1)throws javax.ejb.FinderException;
- public java.util.Collection findByAssessmentRound(int p0)throws javax.ejb.FinderException;
- public java.util.Collection findByAssessmentRound(java.lang.Integer p0,int p1,int p2)throws javax.ejb.FinderException;
- public java.util.Collection findBySQL(java.lang.String p0)throws javax.ejb.FinderException;
- public java.util.Collection findBySearch(java.lang.String p0,java.lang.String p1,java.lang.String p2,java.lang.String p3,int p5)throws javax.ejb.FinderException;
- public int countByAssessmentRound(java.lang.Integer p0)throws com.idega.data.IDOException;
- public int countByTypeAndCategory(java.lang.String p0,java.lang.Integer p1)throws com.idega.data.IDOException;
+import com.idega.data.IDOException;
+import java.util.Collection;
+import javax.ejb.CreateException;
+import com.idega.data.IDOHome;
+import javax.ejb.FinderException;
+import com.idega.user.data.User;
 
+public interface AccountHome extends IDOHome {
+	public Account create() throws CreateException;
+
+	public Account findByPrimaryKey(Object pk) throws FinderException;
+
+	public Collection findAllByUserId(int userId) throws FinderException;
+
+	public Collection findAllByUserIdAndType(int userId, String type) throws FinderException;
+
+	public Account findByUserAndType(User user, String type) throws FinderException;
+
+	public Collection findBySearch(String id, String name, String pid, String type, int iCategoryId) throws FinderException;
+
+	public Collection findByAssessmentRound(int roundid) throws FinderException;
+
+	public Collection findBySQL(String sql) throws FinderException;
+
+	public int countByTypeAndCategory(String type, Integer categoryID) throws IDOException;
+
+	public int countByAssessmentRound(Integer roundID) throws IDOException;
+
+	public Collection findByAssessmentRound(Integer roundID, int resultSize, int startindex) throws FinderException;
 }

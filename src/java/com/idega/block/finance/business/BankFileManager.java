@@ -7,6 +7,8 @@ package com.idega.block.finance.business;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import com.idega.block.finance.data.Batch;
+
 
 
 /**
@@ -56,6 +58,8 @@ public interface BankFileManager {
 	String getStatus(int invoiceNumber);
 	//<upphaed>
 	String getAmount(int invoiceNumber);
+	//<upphaed i aurum> 
+	String getAmount100(int invoiceNumber);
 	//<tilvisunarnumer>
 	int getBatchNumber(int invoiceNumber);
 	//<eindagi>
@@ -158,4 +162,6 @@ public interface BankFileManager {
 	
 	String getInvoiceStatus(int invoiceNumber);
 	void setInvoiceStatus(String stada, int invoiceNumber);
+	
+	public Batch getBatch(int batchNumber);
 }

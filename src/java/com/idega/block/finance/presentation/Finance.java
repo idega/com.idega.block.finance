@@ -128,7 +128,7 @@ public class Finance extends CategoryBlock implements Builderaware {
 	private final static String ZEBRA_COLOR2_PROPERTY = "zebra_color_2";
 	private final static String CELLPADDING_PROPERTY = "cellpadding";
 	private final static String CELLSPACING_PROPERTY = "cellspacing";
-	protected static final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
+	protected final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
 	private final static String IW_BUNDLE_IDENTIFIER = "com.idega.block.finance";
 	public final static String CATEGORY_PROPERTY = "finance_category";
 	protected boolean isAdmin = false;

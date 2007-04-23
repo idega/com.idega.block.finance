@@ -9,15 +9,22 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
+
 import javax.ejb.FinderException;
+
 import com.idega.block.finance.data.AccountEntry;
 import com.idega.block.finance.data.AccountEntryHome;
 import com.idega.block.finance.data.BankInfo;
 import com.idega.block.finance.data.BankInfoHome;
+import com.idega.block.finance.data.Batch;
+import com.idega.block.finance.data.BatchHome;
 import com.idega.data.IDOLookup;
 import com.idega.data.IDOLookupException;
+import com.idega.user.data.Group;
+import com.idega.user.data.GroupHome;
 import com.idega.user.data.User;
 import com.idega.user.data.UserHome;
+import com.idega.util.IWTimestamp;
 
 /**
  * @author birna
@@ -25,9 +32,12 @@ import com.idega.user.data.UserHome;
  */
 public class BankInvoiceFileManager implements BankFileManager {
 
+	private int groupID = -1;
+
 	private BankInfo bankInfo = null;
 
 	public BankInvoiceFileManager(int groupID) {
+		this.groupID = groupID;
 		this.bankInfo = getBankInfo(groupID);
 	}
 
@@ -56,7 +66,17 @@ public class BankInvoiceFileManager implements BankFileManager {
 	public String getAmount(int invoiceNumber) {
 		AccountEntry ae = getAccountEntry(invoiceNumber);
 		if (ae != null) {
-			return String.valueOf(((int) ae.getTotal() * 10) * 10);
+			return String.valueOf((int) ae.getTotal());
+		} else {
+			return "";
+		}
+
+	}
+
+	public String getAmount100(int invoiceNumber) {
+		AccountEntry ae = getAccountEntry(invoiceNumber);
+		if (ae != null) {
+			return String.valueOf((int) ae.getTotal() * 100);
 		} else {
 			return "";
 		}
@@ -134,14 +154,15 @@ public class BankInvoiceFileManager implements BankFileManager {
 			} catch (FinderException e1) {
 				e1.printStackTrace();
 			}
-			Collection invoiceNumbers = null;
 			if (accountEntries != null) {
+				Integer[] invoiceNumbers = new Integer[accountEntries.size()];
 				Iterator i = accountEntries.iterator();
+				int j = 0;
 				while (i.hasNext()) {
 					AccountEntry accEntry = (AccountEntry) i.next();
-					invoiceNumbers.add(accEntry.getInvoiceNumber());
+					invoiceNumbers[j++] = accEntry.getInvoiceNumber();
 				}
-				return (Integer[]) invoiceNumbers.toArray();
+				return invoiceNumbers;
 			}
 		}
 		return null;
@@ -328,7 +349,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 		Calendar cal = Calendar.getInstance();
 		AccountEntry ae = getAccountEntry(invoiceNumber);
 		if (ae != null) {
-			Date date = ae.getFinalDueDate();
+			IWTimestamp t = new IWTimestamp(ae.getFinalDueDate());
+			Date date = t.getDate();
 			if (date != null) {
 				cal.setTime(date);
 			}
@@ -652,5 +674,37 @@ public class BankInvoiceFileManager implements BankFileManager {
 			}
 		}
 		return u;
+	}
+
+	private Group getGroupByGroupId(int groupId) {
+		Group g = null;
+		GroupHome gh = null;
+		try {
+			gh = (GroupHome) IDOLookup.getHome(Group.class);
+		} catch (IDOLookupException e) {
+			e.printStackTrace();
+		}
+		if (gh != null) {
+			try {
+				g = gh.findByPrimaryKey(new Integer(groupId));
+			} catch (FinderException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return g;
+	}
+	
+	public Batch getBatch(int batchNumber) {
+		Batch b = null;
+		
+		try {
+			b = ((BatchHome) IDOLookup.getHome(Batch.class)).findByPrimaryKey(new Integer(batchNumber));
+		} catch (IDOLookupException e) {
+			e.printStackTrace();
+		} catch (FinderException e) {
+			e.printStackTrace();
+		}
+		
+		return b;
 	}
 }

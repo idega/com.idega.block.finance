@@ -74,6 +74,8 @@ public class EntryGroups extends Finance {
 
 	protected static final String PARAM_ENTRY_GROUP_ID = "entry_group_id";
 
+	protected final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
+
 	public String strAction = "tt_action";
 
 	public String getLocalizedNameKey() {
@@ -174,10 +176,10 @@ public class EntryGroups extends Finance {
 		LinkTable.setWidth(last, Table.HUNDRED_PERCENT);
 		Link Link1 = new Link(getHeader(localize(LOC_KEY_VIEW, "View")));
 
-		Link1.addParameter(this.strAction, String.valueOf(ACT1));
+		Link1.addParameter(this.strAction, String.valueOf(this.ACT1));
 		Link Link2 = new Link(getHeader(localize(LOC_KEY_NEW, "New")));
 
-		Link2.addParameter(this.strAction, String.valueOf(ACT2));
+		Link2.addParameter(this.strAction, String.valueOf(this.ACT2));
 		if (this.isAdmin) {
 			LinkTable.add(Link1, 1, 1);
 			LinkTable.add(Link2, 2, 1);
@@ -318,14 +320,14 @@ public class EntryGroups extends Finance {
 		inputTable.setRowColor(1, getHeaderColor());
 		inputTable.mergeCells(1, 1, 2, 1);
 		inputTable.setWidth("100%");
-		inputTable.add(new HiddenInput(this.strAction, String.valueOf(ACT3)));
+		inputTable.add(new HiddenInput(this.strAction, String.valueOf(this.ACT3)));
 
 		return inputTable;
 	}
 
 	protected Link getGroupLink(String name, Integer id) {
 		Link L = new Link(getText(name));
-		L.addParameter(this.strAction, ACT4);
+		L.addParameter(this.strAction, this.ACT4);
 		L.addParameter(PARAM_ENTRY_GROUP_ID, id.toString());
 
 		return L;

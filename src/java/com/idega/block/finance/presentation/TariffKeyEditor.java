@@ -28,6 +28,7 @@ import com.idega.presentation.ui.TextInput;
  */
 public class TariffKeyEditor extends Finance {
 	public String strAction = "tke_action";
+	protected final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
 	public String getLocalizedNameKey() {
 		return "tariffkey";
 	}
@@ -86,11 +87,11 @@ public class TariffKeyEditor extends Finance {
 		LinkTable.setWidth(last, "100%");
 		Link Link1 = new Link(getHeader(localize("view", "View")));
 		
-		Link1.addParameter(this.strAction, String.valueOf(ACT1));
+		Link1.addParameter(this.strAction, String.valueOf(this.ACT1));
 		//Link1.addParameter(Finance.getCategoryParameter(getFinanceCategoryId()));
 		Link Link2 = new Link(getHeader(localize("change", "Change")));
 		
-		Link2.addParameter(this.strAction, String.valueOf(ACT2));
+		Link2.addParameter(this.strAction, String.valueOf(this.ACT2));
 		//Link2.addParameter(Finance.getCategoryParameter(getFinanceCategoryId()));
 		if (this.isAdmin) {
 			LinkTable.add(Link1, 1, 1);
@@ -198,7 +199,7 @@ public class TariffKeyEditor extends Finance {
 		}
 		inputTable.add(Finance.getCategoryParameter(getFinanceCategoryId().intValue()));
 		inputTable.add(new HiddenInput("tke_count", String.valueOf(inputcount)));
-		inputTable.add(new HiddenInput(this.strAction, String.valueOf(ACT3)));
+		inputTable.add(new HiddenInput(this.strAction, String.valueOf(this.ACT3)));
 		
 		SubmitButton save = new SubmitButton(localize("save", "Save"));
 		save = (SubmitButton) setStyle(save,STYLENAME_INTERFACE_BUTTON);

@@ -240,23 +240,17 @@ public class AccountEntryBMPBean extends com.idega.data.GenericEntity implements
   public void setInvoiceNumber(Integer invoiceNumber) {
   		setColumn(getColumnNameInvoiceNumber(), invoiceNumber);
   }
-  public Date getFinalDueDate() {
-		return getDateColumnValue(getColumnNameFinalDueDate());
+  public Timestamp getFinalDueDate() {
+		return getTimestampColumnValue(getColumnNameFinalDueDate());
   }
-  public void setFinalDueDate(Date finalDueDate) {
+  public void setFinalDueDate(Timestamp finalDueDate) {
   		setColumn(getColumnNameFinalDueDate(), finalDueDate);
   }
   public int getUserId() {
   		return getIntColumnValue(getColumnNameUserId());
   }
-  public User getUser() {
-		return (User) getColumnValue(getColumnNameUserId());
-  }
   public void setUserId(int userId) {
   		setColumn(getColumnNameUserId(), userId);
-  }
-  public void setUser(User user) {
-		setColumn(getColumnNameUserId(), user);
   }
   public Timestamp getDisallowanceDate() {
   		return getTimestampColumnValue(getColumnNameDisallowanceDate());
@@ -332,9 +326,9 @@ public class AccountEntryBMPBean extends com.idega.data.GenericEntity implements
       setColumn(getColumnNameStatus(),status);
       setLastUpdated(com.idega.util.IWTimestamp.getTimestampRightNow());
     }
-		else {
-			throw new IllegalStateException("Undefined state : " + status);
-		}
+	else {
+		throw new IllegalStateException("Undefined state : " + status);
+	}
   }
 
   // interface specific:

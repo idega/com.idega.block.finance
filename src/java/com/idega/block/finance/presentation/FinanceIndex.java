@@ -1,12 +1,13 @@
 
 package com.idega.block.finance.presentation;
 
-import java.util.List;
-import java.util.Vector;
-
+import com.idega.idegaweb.IWBundle;
+import com.idega.idegaweb.IWResourceBundle;
 import com.idega.presentation.Block;
 import com.idega.presentation.BlockMenu;
 import com.idega.presentation.IWContext;
+import java.util.List;
+import java.util.Vector;
 
 /**
  *
@@ -16,6 +17,9 @@ import com.idega.presentation.IWContext;
 public class FinanceIndex extends Finance {
 
   private final static String IW_BUNDLE_IDENTIFIER="com.idega.block.finance";
+  protected IWResourceBundle iwrb;
+  protected IWBundle iwb;
+  private int iCategoryId = -1;
   private List FinanceObjects = null;
 
   public FinanceIndex() {
@@ -48,8 +52,8 @@ public class FinanceIndex extends Finance {
 
   public void addStandardObjects(){
     if(this.FinanceObjects == null) {
-			this.FinanceObjects = new Vector();
-		}
+		this.FinanceObjects = new Vector();
+	}
     this.FinanceObjects.add(0,new Accounts());
     this.FinanceObjects.add(0,new EntryGroups());
     this.FinanceObjects.add(0,new TariffAssessments());
@@ -62,15 +66,15 @@ public class FinanceIndex extends Finance {
 
   public void addFinanceObject(Block obj){
     if(this.FinanceObjects == null) {
-			this.FinanceObjects = new Vector();
-		}
+		this.FinanceObjects = new Vector();
+	}
     this.FinanceObjects.add(obj);
   }
 
   public void addFinanceObjectAll(java.util.Collection coll){
     if(this.FinanceObjects == null) {
-			this.FinanceObjects = new Vector();
-		}
+		this.FinanceObjects = new Vector();
+	}
     this.FinanceObjects.addAll(coll);
   }
 

@@ -36,9 +36,10 @@ import com.idega.util.IWTimestamp;
 public class AccountViewer extends Finance {
 	private boolean isLoggedOn;
 	private Image image;
+	private float tax = 1.245f;
 	private String sDebetColor, sKreditColor;
 	private final String prmFromDate = "from_date", prmToDate = "to_date";
-	public static final String prmUserId = "user_id";
+	public static final String prmUserId = "user_id", prmAccountId = "fin_acc_id";
 	public static final String prmClean = "av_clean";
 	private Collection accounts = null;
 	private User eUser = null;

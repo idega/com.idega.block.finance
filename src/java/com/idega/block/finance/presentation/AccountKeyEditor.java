@@ -35,6 +35,7 @@ import com.idega.presentation.ui.TextInput;
 public class AccountKeyEditor extends Finance {
 
   public String strAction = "ake_action";
+  protected final int ACT1 = 1,ACT2 = 2, ACT3 = 3,ACT4  = 4,ACT5 = 5;
 
   public String getLocalizedNameKey(){
     return "accountkey";
@@ -75,9 +76,9 @@ public class AccountKeyEditor extends Finance {
         S.printStackTrace();
       }
     }
-	else {
-		add(getErrorText(localize("access_denied","Access denies")));
-	}
+else {
+	add(getErrorText(localize("access_denied","Access denies")));
+}
   }
 
   protected PresentationObject makeLinkTable(int menuNr,int iCategoryId){
@@ -90,11 +91,11 @@ public class AccountKeyEditor extends Finance {
     LinkTable.setWidth(last,"100%");
     Link Link1 = new Link(getHeader(localize("view","View")));
    
-    Link1.addParameter(this.strAction,String.valueOf(ACT1));
+    Link1.addParameter(this.strAction,String.valueOf(this.ACT1));
    // Link1.addParameter(Finance.getCategoryParameter(iCategoryId));
     Link Link2 = new Link(getHeader(localize("change","Change")));
     
-    Link2.addParameter(this.strAction,String.valueOf(ACT2));
+    Link2.addParameter(this.strAction,String.valueOf(this.ACT2));
     //Link2.addParameter(Finance.getCategoryParameter(iCategoryId));
     if(this.isAdmin){
       LinkTable.add(Link1,1,1);
@@ -108,7 +109,7 @@ public class AccountKeyEditor extends Finance {
     Collection keys = null;
 	java.util.Map hk = null;
 	try {
-		keys = getFinanceService().getAccountKeyHome().findByCategory(getFinanceCategoryId());
+		keys = getFinanceService().getAccountKeyHome().findByCategory(getFinanceCategoryId());;
 		hk = getFinanceService().getAccountBusiness().getTariffKeyMap();
 	} catch (RemoteException e) {
 		e.printStackTrace();
@@ -144,11 +145,11 @@ public class AccountKeyEditor extends Finance {
             keyTable.add(getText(key.getInfo()),3,row);
             Integer tkid = new Integer(key.getTariffKeyId());
             if(hk.containsKey(tkid)) {
-							keyTable.add( getText( ((TariffKey)hk.get( tkid)).getName() ),4,row);
-						}
+				keyTable.add( getText( ((TariffKey)hk.get( tkid)).getName() ),4,row);
+			}
             if(key.getOrdinal()!=null) {
-							keyTable.add(getText(key.getOrdinal().toString()),5,row);
-						}
+				keyTable.add(getText(key.getOrdinal().toString()),5,row);
+			}
             row++;
           }
         }
@@ -171,8 +172,8 @@ public class AccountKeyEditor extends Finance {
 	}
     int count = 0;
     if(keys !=null && Tkeys!=null) {
-			count = keys.size();
-		}
+		count = keys.size();
+	}
     int inputcount = count+5;
     DataTable inputTable =  getDataTable();
     inputTable.setUseBottom(false);
@@ -229,7 +230,7 @@ public class AccountKeyEditor extends Finance {
       inputTable.add(idInput);
     }
     inputTable.add(new HiddenInput("ake_count", String.valueOf(inputcount) ));
-    inputTable.add(new HiddenInput(this.strAction,String.valueOf(ACT3 )));
+    inputTable.add(new HiddenInput(this.strAction,String.valueOf(this.ACT3 )));
     inputTable.add(Finance.getCategoryParameter(this.iCategoryId));
    
     SubmitButton save = new SubmitButton(localize("save","Save"));
@@ -283,8 +284,8 @@ public class AccountKeyEditor extends Finance {
     DropdownMenu drp = new DropdownMenu();
     drp.addMenuElement(0,"--");
     if(TK != null) {
-			drp.addMenuElements(TK);
-		}
+		drp.addMenuElements(TK);
+	}
     return drp;
   }
 

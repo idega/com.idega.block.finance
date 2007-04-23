@@ -1,5 +1,5 @@
 /*
- * $Id: BankInfoBusinessBean.java,v 1.3 2006/01/20 17:57:24 sigtryggur Exp $ Created
+ * $Id: BankInfoBusinessBean.java,v 1.4 2007/04/23 15:52:28 eiki Exp $ Created
  * on Feb 18, 2005
  * 
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -15,7 +15,6 @@ import java.util.Collection;
 import javax.ejb.CreateException;
 import javax.ejb.EJBException;
 import javax.ejb.FinderException;
-import javax.ejb.RemoveException;
 
 import com.idega.block.finance.data.Bank;
 import com.idega.block.finance.data.BankBranch;
@@ -29,10 +28,10 @@ import com.idega.user.data.Group;
 
 /**
  * 
- * Last modified: $Date: 2006/01/20 17:57:24 $ by $Author: sigtryggur $
+ * Last modified: $Date: 2007/04/23 15:52:28 $ by $Author: eiki $
  * 
  * @author <a href="mailto:birna@idega.com">birna</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class BankInfoBusinessBean extends IBOServiceBean implements BankInfoBusiness {
 
@@ -104,7 +103,9 @@ public class BankInfoBusinessBean extends IBOServiceBean implements BankInfoBusi
 			for (int i = 0; i < ids.length; i++) {
 				Integer id = new Integer(ids[i]);
 				BankInfo bi = getBankInfoHome().findByPrimaryKey(id);
-				bi.remove();
+				//bi.remove();
+				bi.setDeleted(true);
+				bi.store();
 			}
 
 			return true;
@@ -116,9 +117,6 @@ public class BankInfoBusinessBean extends IBOServiceBean implements BankInfoBusi
 			e.printStackTrace();
 		}
 		catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		catch (RemoveException e) {
 			e.printStackTrace();
 		}
 

@@ -37,6 +37,7 @@ import com.idega.presentation.ui.TextInput;
 
 public class Accounts extends Finance {
 
+	protected final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
 	public String strAction = "tt_action";
 
 	private DateFormat df;
@@ -363,7 +364,7 @@ public class Accounts extends Finance {
 				col++;
 				if (this.viewerPageId > 0) {
 					accountLink = new Link(getText(A.getName()));
-					accountLink.addParameter(prmAccountId, A.getAccountId().toString());
+					accountLink.addParameter(AccountViewer.prmAccountId, A.getAccountId().toString());
 					accountLink.setPage(this.viewerPageId);
 					T.add(accountLink, col, row);
 				}

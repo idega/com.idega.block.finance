@@ -3,8 +3,6 @@ package com.idega.block.finance.data;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import com.idega.user.data.User;
-
 
 public interface AccountEntry extends com.idega.data.IDOEntity,com.idega.block.finance.data.Entry
 {
@@ -57,12 +55,10 @@ public interface AccountEntry extends com.idega.data.IDOEntity,com.idega.block.f
  public void setAccountBook(int accountBook);
  public Integer getInvoiceNumber();
  public void setInvoiceNumber(Integer invoiceNumber);
- public Date getFinalDueDate();
- public void setFinalDueDate(Date finalDueDate);
+ public java.sql.Timestamp getFinalDueDate();
+ public void setFinalDueDate(java.sql.Timestamp finalDueDate);
  public int getUserId();
- public User getUser();
  public void setUserId(int userId);
- public void setUser(User user);
  public Timestamp getDisallowanceDate();
  public void setDisallowanceDate(Timestamp disallowanceDate);
  public int getBatchNumber();

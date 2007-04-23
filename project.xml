@@ -5,7 +5,7 @@
   <pomVersion>3</pomVersion>
   <name>idegaWeb Finance Block</name>
   <artifactId>com.idega.block.finance</artifactId>
-  <currentVersion>3.1.1</currentVersion>
+  <currentVersion>3.1.2</currentVersion>
   <inceptionYear>2000</inceptionYear>
   <shortDescription>Finance</shortDescription>
   <versions>
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>bundles</groupId>
       <artifactId>com.idega.block.category</artifactId>
-      <version>3.1.1</version>
+      <version>3.1.2</version>
       <type>jar</type>
       <url>http://www.idega.com/</url>
       <properties>
