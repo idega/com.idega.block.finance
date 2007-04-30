@@ -1,6 +1,6 @@
 /*
  * Created on Dec 6, 2004
- *
+ * 
  */
 package com.idega.block.finance.business;
 
@@ -20,8 +20,6 @@ import com.idega.block.finance.data.Batch;
 import com.idega.block.finance.data.BatchHome;
 import com.idega.data.IDOLookup;
 import com.idega.data.IDOLookupException;
-import com.idega.user.data.Group;
-import com.idega.user.data.GroupHome;
 import com.idega.user.data.User;
 import com.idega.user.data.UserHome;
 import com.idega.util.IWTimestamp;
@@ -32,12 +30,12 @@ import com.idega.util.IWTimestamp;
  */
 public class BankInvoiceFileManager implements BankFileManager {
 
-	private int groupID = -1;
+	// private int groupID = -1;
 
 	private BankInfo bankInfo = null;
 
 	public BankInvoiceFileManager(int groupID) {
-		this.groupID = groupID;
+		// this.groupID = groupID;
 		this.bankInfo = getBankInfo(groupID);
 	}
 
@@ -53,7 +51,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 	public int getAccountBook() {
 		if (this.bankInfo != null) {
 			return this.bankInfo.getAccountBook();
-		} else {
+		}
+		else {
 			return 66;
 		}
 	}
@@ -67,7 +66,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 		AccountEntry ae = getAccountEntry(invoiceNumber);
 		if (ae != null) {
 			return String.valueOf((int) ae.getTotal());
-		} else {
+		}
+		else {
 			return "";
 		}
 
@@ -77,7 +77,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 		AccountEntry ae = getAccountEntry(invoiceNumber);
 		if (ae != null) {
 			return String.valueOf((int) ae.getTotal() * 100);
-		} else {
+		}
+		else {
 			return "";
 		}
 
@@ -91,7 +92,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 	public String getBankBranchNumber() {
 		if (this.bankInfo != null) {
 			return this.bankInfo.getClaimantsBankBranch().getBankBranchNumber();
-		} else {
+		}
+		else {
 			return "";
 		}
 	}
@@ -110,7 +112,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 	public String getClaimantsAccountId() {
 		if (this.bankInfo != null) {
 			return this.bankInfo.getAccountId();
-		} else {
+		}
+		else {
 			return "";
 		}
 	}
@@ -118,7 +121,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 	public String getClaimantSSN() {
 		if (this.bankInfo != null) {
 			return this.bankInfo.getClaimantsSSN();
-		} else {
+		}
+		else {
 			return "";
 		}
 	}
@@ -126,7 +130,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 	public String getClaimantName() {
 		if (this.bankInfo != null) {
 			return this.bankInfo.getClaimantsName();
-		} else {
+		}
+		else {
 			return "";
 		}
 	}
@@ -145,13 +150,15 @@ public class BankInvoiceFileManager implements BankFileManager {
 		AccountEntryHome aeh = null;
 		try {
 			aeh = (AccountEntryHome) IDOLookup.getHome(AccountEntry.class);
-		} catch (IDOLookupException e) {
+		}
+		catch (IDOLookupException e) {
 			e.printStackTrace();
 		}
 		if (aeh != null) {
 			try {
 				accountEntries = aeh.findByBatchNumber(batchNumber);
-			} catch (FinderException e1) {
+			}
+			catch (FinderException e1) {
 				e1.printStackTrace();
 			}
 			if (accountEntries != null) {
@@ -190,7 +197,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 		AccountEntry ae = getAccountEntry(invoiceNumber);
 		if (ae != null) {
 			return ae.getDisallowanceDate().toString();
-		} else {
+		}
+		else {
 			return "";
 		}
 	}
@@ -272,7 +280,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 				cal.setTime(date);
 			}
 			return cal;
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -477,7 +486,8 @@ public class BankInvoiceFileManager implements BankFileManager {
 		if (ae != null) {
 			User user = getUserByUserId(ae.getUserId());
 			return user.getPersonalID();
-		} else {
+		}
+		else {
 			return "";
 		}
 	}
@@ -602,8 +612,7 @@ public class BankInvoiceFileManager implements BankFileManager {
 	}
 
 	/**
-	 * returns the status of the invoice. The status can be: NOT PAYED -
-	 * ÓGREIDD PAYED - GREIDD CREATED - STOFNUD SENT - SEND ERROR - VILLA
+	 * returns the status of the invoice. The status can be: NOT PAYED - ÓGREIDD PAYED - GREIDD CREATED - STOFNUD SENT - SEND ERROR - VILLA
 	 */
 	public String getInvoiceStatus(int invoiceNumber) {
 		AccountEntry ae = getAccountEntry(invoiceNumber);
@@ -627,13 +636,15 @@ public class BankInvoiceFileManager implements BankFileManager {
 		AccountEntryHome aeh = null;
 		try {
 			aeh = (AccountEntryHome) IDOLookup.getHome(AccountEntry.class);
-		} catch (IDOLookupException e) {
+		}
+		catch (IDOLookupException e) {
 			e.printStackTrace();
 		}
 		if (aeh != null) {
 			try {
 				ae = aeh.findByInvoiceNumber(invoiceNumber);
-			} catch (FinderException e1) {
+			}
+			catch (FinderException e1) {
 				e1.printStackTrace();
 			}
 		}
@@ -645,13 +656,15 @@ public class BankInvoiceFileManager implements BankFileManager {
 		BankInfoHome bih = null;
 		try {
 			bih = (BankInfoHome) IDOLookup.getHome(BankInfo.class);
-		} catch (IDOLookupException e) {
+		}
+		catch (IDOLookupException e) {
 			e.printStackTrace();
 		}
 		if (bih != null) {
 			try {
 				bi = bih.findByGroupId(groupId);
-			} catch (FinderException e1) {
+			}
+			catch (FinderException e1) {
 				e1.printStackTrace();
 			}
 		}
@@ -663,48 +676,40 @@ public class BankInvoiceFileManager implements BankFileManager {
 		UserHome uh = null;
 		try {
 			uh = (UserHome) IDOLookup.getHome(User.class);
-		} catch (IDOLookupException e) {
+		}
+		catch (IDOLookupException e) {
 			e.printStackTrace();
 		}
 		if (uh != null) {
 			try {
 				u = uh.findByPrimaryKey(new Integer(userId));
-			} catch (FinderException e1) {
+			}
+			catch (FinderException e1) {
 				e1.printStackTrace();
 			}
 		}
 		return u;
 	}
 
-	private Group getGroupByGroupId(int groupId) {
-		Group g = null;
-		GroupHome gh = null;
-		try {
-			gh = (GroupHome) IDOLookup.getHome(Group.class);
-		} catch (IDOLookupException e) {
-			e.printStackTrace();
-		}
-		if (gh != null) {
-			try {
-				g = gh.findByPrimaryKey(new Integer(groupId));
-			} catch (FinderException e1) {
-				e1.printStackTrace();
-			}
-		}
-		return g;
-	}
-	
+	/*
+	 * private Group getGroupByGroupId(int groupId) { Group g = null; GroupHome gh = null; try { gh = (GroupHome) IDOLookup.getHome(Group.class); }
+	 * catch (IDOLookupException e) { e.printStackTrace(); } if (gh != null) { try { g = gh.findByPrimaryKey(new Integer(groupId)); } catch
+	 * (FinderException e1) { e1.printStackTrace(); } } return g; }
+	 */
+
 	public Batch getBatch(int batchNumber) {
 		Batch b = null;
-		
+
 		try {
 			b = ((BatchHome) IDOLookup.getHome(Batch.class)).findByPrimaryKey(new Integer(batchNumber));
-		} catch (IDOLookupException e) {
-			e.printStackTrace();
-		} catch (FinderException e) {
+		}
+		catch (IDOLookupException e) {
 			e.printStackTrace();
 		}
-		
+		catch (FinderException e) {
+			e.printStackTrace();
+		}
+
 		return b;
 	}
 }

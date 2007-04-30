@@ -1,4 +1,5 @@
 package com.idega.block.finance.presentation;
+
 import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.util.Collection;
@@ -26,38 +27,42 @@ import com.idega.presentation.ui.HiddenInput;
 import com.idega.presentation.ui.SubmitButton;
 import com.idega.presentation.ui.TextInput;
 import com.idega.util.IWTimestamp;
+
 /**
- * Title: Description: Copyright: Copyright (c) 2000-2001 idega.is All Rights
- * Reserved Company: idega
+ * Title: Description: Copyright: Copyright (c) 2000-2001 idega.is All Rights Reserved Company: idega
  * 
  * @author <a href="mailto:aron@idega.is">Aron Birkir </a>
  * @version 1.1
  */
 public class AccountViewer extends Finance {
+
 	private boolean isLoggedOn;
 	private Image image;
-	private float tax = 1.245f;
+	// private float tax = 1.245f;
 	private String sDebetColor, sKreditColor;
 	private final String prmFromDate = "from_date", prmToDate = "to_date";
-	public static final String prmUserId = "user_id", prmAccountId = "fin_acc_id";
+	public static final String prmUserId = "user_id";
 	public static final String prmClean = "av_clean";
 	private Collection accounts = null;
 	private User eUser = null;
 	protected String styleAttribute = "font-size: 8pt";
 	private Integer userID = null, accountID = null;
 	private boolean specialview = false;
-	private DateFormat df,tf;
+	private DateFormat df, tf;
 	private String roundStatus = null;
-	
+
 	public AccountViewer() {
 		this(-1);
 	}
+
 	public AccountViewer(User eUser) {
 		this(eUser.getID());
 	}
+
 	public AccountViewer(int userID) {
 		this.userID = new Integer(userID);
 	}
+
 	protected void control(IWContext iwc) throws java.rmi.RemoteException {
 		this.image = Table.getTransparentCell(iwc);
 		this.image.setHeight(6);
@@ -66,7 +71,7 @@ public class AccountViewer extends Finance {
 		IWTimestamp itToDate = getToDate(iwc);
 		this.specialview = iwc.isParameterSet("specview");
 		boolean clean = iwc.isParameterSet(prmClean);
-		if(!this.isAdmin){
+		if (!this.isAdmin) {
 			this.roundStatus = AssessmentStatus.PUBLISHED;
 		}
 		if (this.isAdmin || this.isLoggedOn) {
@@ -75,21 +80,22 @@ public class AccountViewer extends Finance {
 				setMainPanel(getAccountView(eAccount, this.accounts, itFromDate, itToDate, this.isAdmin, clean));
 			}
 			else {
-				setMainPanel(getErrorText(localize("no_account_selected","No account selected")));
+				setMainPanel(getErrorText(localize("no_account_selected", "No account selected")));
 			}
-		} else {
+		}
+		else {
 			setMainPanel(getErrorText(localize("accessdenied", "Access denied")));
 		}
 	}
+
 	private FinanceAccount getAccount(Integer accountID, Collection listOfAccounts) throws java.rmi.RemoteException {
 		Iterator iter = listOfAccounts.iterator();
-	    if (accountID == null) {
-	    		FinanceAccount account =  (FinanceAccount)iter.next();
-	    		this.accountID = account.getAccountId();
-	    		return account;
-	    }
-	    
-		
+		if (accountID == null) {
+			FinanceAccount account = (FinanceAccount) iter.next();
+			this.accountID = account.getAccountId();
+			return account;
+		}
+
 		FinanceAccount account = (FinanceAccount) iter.next();
 		while (iter.hasNext()) {
 			FinanceAccount acc = (FinanceAccount) iter.next();
@@ -100,38 +106,41 @@ public class AccountViewer extends Finance {
 		}
 		return account;
 	}
+
 	public PresentationObject getMainTable(IWContext iwc) {
 		return new Text();
 	}
-	public PresentationObject getAccountView(FinanceAccount eAccount, Collection accounts, IWTimestamp FromDate,
-			IWTimestamp ToDate, boolean showallkeys, boolean clean) throws java.rmi.RemoteException {
+
+	public PresentationObject getAccountView(FinanceAccount eAccount, Collection accounts, IWTimestamp FromDate, IWTimestamp ToDate, boolean showallkeys, boolean clean) throws java.rmi.RemoteException {
 		Table T = new Table(1, 3);
 		T.setWidth(Table.HUNDRED_PERCENT);
 		T.add(getEntrySearchTable(this.accountID, accounts, FromDate, ToDate), 1, 2);
 		if (clean) {
 			T.add(getCleanAccountTable(this.accountID), 1, 2);
 			T.add(getEntryTable(this.accountID, FromDate, ToDate, showallkeys, true), 1, 3);
-		} else {
+		}
+		else {
 			T.add(getAccountTable(eAccount, accounts), 1, 2);
 			T.add(getEntryTable(eAccount, FromDate, ToDate, showallkeys, false), 1, 3);
 		}
 		return T;
 	}
+
 	private String getDateString(IWTimestamp stamp) {
 		return stamp.getISLDate(".", true);
 	}
-	public PresentationObject getEntrySearchTable(Integer accountID, Collection accounts, IWTimestamp from,
-			IWTimestamp to) {
+
+	public PresentationObject getEntrySearchTable(Integer accountID, Collection accounts, IWTimestamp from, IWTimestamp to) {
 		Table T = new Table(6, 2);
 		T.setWidth(Table.HUNDRED_PERCENT);
 		String sFromDate = getDateString(from);
 		String sToDate = getDateString(to);
-		//DropdownMenu drpAccounts = new DropdownMenu(accounts,prmAccountId);
-		//drpAccounts.setToSubmit();
-		//drpAccounts.setAttribute("style",styleAttribute);
-		//drpAccounts.setSelectedElement(String.valueOf(accountID));
+		// DropdownMenu drpAccounts = new DropdownMenu(accounts,prmAccountId);
+		// drpAccounts.setToSubmit();
+		// drpAccounts.setAttribute("style",styleAttribute);
+		// drpAccounts.setSelectedElement(String.valueOf(accountID));
 		if (accountID != null) {
-		    T.add(new HiddenInput(prmAccountId, accountID.toString()));
+			T.add(new HiddenInput(prmAccountId, accountID.toString()));
 		}
 		TextInput tiFromDate = new TextInput(this.prmFromDate, sFromDate);
 		tiFromDate.setLength(10);
@@ -147,37 +156,39 @@ public class AccountViewer extends Finance {
 		}
 		int row = 1;
 		int col = 1;
-		//T.add(formatText(localize("account","Account")),1,row);
+		// T.add(formatText(localize("account","Account")),1,row);
 		T.add(getHeader(localize("from", "From")), col++, row);
 		T.add(getHeader(localize("to", "To")), col++, row);
 		T.add(getHeader(localize("special", "Special")), col++, row);
 		row++;
 		col = 1;
-		//T.add(drpAccounts,1,row);
+		// T.add(drpAccounts,1,row);
 		T.add(tiFromDate, col++, row);
 		T.add(tiToDate, col++, row);
 		T.add(specialCheck, col++, row);
 		T.add(fetch, col++, row);
 		T.setWidth(col, row, "100%");
-		//myForm.add(new
+		// myForm.add(new
 		// HiddenInput(IWMainApplication.classToInstanciateParameter,"com.idega.block.finance.presentation.AccountViewer"));
-		
+
 		return T;
 	}
-	public PresentationObject getAccountTable(FinanceAccount eAccount, Collection accounts)
-			throws java.rmi.RemoteException {
+
+	public PresentationObject getAccountTable(FinanceAccount eAccount, Collection accounts) throws java.rmi.RemoteException {
 		if (eAccount != null) {
 			if (this.eUser.getID() != eAccount.getUserId()) {
 				try {
 					this.eUser = getFinanceService().getAccountUserHome().findByPrimaryKey(new Integer(eAccount.getUserId()));
-				} catch (RemoteException e) {
+				}
+				catch (RemoteException e) {
 					e.printStackTrace();
-				} catch (FinderException e) {
+				}
+				catch (FinderException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		
+
 		DataTable T = new DataTable();
 		T.setUseBottom(false);
 		T.setTitlesHorizontal(true);
@@ -188,12 +199,12 @@ public class AccountViewer extends Finance {
 		T.add(getHeader(localize("account", "Account")), col++, row);
 		T.add(getHeader(localize("owner", "Owner")), col++, row);
 		T.add(getHeader(localize("lastentry", "Last entry")), col++, row);
-		
-		if(this.isAdmin){
+
+		if (this.isAdmin) {
 			T.add(getHeader(localize("published_balance", "Published")), col++, row);
 			T.add(getHeader(localize("total_balance", "Total")), col++, row);
 		}
-		else{
+		else {
 			T.add(getHeader(localize("balance", "Balance")), col++, row);
 		}
 		row++;
@@ -204,44 +215,48 @@ public class AccountViewer extends Finance {
 				FinanceAccount account = (FinanceAccount) iter.next();
 				Link accountLink = getLink((account.getAccountName()));
 				accountLink.addParameter(prmAccountId, account.getAccountId().toString());
-				//if(eUser.getID() != account.getUserId())
+				// if(eUser.getID() != account.getUserId())
 				accountLink.addParameter(prmUserId, account.getUserId());
 				T.add(accountLink, col++, row);
 				T.add(getText(this.eUser.getName()), col++, row);
 				T.add(getText(getDateString(new IWTimestamp(account.getLastUpdated()))), col++, row);
 				double b = getFinanceService().getAccountBalancePublished(account.getAccountId());
-					//b = b * tax;
-				
-				T.add(getAmountText( b), col++, row);
-				if(this.isAdmin) {
-					T.add(getAmountText(getFinanceService().getAccountBalance(account.getAccountId())),col++,row);
+				// b = b * tax;
+
+				T.add(getAmountText(b), col++, row);
+				if (this.isAdmin) {
+					T.add(getAmountText(getFinanceService().getAccountBalance(account.getAccountId())), col++, row);
 				}
 				row++;
 			}
 			T.getContentTable().setColumnAlignment(4, Table.HORIZONTAL_ALIGN_RIGHT);
 			T.getContentTable().setColumnAlignment(3, Table.HORIZONTAL_ALIGN_RIGHT);
-			if(this.isAdmin) {
+			if (this.isAdmin) {
 				T.getContentTable().setColumnAlignment(5, Table.HORIZONTAL_ALIGN_RIGHT);
 			}
-		} else {
+		}
+		else {
 			T.add(localize("no_account", "No Account"));
 		}
 		return T;
 	}
+
 	public PresentationObject getCleanAccountTable(Integer accountID) {
 		AccountInfo eAccount = null;
 		try {
 			eAccount = getFinanceService().getAccountInfoHome().findByPrimaryKey(accountID);
-			//AccountInfo eAccount =
+			// AccountInfo eAccount =
 			// FinanceFinder.getInstance().getAccountInfo(AccountId);
 			if (eAccount != null) {
 				this.eUser = getFinanceService().getAccountUserHome().findByPrimaryKey(new Integer(eAccount.getUserId()));
-			// eUser =
-			// FinanceFinder.getInstance().getUser(eAccount.getUserId());
+				// eUser =
+				// FinanceFinder.getInstance().getUser(eAccount.getUserId());
 			}
-		} catch (RemoteException e) {
+		}
+		catch (RemoteException e) {
 			e.printStackTrace();
-		} catch (FinderException e) {
+		}
+		catch (FinderException e) {
 			e.printStackTrace();
 		}
 		Table T = new Table(2, 4);
@@ -249,7 +264,7 @@ public class AccountViewer extends Finance {
 			T.setWidth(Table.HUNDRED_PERCENT);
 			T.setCellspacing(0);
 			T.setCellpadding(2);
-			//int fontSize = 1;
+			// int fontSize = 1;
 			int row = 1;
 			T.add(getHeader(localize("account", "Account")), 1, row);
 			T.add(getText(eAccount.getName()), 2, row);
@@ -264,44 +279,47 @@ public class AccountViewer extends Finance {
 			float b = eAccount.getBalance();
 			T.add(getAmountText(b), 2, row);
 			row++;
-		} else {
+		}
+		else {
 			T.add(localize("no_account", "No Account"));
 		}
 		return T;
 	}
-	private PresentationObject getEntryTable(Integer accountID, IWTimestamp from, IWTimestamp to, boolean showallkeys,
-			boolean clean) {
+
+	private PresentationObject getEntryTable(Integer accountID, IWTimestamp from, IWTimestamp to, boolean showallkeys, boolean clean) {
 		PresentationObject mo = null;
 		try {
-			//Account a = accBuiz.getAccount(accountID);
-			//Account a =
+			// Account a = accBuiz.getAccount(accountID);
+			// Account a =
 			// ((com.idega.block.finance.data.AccountHome)com.idega.data.IDOLookup.getHomeLegacy(Account.class)).findByPrimaryKeyLegacy(accountID);
 			Account a = getFinanceService().getAccountHome().findByPrimaryKey(accountID);
 			mo = getEntryTable(a, from, to, showallkeys, clean);
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			ex.printStackTrace();
 			mo = new Text();
 		}
 		return mo;
 	}
-	private PresentationObject getEntryTable(FinanceAccount account, IWTimestamp from, IWTimestamp to,
-			boolean showallkeys, boolean clean) throws java.rmi.RemoteException {
+
+	private PresentationObject getEntryTable(FinanceAccount account, IWTimestamp from, IWTimestamp to, boolean showallkeys, boolean clean) throws java.rmi.RemoteException {
 		Collection entries = null;
-		
+
 		if (account == null) {
-		    return new Text();
+			return new Text();
 		}
-		
+
 		try {
 			if (account.getAccountType().equals(getFinanceService().getAccountTypeFinance())) {
 				if (showallkeys) {
-					//entries =
+					// entries =
 					// getFinanceService().//accBuiz.listOfAccountEntries(eAccount.getAccountId(),from,to);
-					entries = getFinanceService().getAccountBusiness().getAccountEntries(this.accountID.intValue(),from, to,null,this.roundStatus);
-				} else {
-					//entries =
+					entries = getFinanceService().getAccountBusiness().getAccountEntries(this.accountID.intValue(), from, to, null, this.roundStatus);
+				}
+				else {
+					// entries =
 					// accBuiz.listOfKeySortedEntries(account.getAccountId(),from,to);
-					entries = getFinanceService().getAccountBusiness().getKeySortedAccountEntries(this.accountID.intValue(),from, to,this.roundStatus);
+					entries = getFinanceService().getAccountBusiness().getKeySortedAccountEntries(this.accountID.intValue(), from, to, this.roundStatus);
 				}
 				if (clean) {
 					return getCleanFinanceEntryTable(account, entries, from, to);
@@ -309,10 +327,10 @@ public class AccountViewer extends Finance {
 				else {
 					return getFinanceEntryTable(account, entries, from, to);
 				}
-			} else if (account.getAccountType().equals(getFinanceService().getAccountTypePhone())) {
-				entries = getFinanceService().getAccountPhoneEntryHome().findByAccountAndStatus(this.accountID, null,
-						from.getDate(), to.getDate());
-				//listEntries =
+			}
+			else if (account.getAccountType().equals(getFinanceService().getAccountTypePhone())) {
+				entries = getFinanceService().getAccountPhoneEntryHome().findByAccountAndStatus(this.accountID, null, from.getDate(), to.getDate());
+				// listEntries =
 				// accBuiz.listOfPhoneEntries(account.getAccountId(),from,to);
 				if (this.specialview) {
 					return getPhoneEntryReportTable(account, entries, from, to);
@@ -321,15 +339,17 @@ public class AccountViewer extends Finance {
 					return getPhoneEntryTable(account, entries, from, to);
 				}
 			}
-		} catch (RemoteException e) {
+		}
+		catch (RemoteException e) {
 			e.printStackTrace();
-		} catch (FinderException e) {
+		}
+		catch (FinderException e) {
 			e.printStackTrace();
 		}
 		return new Text();
 	}
-	private PresentationObject getPhoneEntryTable(FinanceAccount eAccount, Collection listEntries, IWTimestamp from,
-			IWTimestamp to) {
+
+	private PresentationObject getPhoneEntryTable(FinanceAccount eAccount, Collection listEntries, IWTimestamp from, IWTimestamp to) {
 		int tableDepth = 4;
 		int cols = 6;
 		if (listEntries != null) {
@@ -349,8 +369,7 @@ public class AccountViewer extends Finance {
 		T.setRowColor(1, FinanceColors.DARKBLUE);
 		T.setRowColor(2, FinanceColors.DARKGREY);
 		int fontSize = 1;
-		String title = localize("entries", "Entries") + "  " + localize("for", "for") + " "
-				+ this.df.format(from.getSQLDate()) + " - " + this.df.format(to.getSQLDate());
+		String title = localize("entries", "Entries") + "  " + localize("for", "for") + " " + this.df.format(from.getSQLDate()) + " - " + this.df.format(to.getSQLDate());
 		Text Title = new Text(title, true, false, false);
 		Title.setFontColor(FinanceColors.WHITE);
 		T.add(Title, 1, row);
@@ -375,10 +394,10 @@ public class AccountViewer extends Finance {
 			float totPrice = 0;
 			for (Iterator iter = listEntries.iterator(); iter.hasNext();) {
 				AccountPhoneEntry entry = (AccountPhoneEntry) iter.next();
-				//TableTexts[0] = new Text(getDateString(new
+				// TableTexts[0] = new Text(getDateString(new
 				// IWTimestamp(entry.getLastUpdated())));
-				//TableTexts[1] = new Text(entry.getMainNumber());
-				//TableTexts[0] = new Text(entry.getSubNumber());
+				// TableTexts[1] = new Text(entry.getMainNumber());
+				// TableTexts[0] = new Text(entry.getSubNumber());
 				TableTexts[0] = getText(new IWTimestamp(entry.getPhonedStamp()).toSQLString());
 				TableTexts[1] = getText(entry.getPhonedNumber());
 				TableTexts[2] = getText(getCorrectedTimeString(entry.getNightDuration()));
@@ -436,8 +455,8 @@ public class AccountViewer extends Finance {
 		T.setColor(1, row, FinanceColors.DARKRED);
 		return T;
 	}
-	private PresentationObject getPhoneEntryReportTable(FinanceAccount eAccount, Collection listEntries,
-			IWTimestamp from, IWTimestamp to) {
+
+	private PresentationObject getPhoneEntryReportTable(FinanceAccount eAccount, Collection listEntries, IWTimestamp from, IWTimestamp to) {
 		String sMob1 = "8";
 		String sMob2 = "6";
 		String sFor = "00";
@@ -453,9 +472,8 @@ public class AccountViewer extends Finance {
 		T.setColumnAlignment(3, "right");
 		T.setColumnAlignment(4, "right");
 		T.setColumnAlignment(5, "right");
-		//int fontSize = 1;
-		String title = localize("sum_report", "Report") + "  " + localize("for", "for") + " "
-				+ this.df.format(from.getSQLDate()) + " - " + this.df.format(to.getSQLDate());
+		// int fontSize = 1;
+		String title = localize("sum_report", "Report") + "  " + localize("for", "for") + " " + this.df.format(from.getSQLDate()) + " - " + this.df.format(to.getSQLDate());
 		Text Title = getHeader(title);
 		Title.setFontColor(FinanceColors.WHITE);
 		T.add(Title, 1, 1);
@@ -479,12 +497,13 @@ public class AccountViewer extends Finance {
 						forPrice += entry.getPrice();
 						forCount++;
 					}
-					//mobile
+					// mobile
 					else if (phonedNumber.startsWith(sMob1) || phonedNumber.startsWith(sMob2)) {
 						mobTime += entry.getDuration();
 						mobPrice += entry.getPrice();
 						mobCount++;
-					} else {
+					}
+					else {
 						otherTime += entry.getDuration();
 						otherPrice += entry.getPrice();
 						otherCount++;
@@ -499,7 +518,7 @@ public class AccountViewer extends Finance {
 			T.add(getHeader(localize("mobile", "Mobile")), 2, 4);
 			T.add(getHeader(localize("foreign", "Foreign")), 2, 5);
 			T.add(getHeader(localize("total", "Total")), 2, 6);
-			//new java.sql.Time(entry.getDuration()*1000).toString()
+			// new java.sql.Time(entry.getDuration()*1000).toString()
 			T.add(getHeader(String.valueOf(otherCount)), 3, 3);
 			T.add(getHeader(String.valueOf(mobCount)), 3, 4);
 			T.add(getHeader(String.valueOf(forCount)), 3, 5);
@@ -521,8 +540,8 @@ public class AccountViewer extends Finance {
 		}
 		return T;
 	}
-	private PresentationObject getFinanceEntryTable(FinanceAccount eAccount, Collection listEntries, IWTimestamp from,
-			IWTimestamp to) throws java.rmi.RemoteException {
+
+	private PresentationObject getFinanceEntryTable(FinanceAccount eAccount, Collection listEntries, IWTimestamp from, IWTimestamp to) throws java.rmi.RemoteException {
 		int tableDepth = 5;
 		if (listEntries != null) {
 			tableDepth += listEntries.size();
@@ -531,9 +550,8 @@ public class AccountViewer extends Finance {
 		DataTable T = new DataTable();
 		T.setWidth(Table.HUNDRED_PERCENT);
 		T.setTitlesHorizontal(true);
-		//int fontSize = 1;
-		String title = localize("entries", "Entries") + " " + eAccount.getAccountName() + "   "
-				+ this.df.format(from.getSQLDate()) + " - " + this.df.format(to.getSQLDate());
+		// int fontSize = 1;
+		String title = localize("entries", "Entries") + " " + eAccount.getAccountName() + "   " + this.df.format(from.getSQLDate()) + " - " + this.df.format(to.getSQLDate());
 		T.addTitle(title);
 		Text[] TableTitles = new Text[4];
 		TableTitles[0] = getHeader(localize("date", "Date"));
@@ -541,13 +559,13 @@ public class AccountViewer extends Finance {
 		TableTitles[2] = getHeader(localize("text", "Text"));
 		TableTitles[3] = getHeader(localize("amount", "Amount"));
 		for (int i = 0; i < TableTitles.length; i++) {
-			//TableTitles[i].setFontSize(fontSize);
-			//TableTitles[i].setFontColor(sWhiteColor);
+			// TableTitles[i].setFontSize(fontSize);
+			// TableTitles[i].setFontColor(sWhiteColor);
 			T.add(TableTitles[i], i + 1, row);
 		}
 		row++;
 		Text[] TableTexts = new Text[4];
-		//boolean debet = false;
+		// boolean debet = false;
 		if (listEntries != null) {
 			double totPrice = 0;
 			for (Iterator iter = listEntries.iterator(); iter.hasNext();) {
@@ -556,7 +574,7 @@ public class AccountViewer extends Finance {
 				TableTexts[1] = getText(entry.getName());
 				TableTexts[2] = getText(entry.getInfo());
 				double p = entry.getTotal();
-				//debet = p > 0 ? true : false;
+				// debet = p > 0 ? true : false;
 				totPrice += p;
 				TableTexts[3] = getAmountText((p));
 				for (int i = 0; i < 4; i++) {
@@ -569,8 +587,8 @@ public class AccountViewer extends Finance {
 		}
 		return T;
 	}
-	private PresentationObject getCleanFinanceEntryTable(FinanceAccount eAccount, Collection listEntries,
-			IWTimestamp from, IWTimestamp to) {
+
+	private PresentationObject getCleanFinanceEntryTable(FinanceAccount eAccount, Collection listEntries, IWTimestamp from, IWTimestamp to) {
 		int tableDepth = 3;
 		if (listEntries != null) {
 			tableDepth += listEntries.size();
@@ -603,15 +621,15 @@ public class AccountViewer extends Finance {
 		T.add(getHeader(localize("text", "Text")), 3, 2);
 		T.add(getHeader(localize("amount", "Amount")), 4, 2);
 		T.setTopLine(true);
-		//boolean debet = false;
+		// boolean debet = false;
 		if (listEntries != null) {
-			//int len = listEntries.size();
+			// int len = listEntries.size();
 			double totPrice = 0;
 			int row = 3;
 			for (Iterator iter = listEntries.iterator(); iter.hasNext();) {
 				AccountEntry entry = (AccountEntry) iter.next();
 				double p = entry.getTotal();
-				//debet = p > 0 ? true : false;
+				// debet = p > 0 ? true : false;
 				totPrice += p;
 				T.add(getText(getDateString(new IWTimestamp(entry.getLastUpdated()))), 1, row);
 				T.add(getText(entry.getName()), 2, row);
@@ -628,29 +646,34 @@ public class AccountViewer extends Finance {
 				txTotPrice.setFontColor(this.sKreditColor);
 			}
 			T.add(txTotPrice, 4, tableDepth);
-			//T.setLineAfterColumn(3);
-			//T.setLineAfterRow(tableDepth-1);
+			// T.setLineAfterColumn(3);
+			// T.setLineAfterRow(tableDepth-1);
 			T.setLinesBetween(true);
 		}
 		return T;
 	}
+
 	private IWTimestamp getFromDate(IWContext iwc) {
 		if (iwc.getParameter(this.prmFromDate) != null) {
 			String sFromDate = iwc.getParameter(this.prmFromDate);
 			return parseStamp(sFromDate);
-		} else {
+		}
+		else {
 			IWTimestamp today = IWTimestamp.RightNow();
 			return new IWTimestamp(1, today.getMonth(), today.getYear());
 		}
 	}
+
 	private IWTimestamp getToDate(IWContext iwc) {
 		if (iwc.getParameter(this.prmToDate) != null) {
 			String sToDate = iwc.getParameter(this.prmToDate);
 			return parseStamp(sToDate);
-		} else {
+		}
+		else {
 			return IWTimestamp.RightNow();
 		}
 	}
+
 	private void checkIds(IWContext iwc) throws java.rmi.RemoteException {
 		try {
 			if (iwc.isParameterSet(prmAccountId)) {
@@ -659,22 +682,27 @@ public class AccountViewer extends Finance {
 				if (acc != null) {
 					this.userID = new Integer(acc.getUserId());
 				}
-			} else if (iwc.isParameterSet(prmUserId)) {
+			}
+			else if (iwc.isParameterSet(prmUserId)) {
 				this.userID = Integer.valueOf(iwc.getParameter(prmUserId));
 				this.eUser = getFinanceService().getAccountUserHome().findByPrimaryKey(this.userID);
-			} else if (iwc.isLoggedOn()) {
+			}
+			else if (iwc.isLoggedOn()) {
 				this.eUser = iwc.getUser();
 				this.userID = (Integer) this.eUser.getPrimaryKey();
 			}
-			//accounts =
+			// accounts =
 			// FinanceFinder.getInstance().listOfFinanceAccountsByUserId(userID);
 			this.accounts = getFinanceService().getAccountHome().findAllByUserId(this.userID.intValue());
-		} catch (RemoteException e) {
+		}
+		catch (RemoteException e) {
 			e.printStackTrace();
-		} catch (FinderException e) {
+		}
+		catch (FinderException e) {
 			e.printStackTrace();
 		}
 	}
+
 	private IWTimestamp parseStamp(String sDate) {
 		IWTimestamp it = new IWTimestamp();
 		try {
@@ -686,11 +714,13 @@ public class AccountViewer extends Finance {
 				year = Integer.parseInt(st.nextToken());
 			}
 			it = new IWTimestamp(day, month, year);
-		} catch (Exception pe) {
+		}
+		catch (Exception pe) {
 			it = new IWTimestamp();
 		}
 		return it;
 	}
+
 	public void main(IWContext iwc) throws java.rmi.RemoteException {
 		this.isLoggedOn = iwc.isLoggedOn();
 		this.eUser = iwc.getUser();
@@ -698,6 +728,7 @@ public class AccountViewer extends Finance {
 		this.tf = DateFormat.getTimeInstance();
 		control(iwc);
 	}
+
 	public String getCorrectedTimeString(long seconds) {
 		return this.tf.format(new java.sql.Time((seconds + (60 * 60)) * 1000));
 	}

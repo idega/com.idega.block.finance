@@ -21,8 +21,7 @@ import com.idega.util.IWTimestamp;
 
 /**
  * 
- * Title: Description: Copyright: Copyright (c) 2000-2001 idega.is All Rights
- * Reserved Company: idega
+ * Title: Description: Copyright: Copyright (c) 2000-2001 idega.is All Rights Reserved Company: idega
  * 
  * @author <a href="mailto:aron@idega.is">Aron Birkir</a>
  * @version 1.1
@@ -73,8 +72,6 @@ public class EntryGroups extends Finance {
 	protected static final String PARAM_GROUP_DATE_TO = "entries_to";
 
 	protected static final String PARAM_ENTRY_GROUP_ID = "entry_group_id";
-
-	protected final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
 
 	public String strAction = "tt_action";
 
@@ -134,8 +131,7 @@ public class EntryGroups extends Finance {
 		String dateTo = iwc.getParameter(PARAM_GROUP_DATE_TO);
 		String paymentDateString = iwc.getParameter(PARAM_PAYMENT_DATE);
 		String dueDateString = iwc.getParameter(PARAM_DUE_DATE);
-		if (dateTo != null && !"".equals(dateTo) && paymentDateString != null && !"".equals(paymentDateString)
-				&& dueDateString != null && !"".equals(dueDateString)) {
+		if (dateTo != null && !"".equals(dateTo) && paymentDateString != null && !"".equals(paymentDateString) && dueDateString != null && !"".equals(dueDateString)) {
 			String dateFrom = iwc.getParameter(PARAM_GROUP_DATE_FROM);
 			IWTimestamp to = new IWTimestamp(dateTo);
 			IWTimestamp from = null;
@@ -154,10 +150,9 @@ public class EntryGroups extends Finance {
 
 	protected PresentationObject doGroup(IWContext iwc, IWTimestamp from, IWTimestamp to, IWTimestamp paymentDate, IWTimestamp dueDate) {
 		try {
-			AssessmentBusiness assBuiz = (AssessmentBusiness) com.idega.business.IBOLookup.getServiceInstance(iwc,
-					AssessmentBusiness.class);
+			AssessmentBusiness assBuiz = (AssessmentBusiness) com.idega.business.IBOLookup.getServiceInstance(iwc, AssessmentBusiness.class);
 			assBuiz.groupEntriesWithSQL(from, to, paymentDate, dueDate);
-							
+
 			return getHeader(localize(LOC_KEY_GROUP_CREATED, "Group was created"));
 		}
 		catch (Exception ex) {
@@ -176,10 +171,10 @@ public class EntryGroups extends Finance {
 		LinkTable.setWidth(last, Table.HUNDRED_PERCENT);
 		Link Link1 = new Link(getHeader(localize(LOC_KEY_VIEW, "View")));
 
-		Link1.addParameter(this.strAction, String.valueOf(this.ACT1));
+		Link1.addParameter(this.strAction, String.valueOf(ACT1));
 		Link Link2 = new Link(getHeader(localize(LOC_KEY_NEW, "New")));
 
-		Link2.addParameter(this.strAction, String.valueOf(this.ACT2));
+		Link2.addParameter(this.strAction, String.valueOf(ACT2));
 		if (this.isAdmin) {
 			LinkTable.add(Link1, 1, 1);
 			LinkTable.add(Link2, 2, 1);
@@ -214,23 +209,19 @@ public class EntryGroups extends Finance {
 			for (Iterator iter = groups.iterator(); iter.hasNext();) {
 				EG = (EntryGroup) iter.next();
 				displayTable.add(getGroupLink(EG.getName(), (Integer) EG.getPrimaryKey()), 1, row);
-				displayTable.add(getText(new IWTimestamp(EG.getGroupDate()).getLocaleDate(iwc.getCurrentLocale())), 2,
-						row);
+				displayTable.add(getText(new IWTimestamp(EG.getGroupDate()).getLocaleDate(iwc.getCurrentLocale())), 2, row);
 				displayTable.add(getText(String.valueOf(EG.getEntryIdFrom())), 3, row);
 				displayTable.add(getText(String.valueOf(EG.getEntryIdTo())), 4, row);
 				if (EG.getFileId() > 0) {
-					displayTable.add(new Link(EG.getFileId()), 5, row);				
+					displayTable.add(new Link(EG.getFileId()), 5, row);
 				}
-				AssessmentBusiness assBuiz = (AssessmentBusiness) com.idega.business.IBOLookup.getServiceInstance(iwc,
-						AssessmentBusiness.class);
+				AssessmentBusiness assBuiz = (AssessmentBusiness) com.idega.business.IBOLookup.getServiceInstance(iwc, AssessmentBusiness.class);
 				displayTable.add(getText(String.valueOf(assBuiz.getGroupEntryCount(EG))), 6, row);
 				if (EG.getFileInvoiceDate() != null) {
-				displayTable.add(
-						getText(new IWTimestamp(EG.getFileInvoiceDate()).getLocaleDate(iwc.getCurrentLocale())), 7, row);
+					displayTable.add(getText(new IWTimestamp(EG.getFileInvoiceDate()).getLocaleDate(iwc.getCurrentLocale())), 7, row);
 				}
 				if (EG.getFileDueDate() != null) {
-				displayTable.add(getText(new IWTimestamp(EG.getFileDueDate()).getLocaleDate(iwc.getCurrentLocale())),
-						8, row);
+					displayTable.add(getText(new IWTimestamp(EG.getFileDueDate()).getLocaleDate(iwc.getCurrentLocale())), 8, row);
 				}
 				row++;
 			}
@@ -320,14 +311,14 @@ public class EntryGroups extends Finance {
 		inputTable.setRowColor(1, getHeaderColor());
 		inputTable.mergeCells(1, 1, 2, 1);
 		inputTable.setWidth("100%");
-		inputTable.add(new HiddenInput(this.strAction, String.valueOf(this.ACT3)));
+		inputTable.add(new HiddenInput(this.strAction, String.valueOf(ACT3)));
 
 		return inputTable;
 	}
 
 	protected Link getGroupLink(String name, Integer id) {
 		Link L = new Link(getText(name));
-		L.addParameter(this.strAction, this.ACT4);
+		L.addParameter(this.strAction, ACT4);
 		L.addParameter(PARAM_ENTRY_GROUP_ID, id.toString());
 
 		return L;
