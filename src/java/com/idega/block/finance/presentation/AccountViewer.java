@@ -30,7 +30,7 @@ import com.idega.util.IWTimestamp;
 
 /**
  * Title: Description: Copyright: Copyright (c) 2000-2001 idega.is All Rights Reserved Company: idega
- * 
+ *
  * @author <a href="mailto:aron@idega.is">Aron Birkir </a>
  * @version 1.1
  */
@@ -63,6 +63,7 @@ public class AccountViewer extends Finance {
 		this.userID = new Integer(userID);
 	}
 
+	@Override
 	protected void control(IWContext iwc) throws java.rmi.RemoteException {
 		this.image = Table.getTransparentCell(iwc);
 		this.image.setHeight(6);
@@ -688,7 +689,7 @@ public class AccountViewer extends Finance {
 				this.eUser = getFinanceService().getAccountUserHome().findByPrimaryKey(this.userID);
 			}
 			else if (iwc.isLoggedOn()) {
-				this.eUser = iwc.getUser();
+				this.eUser = iwc.getCurrentUser();
 				this.userID = (Integer) this.eUser.getPrimaryKey();
 			}
 			// accounts =
@@ -721,9 +722,10 @@ public class AccountViewer extends Finance {
 		return it;
 	}
 
+	@Override
 	public void main(IWContext iwc) throws java.rmi.RemoteException {
 		this.isLoggedOn = iwc.isLoggedOn();
-		this.eUser = iwc.getUser();
+		this.eUser = iwc.getCurrentUser();
 		this.df = DateFormat.getDateInstance(DateFormat.SHORT);
 		this.tf = DateFormat.getTimeInstance();
 		control(iwc);
