@@ -1,36 +1,42 @@
 package com.idega.block.finance.business;
 
 
-import com.idega.block.finance.data.FinanceHandlerInfoHome;
-import javax.ejb.CreateException;
-import com.idega.block.finance.data.RoundInfoHome;
-import com.idega.block.finance.data.TariffGroupHome;
-import com.idega.block.finance.data.AccountHome;
-import com.idega.block.finance.data.AccountPhoneEntryHome;
-import com.idega.block.finance.data.PaymentTypeHome;
-import com.idega.block.finance.data.AccountTypeHome;
-import com.idega.block.finance.data.TariffKey;
-import com.idega.block.finance.data.AccountUserHome;
-import com.idega.block.finance.data.AccountKeyHome;
-import com.idega.business.IBOService;
-import com.idega.block.finance.data.AccountEntryHome;
-import com.idega.block.finance.data.AssessmentRoundHome;
-import com.idega.block.finance.data.EntryGroupHome;
-import com.idega.block.finance.data.TariffIndexHome;
-import com.idega.block.finance.data.TariffKeyHome;
-import java.util.Map;
-import com.idega.block.finance.data.AccountInfoHome;
-import com.idega.block.finance.data.Tariff;
-import com.idega.block.finance.data.TariffGroup;
-import java.util.Date;
-import com.idega.block.finance.data.AccountKey;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.Collection;
-import com.idega.block.finance.data.TariffIndex;
+import java.util.Date;
+import java.util.Map;
+
+import javax.ejb.CreateException;
 import javax.ejb.FinderException;
-import com.idega.block.finance.data.TariffHome;
 import javax.ejb.RemoveException;
+
+import com.idega.block.finance.data.AccountEntryHome;
+import com.idega.block.finance.data.AccountHome;
+import com.idega.block.finance.data.AccountInfoHome;
+import com.idega.block.finance.data.AccountKey;
+import com.idega.block.finance.data.AccountKeyHome;
+import com.idega.block.finance.data.AccountPhoneEntryHome;
+import com.idega.block.finance.data.AccountTypeHome;
+import com.idega.block.finance.data.AccountUserHome;
+import com.idega.block.finance.data.AssessmentRoundHome;
+import com.idega.block.finance.data.EntryGroupHome;
+import com.idega.block.finance.data.FinanceHandlerInfoHome;
+import com.idega.block.finance.data.PaymentTypeHome;
+import com.idega.block.finance.data.Period;
+import com.idega.block.finance.data.PeriodHome;
+import com.idega.block.finance.data.Price;
+import com.idega.block.finance.data.PriceHome;
+import com.idega.block.finance.data.RoundInfoHome;
+import com.idega.block.finance.data.Tariff;
+import com.idega.block.finance.data.TariffGroup;
+import com.idega.block.finance.data.TariffGroupHome;
+import com.idega.block.finance.data.TariffHome;
+import com.idega.block.finance.data.TariffIndex;
+import com.idega.block.finance.data.TariffIndexHome;
+import com.idega.block.finance.data.TariffKey;
+import com.idega.block.finance.data.TariffKeyHome;
+import com.idega.business.IBOService;
 
 public interface FinanceService extends IBOService {
 	/**
@@ -227,4 +233,29 @@ public interface FinanceService extends IBOService {
 	 * @see com.idega.block.finance.business.FinanceServiceBean#getAccountLastUpdate
 	 */
 	public Date getAccountLastUpdate(Integer accountID) throws RemoteException;
+
+	public PeriodHome getPeriodHome() throws RemoteException;
+
+	public PriceHome getPriceHome() throws RemoteException;
+
+	public void removePeriod(Integer periodId) throws FinderException, RemoteException, RemoveException;
+
+	public Period getPeriodById(Integer periodId);
+
+	public Period getPeriodByGroupAndDate(Integer groupId, Timestamp timestamp);
+
+	public Collection<Period> getAllPeriodsByGroupId(Integer groupId);
+
+	public Period updatePeriod(Integer periodId, Integer groupId, String name, Timestamp fromDate, Timestamp toDate);
+
+	public void removePrice(Integer priceId) throws FinderException, RemoteException, RemoveException;
+
+	public Price getPriceById(Integer priceId);
+
+	public Price getPriceByPeriodAndAge(Integer periodId, Integer age);
+
+	public Collection<Price> getAllPricesByPeriodId(Integer periodId);
+
+	public Price updatePrice(Integer priceId, Integer periodId, Integer ageFrom, Integer ageTo, Float price, String name);
+
 }
