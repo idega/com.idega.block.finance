@@ -1,5 +1,6 @@
 package com.idega.block.finance.dao.impl;
 
+import java.util.List;
 import java.util.logging.Level;
 
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -22,6 +23,16 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 			return find(Period.class, periodId);
 		} catch (Exception e) {
 			getLogger().log(Level.WARNING, "Error getting period by ID: " + periodId, e);
+		}
+		return null;
+	}
+
+	@Override
+	public List<Period> getAllPeriods() {
+		try {
+			return getResultList(Period.GET_ALL, Period.class);
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Error getting all periods: ", e);
 		}
 		return null;
 	}
