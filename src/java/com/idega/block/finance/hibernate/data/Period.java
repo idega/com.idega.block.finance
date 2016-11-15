@@ -33,6 +33,8 @@ public class Period implements Serializable {
 
 	private static final String COLUMN_ID = "FIN_PERIOD_ID";
 	private static final String COLUMN_GROUP_ID = "GROUP_ID";
+	private static final String COLUMN_DIVISION_ID = "DIVISION_ID";
+	private static final String COLUMN_CLUB_ID = "CLUB_ID";
 	private static final String COLUMN_NAME = "NAME";
 	private static final String COLUMN_FROM_DATE = "FROM_DATE";
 	private static final String COLUMN_TO_DATE = "TO_DATE";
@@ -47,6 +49,14 @@ public class Period implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = COLUMN_GROUP_ID)
 	private Group group;
+
+	@ManyToOne
+	@JoinColumn(name = COLUMN_DIVISION_ID)
+	private Group division;
+
+	@ManyToOne
+	@JoinColumn(name = COLUMN_CLUB_ID)
+	private Group club;
 
 	@Column(name = COLUMN_NAME)
 	private String name;
@@ -73,6 +83,22 @@ public class Period implements Serializable {
 
 	public void setGroup(Group group) {
 		this.group = group;
+	}
+
+	public Group getDivision() {
+		return division;
+	}
+
+	public void setDivision(Group division) {
+		this.division = division;
+	}
+
+	public Group getClub() {
+		return club;
+	}
+
+	public void setClub(Group club) {
+		this.club = club;
 	}
 
 	public String getName() {

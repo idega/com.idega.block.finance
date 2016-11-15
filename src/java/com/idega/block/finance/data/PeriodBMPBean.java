@@ -25,6 +25,8 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	public void initializeAttributes() {
 	    addAttribute(getIDColumnName());
 	    addAttribute(getColumnGroup(),"Group",true,true,Integer.class,"many-to-one",Group.class);
+	    addAttribute(getColumnDivision(),"Division",true,true,Integer.class,"many-to-one",Group.class);
+	    addAttribute(getColumnClub(),"Club",true,true,Integer.class,"many-to-one",Group.class);
 	    addAttribute(getColumnName(),"Name",true,true,java.lang.String.class);
 	    addAttribute(getColumnFromDate(),"From date",true,true,java.sql.Timestamp.class);
 	    addAttribute(getColumnToDate(),"To date",true,true,java.sql.Timestamp.class);
@@ -32,6 +34,8 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 
 	public static String getPeriodEntityName() {return "FIN_PERIOD";}
 	public static String getColumnGroup() {return "GROUP_ID";}
+	public static String getColumnDivision() {return "DIVISION_ID";}
+	public static String getColumnClub() {return "CLUB_ID";}
 	public static String getColumnName(){return "NAME";}
     public static String getColumnFromDate(){return "FROM_DATE";}
     public static String getColumnToDate(){return "TO_DATE";}
@@ -59,6 +63,46 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
   @Override
   public void setGroupId(Integer groupId){
     setColumn(getColumnGroup(), groupId);
+  }
+
+  @Override
+  public int getDivisionId(){
+    return getIntColumnValue(getColumnDivision());
+  }
+
+  @Override
+  public Group getDivision() {
+	return (Group) getColumnValue(getColumnDivision());
+  }
+
+  @Override
+  public void setDivisionId(Integer divisionId){
+    setColumn(getColumnDivision(), divisionId);
+  }
+
+  @Override
+  public void setDivision(Group group) {
+	setColumn(getColumnDivision(), group);
+  }
+
+  @Override
+  public int getClubId(){
+    return getIntColumnValue(getColumnClub());
+  }
+
+  @Override
+  public Group getClub() {
+	return (Group) getColumnValue(getColumnClub());
+  }
+
+  @Override
+  public void setClubId(Integer clubId){
+    setColumn(getColumnClub(), clubId);
+  }
+
+  @Override
+  public void setClub(Group group) {
+	setColumn(getColumnClub(), group);
   }
 
   @Override
