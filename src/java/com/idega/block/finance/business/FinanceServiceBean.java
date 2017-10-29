@@ -466,7 +466,7 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 	}
 
 	@Override
-	public Period updatePeriod(Integer periodId, Integer groupId, Integer divisionId, Integer clubId, String name, Timestamp fromDate, Timestamp toDate) {
+	public Period updatePeriod(Integer periodId, Integer groupId, Integer divisionId, Integer clubId, String name, Timestamp fromDate, Timestamp toDate, String virtualGroup) {
 		try {
 			Period period = null;
 			if (periodId != null && periodId > 0) {
@@ -481,6 +481,7 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			period.setName(name);
 			period.setFromDate(fromDate);
 			period.setToDate(toDate);
+			period.setVirtualGroup(virtualGroup);
 
 			period.store();
 

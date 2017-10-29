@@ -38,6 +38,7 @@ public class Period implements Serializable {
 	private static final String COLUMN_NAME = "NAME";
 	private static final String COLUMN_FROM_DATE = "FROM_DATE";
 	private static final String COLUMN_TO_DATE = "TO_DATE";
+	private static final String COLUMN_VIRTUAL_GROUP = "VIRTUAL_GROUP";  //1. OPTION Putting the real groups hidden under the virtual group separated by COMMA //2. OPTION <club id or division id or union id>;<group type as: iwme_club>;<virtual group id as: general-members>
 
 	public static final String GET_ALL = "getAll";
 
@@ -68,6 +69,9 @@ public class Period implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = COLUMN_TO_DATE)
 	private Date toDate;
+
+	@Column(name = COLUMN_VIRTUAL_GROUP)
+	private String virtualGroup;
 
 	public Long getId() {
 		return id;
@@ -123,6 +127,14 @@ public class Period implements Serializable {
 
 	public void setToDate(Date toDate) {
 		this.toDate = toDate;
+	}
+
+	public String getVirtualGroup() {
+		return virtualGroup;
+	}
+
+	public void setVirtualGroup(String virtualGroup) {
+		this.virtualGroup = virtualGroup;
 	}
 
 

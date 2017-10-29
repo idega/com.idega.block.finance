@@ -28,6 +28,7 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	    addAttribute(getColumnDivision(),"Division",true,true,Integer.class,"many-to-one",Group.class);
 	    addAttribute(getColumnClub(),"Club",true,true,Integer.class,"many-to-one",Group.class);
 	    addAttribute(getColumnName(),"Name",true,true,java.lang.String.class);
+	    addAttribute(getColumnVirtualGroup(),"Virtual group",true,true,java.lang.String.class);
 	    addAttribute(getColumnFromDate(),"From date",true,true,java.sql.Timestamp.class);
 	    addAttribute(getColumnToDate(),"To date",true,true,java.sql.Timestamp.class);
     }
@@ -37,6 +38,7 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	public static String getColumnDivision() {return "DIVISION_ID";}
 	public static String getColumnClub() {return "CLUB_ID";}
 	public static String getColumnName(){return "NAME";}
+	public static String getColumnVirtualGroup(){return "VIRTUAL_GROUP";}
     public static String getColumnFromDate(){return "FROM_DATE";}
     public static String getColumnToDate(){return "TO_DATE";}
 
@@ -53,6 +55,17 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
   @Override
   public void setName(String name){
     setColumn(getColumnName(), name);
+  }
+
+
+  @Override
+  public String getVirtualGroup(){
+    return getStringColumnValue(getColumnVirtualGroup());
+  }
+
+  @Override
+  public void setVirtualGroup(String virtualGroup){
+    setColumn(getColumnVirtualGroup(), virtualGroup);
   }
 
   @Override
