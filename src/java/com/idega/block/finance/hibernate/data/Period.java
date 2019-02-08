@@ -24,7 +24,9 @@ import com.idega.user.data.bean.Group;
 @Table(name = Period.TABLE_NAME)
 @NamedQueries({
 	@NamedQuery(name = Period.GET_ALL,
-				query = "from Period p order by p.id")
+				query = "from Period p order by p.id"),
+	@NamedQuery(name = Period.GET_BY_CONFIRMATION_DATE,
+				query = "from Period p where p.confirmationDate > :confirmationDate order by p.id")
 })
 public class Period implements Serializable {
 	private static final long serialVersionUID = -836514393694719755L;
@@ -39,8 +41,12 @@ public class Period implements Serializable {
 	private static final String COLUMN_FROM_DATE = "FROM_DATE";
 	private static final String COLUMN_TO_DATE = "TO_DATE";
 	private static final String COLUMN_VIRTUAL_GROUP = "VIRTUAL_GROUP";  //1. OPTION Putting the real groups hidden under the virtual group separated by COMMA //2. OPTION <club id or division id or union id>;<group type as: iwme_club>;<virtual group id as: general-members>
+	private static final String COLUMN_CONFIRMATION_DATE = "CONFIRMATION_DATE";
 
 	public static final String GET_ALL = "getAll";
+	public static final String GET_BY_CONFIRMATION_DATE = "getByConfirmationDate";
+
+	public static final String PARAM_CONFIRMATION_DATE = "confirmationDate";
 
 	@Id
 	@Column(name = COLUMN_ID)
@@ -72,6 +78,10 @@ public class Period implements Serializable {
 
 	@Column(name = COLUMN_VIRTUAL_GROUP)
 	private String virtualGroup;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = COLUMN_CONFIRMATION_DATE)
+	private Date confirmationDate;
 
 	public Long getId() {
 		return id;
@@ -135,6 +145,14 @@ public class Period implements Serializable {
 
 	public void setVirtualGroup(String virtualGroup) {
 		this.virtualGroup = virtualGroup;
+	}
+
+	public Date getConfirmationDate() {
+		return confirmationDate;
+	}
+
+	public void setConfirmationDate(Date confirmationDate) {
+		this.confirmationDate = confirmationDate;
 	}
 
 

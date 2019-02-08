@@ -1,5 +1,6 @@
 package com.idega.block.finance.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.idega.block.finance.hibernate.data.Period;
@@ -14,4 +15,7 @@ public interface PeriodDAO extends GenericDao {
 	public Period getById(Long periodId);
 
 	public List<Period> getAllPeriods();
+
+	public List<Period> getPeriodsByConfirmationDate(Date confirmationDate);
+
 }

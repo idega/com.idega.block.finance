@@ -1,5 +1,10 @@
 package com.idega.block.finance.data;
 
+import java.sql.Timestamp;
+import java.util.Collection;
+
+import com.idega.data.IDOAddRelationshipException;
+import com.idega.data.IDORemoveRelationshipException;
 import com.idega.user.data.Group;
 
 public interface Period extends com.idega.data.IDOEntity
@@ -22,5 +27,13 @@ public interface Period extends com.idega.data.IDOEntity
 	 public void setVirtualGroup(java.lang.String virtualGroup);
 	 public void setFromDate(java.sql.Timestamp fromDate);
 	 public void setToDate(java.sql.Timestamp toDate);
+	 public Timestamp getConfirmationDate();
+	 public void setConfirmationDate(Timestamp confirmationDate);
+
+
+	 public void addGroupToExclude(Group group) throws IDOAddRelationshipException;
+	 public void removeExcludedGroup(Group group) throws IDORemoveRelationshipException;
+	 public void removeAllExcludedGroups() throws IDORemoveRelationshipException;
+	 public Collection<Group> getAllExcludedGroups();
 
 }

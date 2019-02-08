@@ -6,12 +6,18 @@ import java.util.Collection;
 
 import javax.ejb.FinderException;
 
+import com.idega.data.IDOAddRelationshipException;
 import com.idega.data.IDOQuery;
+import com.idega.data.IDORelationshipException;
+import com.idega.data.IDORemoveRelationshipException;
 import com.idega.user.data.Group;
 import com.idega.util.CoreConstants;
+import com.idega.util.ListUtil;
 
 public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.idega.block.finance.data.Period {
 	private static final long serialVersionUID = 9081605647262701182L;
+
+	public static final String EXL_GROUPS_LIST = getPeriodEntityName() + "_EXL_GROUPS";
 
 
 	public PeriodBMPBean() {
@@ -31,6 +37,10 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	    addAttribute(getColumnVirtualGroup(),"Virtual group",true,true,java.lang.String.class);
 	    addAttribute(getColumnFromDate(),"From date",true,true,java.sql.Timestamp.class);
 	    addAttribute(getColumnToDate(),"To date",true,true,java.sql.Timestamp.class);
+	    addAttribute(getColumnConfirmationDate(),"Confirmation date",true,true,java.sql.Timestamp.class);
+
+		addManyToManyRelationShip(Group.class, EXL_GROUPS_LIST);
+
     }
 
 	public static String getPeriodEntityName() {return "FIN_PERIOD";}
@@ -41,6 +51,7 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	public static String getColumnVirtualGroup(){return "VIRTUAL_GROUP";}
     public static String getColumnFromDate(){return "FROM_DATE";}
     public static String getColumnToDate(){return "TO_DATE";}
+    public static String getColumnConfirmationDate(){return "CONFIRMATION_DATE";}
 
   @Override
   public String getEntityName() {
@@ -138,6 +149,17 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
     setColumn(getColumnToDate(),toDate);
   }
 
+
+  @Override
+  public Timestamp getConfirmationDate(){
+   return (Timestamp) getColumnValue(getColumnConfirmationDate());
+ }
+
+ @Override
+ public void setConfirmationDate(Timestamp confirmationDate){
+   setColumn(getColumnConfirmationDate(), confirmationDate);
+ }
+
   public Object ejbFindByGroupAndDate(Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException {
 		IDOQuery sql = idoQuery();
 		sql.appendSelectAllFrom(this);
@@ -168,5 +190,42 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
   public Collection ejbFindByGroup(Integer groupId)throws FinderException{
   	return super.idoFindPKsByQuery(super.idoQueryGetSelect().appendWhereEquals(getColumnGroup(), groupId).appendOrderBy(getColumnName()));
   }
+
+	@Override
+	public void addGroupToExclude(Group group) throws IDOAddRelationshipException {
+		this.idoAddTo(group, EXL_GROUPS_LIST);
+	}
+
+	@Override
+	public void removeExcludedGroup(Group group) throws IDORemoveRelationshipException {
+		this.idoRemoveFrom(group, EXL_GROUPS_LIST);
+	}
+
+
+	@Override
+	public void removeAllExcludedGroups() throws IDORemoveRelationshipException {
+		Collection<Group> groups = getAllExcludedGroups();
+		if (ListUtil.isEmpty(groups))
+			return;
+
+		for (Group group : groups) {
+			removeExcludedGroup(group);
+		}
+
+		store();
+	}
+
+	@Override
+	public Collection<Group> getAllExcludedGroups() {
+		try {
+			return this.idoGetRelatedEntitiesBySQL(Group.class, "select groups.ic_group_id from " + EXL_GROUPS_LIST + " groups, " +
+					getPeriodEntityName() + " periods where groups." + getIDColumnName() + " = periods." + getIDColumnName() +
+					" and periods." + getIDColumnName() + " = " + getID());
+		} catch (IDORelationshipException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 
 }
