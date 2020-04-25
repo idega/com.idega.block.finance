@@ -26,7 +26,15 @@ import com.idega.user.data.bean.Group;
 	@NamedQuery(name = Period.GET_ALL,
 				query = "from Period p order by p.id"),
 	@NamedQuery(name = Period.GET_BY_CONFIRMATION_DATE,
-				query = "from Period p where p.confirmationDate > :confirmationDate order by p.id")
+				query = "from Period p where p.confirmationDate > :confirmationDate order by p.id"),
+	@NamedQuery(
+			name = Period.QUERY_FIND_VALID_FOR_CLUB,
+			query = "SELECT p FROM Period p\n"
+					+ "JOIN p.club c\n"
+					+ "WHERE CURRENT_TIMESTAMP > p.fromDate\n"
+					+ "AND CURRENT_TIMESTAMP < p.toDate\n"
+					+ "AND c.groupID = :club\n"
+	)
 })
 public class Period implements Serializable {
 	private static final long serialVersionUID = -836514393694719755L;
@@ -45,6 +53,7 @@ public class Period implements Serializable {
 
 	public static final String GET_ALL = "getAll";
 	public static final String GET_BY_CONFIRMATION_DATE = "getByConfirmationDate";
+	public static final String QUERY_FIND_VALID_FOR_CLUB = "findValidForClub";
 
 	public static final String PARAM_CONFIRMATION_DATE = "confirmationDate";
 
