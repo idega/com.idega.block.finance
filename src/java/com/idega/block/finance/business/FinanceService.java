@@ -258,4 +258,6 @@ public interface FinanceService extends IBOService {
 
 	public Price updatePrice(Integer priceId, Integer periodId, Integer ageFrom, Integer ageTo, Float price, String name);
 
+	public Collection<Period> getAllPeriodsByGroupAndDate(Integer groupId, Timestamp timestamp);
+
 }

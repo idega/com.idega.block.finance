@@ -9,5 +9,5 @@ public interface PeriodHome extends com.idega.data.IDOHome {
 
  	public Period findByGroupAndDate(Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException;
  	public java.util.Collection findByGroup(Integer groupId) throws javax.ejb.FinderException;
-
+ 	public java.util.Collection findAllByGroupAndDate(java.lang.Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException;
 }

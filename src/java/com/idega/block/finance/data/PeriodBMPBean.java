@@ -186,6 +186,32 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	  return idoFindOnePKByQuery(sql);
   }
 
+  public Collection ejbFindAllByGroupAndDate(Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException {
+		IDOQuery sql = idoQuery();
+		sql.appendSelectAllFrom(this);
+
+		sql.appendWhere();
+		sql.append(1);
+		sql.appendEqualSign();
+		sql.append(1);
+
+		sql.appendAndIsNotNull(getColumnGroup());
+		sql.appendAndEquals(getColumnGroup(), groupId);
+
+		sql.appendAnd();
+		sql.append(CoreConstants.SPACE);
+		sql.append(timestamp);
+		sql.appendGreaterThanOrEqualsSign();
+		sql.append(getColumnFromDate());
+		sql.appendAnd();
+		sql.append(CoreConstants.SPACE);
+		sql.append(timestamp);
+		sql.appendLessThanOrEqualsSign();
+		sql.append(getColumnToDate());
+
+	  return idoFindPKsByQuery(sql);
+  }
+
 
   public Collection ejbFindByGroup(Integer groupId)throws FinderException{
   	return super.idoFindPKsByQuery(super.idoQueryGetSelect().appendWhereEquals(getColumnGroup(), groupId).appendOrderBy(getColumnName()));

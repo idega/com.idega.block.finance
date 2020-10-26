@@ -466,6 +466,16 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 	}
 
 	@Override
+	public Collection<Period> getAllPeriodsByGroupAndDate(Integer groupId, Timestamp timestamp) {
+		try {
+			return getPeriodHome().findAllByGroupAndDate(groupId, timestamp);
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Could not get the periods by groupId: " + groupId + " and timestamp: " + timestamp, e);
+		}
+		return null;
+	}
+
+	@Override
 	public Period updatePeriod(Integer periodId, Integer groupId, Integer divisionId, Integer clubId, String name, Timestamp fromDate, Timestamp toDate, String virtualGroup) {
 		try {
 			Period period = null;
