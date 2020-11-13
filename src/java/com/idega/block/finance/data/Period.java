@@ -29,6 +29,8 @@ public interface Period extends com.idega.data.IDOEntity
 	 public void setToDate(java.sql.Timestamp toDate);
 	 public Timestamp getConfirmationDate();
 	 public void setConfirmationDate(Timestamp confirmationDate);
+	 public boolean getControlsMembership();
+	 public void setControlsMembership(boolean p0);
 
 
 	 public void addGroupToExclude(Group group) throws IDOAddRelationshipException;

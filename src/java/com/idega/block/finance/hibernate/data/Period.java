@@ -16,6 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.idega.user.data.bean.Group;
 
@@ -36,6 +37,7 @@ import com.idega.user.data.bean.Group;
 					+ "AND c.groupID = :club\n"
 	)
 })
+@XmlTransient
 public class Period implements Serializable {
 	private static final long serialVersionUID = -836514393694719755L;
 
@@ -50,6 +52,7 @@ public class Period implements Serializable {
 	private static final String COLUMN_TO_DATE = "TO_DATE";
 	private static final String COLUMN_VIRTUAL_GROUP = "VIRTUAL_GROUP";  //1. OPTION Putting the real groups hidden under the virtual group separated by COMMA //2. OPTION <club id or division id or union id>;<group type as: iwme_club>;<virtual group id as: general-members>
 	private static final String COLUMN_CONFIRMATION_DATE = "CONFIRMATION_DATE";
+	private static final String COLUMN_CONTROLS_MEMBERSHIP = "controls_membership";
 
 	public static final String GET_ALL = "getAll";
 	public static final String GET_BY_CONFIRMATION_DATE = "getByConfirmationDate";
@@ -91,6 +94,9 @@ public class Period implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = COLUMN_CONFIRMATION_DATE)
 	private Date confirmationDate;
+
+	@Column(name = COLUMN_CONTROLS_MEMBERSHIP)
+	private Boolean controlsMembership;
 
 	public Long getId() {
 		return id;
@@ -162,6 +168,14 @@ public class Period implements Serializable {
 
 	public void setConfirmationDate(Date confirmationDate) {
 		this.confirmationDate = confirmationDate;
+	}
+
+	public Boolean getControlsMembership() {
+		return controlsMembership;
+	}
+
+	public void setControlsMembership(Boolean controlsMembership) {
+		this.controlsMembership = controlsMembership;
 	}
 
 

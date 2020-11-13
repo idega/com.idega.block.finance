@@ -38,6 +38,7 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	    addAttribute(getColumnFromDate(),"From date",true,true,java.sql.Timestamp.class);
 	    addAttribute(getColumnToDate(),"To date",true,true,java.sql.Timestamp.class);
 	    addAttribute(getColumnConfirmationDate(),"Confirmation date",true,true,java.sql.Timestamp.class);
+	    addAttribute(getColumnControlsMembership(),"Controls membership",true,true,java.lang.Boolean.class);
 
 		addManyToManyRelationShip(Group.class, EXL_GROUPS_LIST);
 
@@ -52,6 +53,7 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
     public static String getColumnFromDate(){return "FROM_DATE";}
     public static String getColumnToDate(){return "TO_DATE";}
     public static String getColumnConfirmationDate(){return "CONFIRMATION_DATE";}
+    public static String getColumnControlsMembership(){return "controls_membership";}
 
   @Override
   public String getEntityName() {
@@ -159,6 +161,17 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
  public void setConfirmationDate(Timestamp confirmationDate){
    setColumn(getColumnConfirmationDate(), confirmationDate);
  }
+
+ @Override
+ public void setControlsMembership(boolean controlsMembership){
+    setColumn(getColumnControlsMembership(), controlsMembership);
+ }
+
+ @Override
+ public boolean getControlsMembership(){
+    return getBooleanColumnValue(getColumnControlsMembership(), false);
+ }
+
 
   public Object ejbFindByGroupAndDate(Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException {
 		IDOQuery sql = idoQuery();
