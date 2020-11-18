@@ -260,4 +260,6 @@ public interface FinanceService extends IBOService {
 
 	public Collection<Period> getAllPeriodsByGroupAndDate(Integer groupId, Timestamp timestamp);
 
+	public Period getCurrentPeriod(Integer clubId);
+
 }

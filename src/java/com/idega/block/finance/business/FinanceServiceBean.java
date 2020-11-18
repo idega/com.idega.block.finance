@@ -58,6 +58,7 @@ import com.idega.block.finance.data.TariffKeyHome;
 import com.idega.business.IBOServiceBean;
 import com.idega.data.IDOException;
 import com.idega.util.IWTimestamp;
+import com.idega.util.ListUtil;
 /**
  * FinanceServiceBean
  *
@@ -156,11 +157,11 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 	}
 	@Override
 	public AssessmentBusiness getFinanceBusiness() throws RemoteException {
-		return (AssessmentBusiness) getServiceInstance(AssessmentBusiness.class);
+		return getServiceInstance(AssessmentBusiness.class);
 	}
 	@Override
 	public AccountBusiness getAccountBusiness() throws RemoteException {
-		return (AccountBusiness) getServiceInstance(AccountBusiness.class);
+		return getServiceInstance(AccountBusiness.class);
 	}
 	@Override
 	public void removeAccountKey(Integer keyID) throws FinderException, RemoteException, RemoveException {
@@ -476,12 +477,49 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 	}
 
 	@Override
-	public Period updatePeriod(Integer periodId, Integer groupId, Integer divisionId, Integer clubId, String name, Timestamp fromDate, Timestamp toDate, String virtualGroup, Boolean controlsMembership) {
+	public Period getCurrentPeriod(Integer clubId) {
+		if (clubId == null) {
+			return null;
+		}
+
 		try {
-			Period period = null;
+			Collection<Period> periods = getAllPeriodsByGroupAndDate(clubId, new Timestamp(System.currentTimeMillis()));
+			if (ListUtil.isEmpty(periods)) {
+				return null;
+			}
+
+			for (Period period: periods) {
+				if (period != null && period.getControlsMembership()) {
+					return period;
+				}
+			}
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Error getting current period for club " + clubId, e);
+		}
+
+		return null;
+	}
+
+	@Override
+	public Period updatePeriod(
+			Integer periodId,
+			Integer groupId,
+			Integer divisionId,
+			Integer clubId,
+			String name,
+			Timestamp fromDate,
+			Timestamp toDate,
+			String virtualGroup,
+			Boolean controlsMembership
+	) {
+		Period period = null;
+		try {
 			if (periodId != null && periodId > 0) {
-				period = getPeriodHome().findByPrimaryKey(periodId);
-			} else {
+				try {
+					period = getPeriodHome().findByPrimaryKey(periodId);
+				} catch (Exception e) {}
+			}
+			if (period == null) {
 				period = getPeriodHome().create();
 			}
 
@@ -493,18 +531,17 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			period.setToDate(toDate);
 			period.setVirtualGroup(virtualGroup);
 			if (controlsMembership != null) {
-				period.setControlsMembership(controlsMembership.booleanValue());
+				period.setControlsMembership(controlsMembership);
 			}
 
 			period.store();
 
 			return period;
 		} catch (Exception e) {
-			getLogger().log(Level.WARNING, "Could not update/create the period: " , e);
+			getLogger().log(Level.WARNING, "Could not update/create the period " + period + ", club: " + clubId, e);
 		}
 		return null;
 	}
-
 
 	@Override
 	public void removePrice(Integer priceId) throws FinderException, RemoteException, RemoveException {
