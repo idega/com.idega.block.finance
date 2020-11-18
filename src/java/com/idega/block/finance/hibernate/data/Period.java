@@ -24,17 +24,18 @@ import com.idega.user.data.bean.Group;
 @Cacheable
 @Table(name = Period.TABLE_NAME)
 @NamedQueries({
-	@NamedQuery(name = Period.GET_ALL,
-				query = "from Period p order by p.id"),
-	@NamedQuery(name = Period.GET_BY_CONFIRMATION_DATE,
-				query = "from Period p where p.confirmationDate > :confirmationDate order by p.id"),
+	@NamedQuery(
+			name = Period.GET_ALL,
+			query = "from Period p order by p.id"
+	),
+	@NamedQuery(
+			name = Period.GET_BY_CONFIRMATION_DATE,
+			query = "from Period p where p.confirmationDate > :confirmationDate order by p.id"
+	),
 	@NamedQuery(
 			name = Period.QUERY_FIND_VALID_FOR_CLUB,
-			query = "SELECT p FROM Period p\n"
-					+ "JOIN p.club c\n"
-					+ "WHERE CURRENT_TIMESTAMP > p.fromDate\n"
-					+ "AND CURRENT_TIMESTAMP < p.toDate\n"
-					+ "AND c.groupID = :club\n"
+			query = "SELECT p FROM Period p JOIN p.club c WHERE CURRENT_TIMESTAMP > p.fromDate AND CURRENT_TIMESTAMP <= p.toDate AND c.groupID = :club " +
+			"AND p.controlsMembership = :controlsMembership order by p.toDate desc"
 	)
 })
 @XmlTransient
