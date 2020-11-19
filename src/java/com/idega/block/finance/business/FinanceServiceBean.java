@@ -479,12 +479,14 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 	@Override
 	public Period getCurrentPeriod(Integer clubId) {
 		if (clubId == null) {
+			getLogger().warning("Club ID is not provided");
 			return null;
 		}
 
 		try {
 			Collection<Period> periods = getAllPeriodsByGroupAndDate(clubId, new Timestamp(System.currentTimeMillis()));
 			if (ListUtil.isEmpty(periods)) {
+				getLogger().warning("There are no valid periods for club " + clubId);
 				return null;
 			}
 
@@ -493,6 +495,8 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 					return period;
 				}
 			}
+
+			getLogger().warning("Failed to find period that controls membership for club " + clubId);
 		} catch (Exception e) {
 			getLogger().log(Level.WARNING, "Error getting current period for club " + clubId, e);
 		}
