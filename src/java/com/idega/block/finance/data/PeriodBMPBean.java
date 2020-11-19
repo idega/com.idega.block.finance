@@ -208,10 +208,9 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 		sql.appendEqualSign();
 		sql.append(1);
 
-		sql.append(" and ((")
-			.appendAndIsNotNull(getColumnGroup())
-			.appendAndEquals(getColumnGroup(), groupId)
-			.append(") or ")
+		sql.append(" and (")
+			.appendEquals(getColumnGroup(), groupId)
+			.append(" or ")
 			.appendEquals(getColumnClub(), groupId);
 		sql.append(") ");
 
