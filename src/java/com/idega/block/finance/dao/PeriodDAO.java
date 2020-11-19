@@ -18,4 +18,6 @@ public interface PeriodDAO extends GenericDao {
 
 	public List<Period> getPeriodsByConfirmationDate(Date confirmationDate);
 
+	public Period getCurrentPeriodForClub(Integer clubId);
+
 }

@@ -13,6 +13,7 @@ import com.idega.block.finance.dao.PeriodDAO;
 import com.idega.block.finance.hibernate.data.Period;
 import com.idega.core.persistence.Param;
 import com.idega.core.persistence.impl.GenericDaoImpl;
+import com.idega.util.ListUtil;
 
 @Repository(PeriodDAO.BEAN_NAME)
 @Scope(BeanDefinition.SCOPE_SINGLETON)
@@ -54,6 +55,33 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 		} catch (Exception e) {
 			getLogger().log(Level.WARNING, "Error getting periods by confirmation date: " + confirmationDate, e);
 		}
+		return null;
+	}
+
+	@Override
+	public Period getCurrentPeriodForClub(Integer clubId) {
+		if (clubId == null) {
+			getLogger().warning("Club ID is not provided");
+			return null;
+		}
+
+		try {
+			List<Period> seasons = getResultList(
+					Period.QUERY_FIND_VALID_FOR_CLUB,
+					Period.class,
+					new Param("club", clubId),
+					new Param("controlsMembership", Boolean.TRUE)
+			);
+			if (ListUtil.isEmpty(seasons)) {
+				getLogger().log(Level.WARNING, "Club (" + clubId + ") has no season for current date");
+				return null;
+			}
+
+			return seasons.iterator().next();
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Error getting current fiscal season for club " + clubId, e);
+		}
+
 		return null;
 	}
 
