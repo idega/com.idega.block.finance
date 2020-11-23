@@ -208,8 +208,11 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 		sql.appendEqualSign();
 		sql.append(1);
 
-		sql.appendAndIsNotNull(getColumnGroup());
-		sql.appendAndEquals(getColumnGroup(), groupId);
+		sql.append(" and (")
+			.appendEquals(getColumnGroup(), groupId)
+			.append(" or ")
+			.appendEquals(getColumnClub(), groupId);
+		sql.append(") ");
 
 		sql.appendAnd();
 		sql.append(CoreConstants.SPACE);
@@ -222,9 +225,10 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 		sql.appendLessThanOrEqualsSign();
 		sql.append(getColumnToDate());
 
+		sql.appendOrderByDescending(getColumnToDate());
+
 	  return idoFindPKsByQuery(sql);
   }
-
 
   public Collection ejbFindByGroup(Integer groupId)throws FinderException{
   	return super.idoFindPKsByQuery(super.idoQueryGetSelect().appendWhereEquals(getColumnGroup(), groupId).appendOrderBy(getColumnName()));
