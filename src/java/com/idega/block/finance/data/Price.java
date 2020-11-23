@@ -13,5 +13,7 @@ public interface Price extends com.idega.data.IDOEntity
 	 public void setAgeFrom(Integer ageFrom);
 	 public void setAgeTo(Integer ageTo);
 	 public void setPrice(Float price);
+	 public String getType();
+	 public void setType(String type);
 
 }

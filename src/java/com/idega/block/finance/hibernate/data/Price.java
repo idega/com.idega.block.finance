@@ -31,6 +31,7 @@ public class Price implements Serializable {
 	private static final String COLUMN_AGE_FROM = "AGE_FROM";
 	private static final String COLUMN_AGE_TO = "AGE_TO";
 	private static final String COLUMN_PRICE = "PRICE";
+	private static final String COLUMN_TYPE = "TYPE";
 
 	public static final String GET_PRICES_BY_PERIOD_ID = "getPricesByPeriodId";
 	public static final String PARAM_PERIOD_ID = "periodId";
@@ -55,6 +56,9 @@ public class Price implements Serializable {
 
 	@Column(name = COLUMN_PRICE)
 	private Double price;
+
+	@Column(name = COLUMN_TYPE)
+	private String type;
 
 	public Long getId() {
 		return id;
@@ -102,6 +106,14 @@ public class Price implements Serializable {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 

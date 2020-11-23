@@ -29,6 +29,7 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
 	    addAttribute(getColumnAgeFrom(),"Age from",true,true,Integer.class);
 	    addAttribute(getColumnAgeTo(),"Age to",true,true,Integer.class);
 	    addAttribute(getColumnPrice(),"Price",true,true,Float.class);
+	    addAttribute(getColumnType(),"Type",true,true,java.lang.String.class);
     }
 
 	public static String getPriceEntityName() {return "FIN_PRICE";}
@@ -37,6 +38,7 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
     public static String getColumnAgeFrom() {return "AGE_FROM";}
     public static String getColumnAgeTo() {return "AGE_TO";}
 	public static String getColumnPrice() {return "PRICE";}
+	public static String getColumnType() {return "TYPE";}
 
   @Override
   public String getEntityName() {
@@ -91,6 +93,16 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
   @Override
   public void setPrice(Float price){
     setColumn(getColumnPrice(), price);
+  }
+
+  @Override
+  public String getType(){
+    return getStringColumnValue(getColumnType());
+  }
+
+  @Override
+  public void setType(String type){
+    setColumn(getColumnType(), type);
   }
 
   public Object ejbFindByPeriodAndAge(Integer periodId, Integer age) throws javax.ejb.FinderException {
