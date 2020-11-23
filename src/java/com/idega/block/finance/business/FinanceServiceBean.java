@@ -17,6 +17,7 @@ import javax.ejb.CreateException;
 import javax.ejb.FinderException;
 import javax.ejb.RemoveException;
 
+import com.idega.block.finance.dao.PeriodDAO;
 import com.idega.block.finance.data.Account;
 import com.idega.block.finance.data.AccountBMPBean;
 import com.idega.block.finance.data.AccountEntry;
@@ -59,6 +60,7 @@ import com.idega.business.IBOServiceBean;
 import com.idega.data.IDOException;
 import com.idega.util.IWTimestamp;
 import com.idega.util.ListUtil;
+import com.idega.util.expression.ELUtil;
 /**
  * FinanceServiceBean
  *
@@ -496,7 +498,13 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 				}
 			}
 
-			getLogger().warning("Failed to find period that controls membership for club " + clubId);
+			PeriodDAO periodDAO = ELUtil.getInstance().getBean(PeriodDAO.class);
+			com.idega.block.finance.hibernate.data.Period period = periodDAO.getCurrentPeriodForClub(clubId);
+			if (period != null) {
+				return getPeriodHome().findByPrimaryKey(period.getId().intValue());
+			}
+
+			getLogger().warning("Failed to find period that controls membership for club " + clubId + ". Club's periods: " + periods);
 		} catch (Exception e) {
 			getLogger().log(Level.WARNING, "Error getting current period for club " + clubId, e);
 		}
