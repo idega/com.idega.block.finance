@@ -21,7 +21,7 @@ import com.idega.util.ListUtil;
 public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 
 	@Override
-	public Period getById(Long periodId) {
+	public Period getById(Integer periodId) {
 		try {
 			return find(Period.class, periodId);
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 					new Param("controlsMembership", Boolean.TRUE)
 			);
 			if (ListUtil.isEmpty(seasons)) {
-				getLogger().log(Level.WARNING, "Club (" + clubId + ") has no season for current date");
+				getLogger().log(Level.WARNING, "Club (" + clubId + ") has no financial period that controls membership for current date");
 				return null;
 			}
 

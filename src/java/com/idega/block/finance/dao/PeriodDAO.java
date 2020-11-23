@@ -12,7 +12,7 @@ public interface PeriodDAO extends GenericDao {
 
 	public static final String BEAN_NAME = "periodDao";
 
-	public Period getById(Long periodId);
+	public Period getById(Integer periodId);
 
 	public List<Period> getAllPeriods();
 

@@ -42,9 +42,9 @@ import com.idega.user.data.bean.Group;
 public class Period implements Serializable {
 	private static final long serialVersionUID = -836514393694719755L;
 
-	public static final String TABLE_NAME = "FIN_PERIOD";
+	public static final String	TABLE_NAME = "FIN_PERIOD",
+								COLUMN_ID = "FIN_PERIOD_ID";
 
-	private static final String COLUMN_ID = "FIN_PERIOD_ID";
 	private static final String COLUMN_GROUP_ID = "GROUP_ID";
 	private static final String COLUMN_DIVISION_ID = "DIVISION_ID";
 	private static final String COLUMN_CLUB_ID = "CLUB_ID";
@@ -64,7 +64,7 @@ public class Period implements Serializable {
 	@Id
 	@Column(name = COLUMN_ID)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Integer id;
 
 	@ManyToOne
 	@JoinColumn(name = COLUMN_GROUP_ID)
@@ -99,11 +99,11 @@ public class Period implements Serializable {
 	@Column(name = COLUMN_CONTROLS_MEMBERSHIP)
 	private Boolean controlsMembership;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -179,7 +179,9 @@ public class Period implements Serializable {
 		this.controlsMembership = controlsMembership;
 	}
 
-
-
+	@Override
+	public String toString() {
+		return "ID: " + getId() + ", controls membership: " + getControlsMembership();
+	}
 
 }
