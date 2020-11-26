@@ -1,5 +1,6 @@
 package com.idega.block.finance.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -114,6 +115,42 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 			getLogger().log(Level.WARNING, "Error getting current fiscal period for club " + clubId, e);
 		}
 
+		return null;
+	}
+
+	@Override
+	public List<Period> getAllValidPeriods(Boolean controlsMembership) {
+		try {
+			List<Period> periods = getAllPeriods();
+			if (ListUtil.isEmpty(periods) || controlsMembership == null) {
+				return periods;
+			}
+
+			long now = System.currentTimeMillis();
+			List<Period> filtered = new ArrayList<>();
+			for (Period period: periods) {
+				Boolean controls = period.getControlsMembership();
+				if (controls == null) {
+					continue;
+				}
+
+				Date from = period.getFromDate();
+				Date to = period.getToDate();
+				if (from == null || to == null) {
+					continue;
+				}
+
+				if (now >= from.getTime() && now <= to.getTime()) {
+					if (controlsMembership.booleanValue() == controls.booleanValue()) {
+						filtered.add(period);
+					}
+				}
+			}
+
+			return filtered;
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Error getting all valid periods controlling membership : " + controlsMembership, e);
+		}
 		return null;
 	}
 
