@@ -487,14 +487,11 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 
 		try {
 			Collection<Period> periods = getAllPeriodsByGroupAndDate(clubId, new Timestamp(System.currentTimeMillis()));
-			if (ListUtil.isEmpty(periods)) {
-				getLogger().warning("There are no valid periods for club " + clubId);
-				return null;
-			}
-
-			for (Period period: periods) {
-				if (period != null && period.getControlsMembership()) {
-					return period;
+			if (!ListUtil.isEmpty(periods)) {
+				for (Period period: periods) {
+					if (period != null && period.getControlsMembership()) {
+						return period;
+					}
 				}
 			}
 
