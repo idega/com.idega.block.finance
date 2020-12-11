@@ -1,9 +1,13 @@
 package com.idega.block.finance.dao.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -14,12 +18,17 @@ import com.idega.block.finance.hibernate.data.Period;
 import com.idega.core.persistence.Param;
 import com.idega.core.persistence.impl.GenericDaoImpl;
 import com.idega.util.CoreConstants;
+import com.idega.user.dao.GroupDAO;
+import com.idega.user.data.GroupTypeConstants;
 import com.idega.util.ListUtil;
 
 @Repository(PeriodDAO.BEAN_NAME)
 @Scope(BeanDefinition.SCOPE_SINGLETON)
 @Transactional(readOnly = true)
 public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
+
+	@Autowired
+	private GroupDAO groupDAO;
 
 	@Override
 	public Period getById(Integer periodId) {
@@ -67,6 +76,30 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 		}
 
 		try {
+			Period period = getPeriod(clubId);
+			if (period == null) {
+				List<Integer> clubsIds = groupDAO.getParentGroupsIdsRecursive(Arrays.asList(clubId), Arrays.asList(GroupTypeConstants.GROUP_TYPE_CLUB));
+				if (!ListUtil.isEmpty(clubsIds)) {
+					for (Iterator<Integer> iter = clubsIds.iterator(); (iter.hasNext() && period == null);) {
+						clubId = iter.next();
+						period = getPeriod(clubId);
+					}
+				}
+			}
+
+			if (period != null) {
+				getLogger().info("Found period " + period + " for club " + clubId);
+			}
+			return period;
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Error getting current fiscal season for club " + clubId, e);
+		}
+
+		return null;
+	}
+
+	private Period getPeriod(Integer clubId) {
+		try {
 			List<Period> seasons = getResultList(
 					Period.QUERY_FIND_VALID_FOR_CLUB,
 					Period.class,
@@ -80,7 +113,7 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 
 			return seasons.iterator().next();
 		} catch (Exception e) {
-			getLogger().log(Level.WARNING, "Error getting current fiscal season for club " + clubId, e);
+			getLogger().log(Level.WARNING, "Error getting current fiscal period for club " + clubId, e);
 		}
 
 		return null;
@@ -118,5 +151,41 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 
 	}
 
+
+	@Override
+	public List<Period> getAllValidPeriods(Boolean controlsMembership) {
+		try {
+			List<Period> periods = getAllPeriods();
+			if (ListUtil.isEmpty(periods) || controlsMembership == null) {
+				return periods;
+			}
+
+			long now = System.currentTimeMillis();
+			List<Period> filtered = new ArrayList<>();
+			for (Period period: periods) {
+				Boolean controls = period.getControlsMembership();
+				if (controls == null) {
+					continue;
+				}
+
+				Date from = period.getFromDate();
+				Date to = period.getToDate();
+				if (from == null || to == null) {
+					continue;
+				}
+
+				if (now >= from.getTime() && now <= to.getTime()) {
+					if (controlsMembership.booleanValue() == controls.booleanValue()) {
+						filtered.add(period);
+					}
+				}
+			}
+
+			return filtered;
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Error getting all valid periods controlling membership : " + controlsMembership, e);
+		}
+		return null;
+	}
 
 }

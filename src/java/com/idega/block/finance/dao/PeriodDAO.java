@@ -24,4 +24,6 @@ public interface PeriodDAO extends GenericDao {
 
 	public Period createUpdatePeriod(Period period);
 
+	public List<Period> getAllValidPeriods(Boolean controlsMembership);
+
 }

@@ -34,8 +34,8 @@ import com.idega.user.data.bean.Group;
 	),
 	@NamedQuery(
 			name = Period.QUERY_FIND_VALID_FOR_CLUB,
-			query = "SELECT p FROM Period p JOIN p.club c WHERE CURRENT_TIMESTAMP > p.fromDate AND CURRENT_TIMESTAMP <= p.toDate AND c.groupID = :club " +
-			"AND p.controlsMembership = :controlsMembership order by p.toDate desc"
+			query = "SELECT p FROM Period p JOIN p.club c WHERE CURRENT_TIMESTAMP >= p.fromDate AND CURRENT_TIMESTAMP <= p.toDate AND c.groupID = :club " +
+			"AND p.controlsMembership = :" + Period.PARAM_CONTROLS_MEMBERSHIP + " order by p.toDate desc"
 	),
 	@NamedQuery(
 			name = Period.GET_ALL_INFINITE,
@@ -60,12 +60,13 @@ public class Period implements Serializable {
 	private static final String COLUMN_CONTROLS_MEMBERSHIP = "controls_membership";
 	private static final String COLUMN_GENERATED_PAYMENTS_DATE = "GENERATED_PAYMENTS_DATE";
 
-	public static final String GET_ALL = "getAll";
-	public static final String GET_BY_CONFIRMATION_DATE = "getByConfirmationDate";
-	public static final String QUERY_FIND_VALID_FOR_CLUB = "findValidForClub";
+	public static final String	GET_ALL = "getAll",
+								GET_BY_CONFIRMATION_DATE = "getByConfirmationDate",
+								QUERY_FIND_VALID_FOR_CLUB = "findValidForClub";
 	public static final String GET_ALL_INFINITE = "Period.getAllInfinite";
 
-	public static final String PARAM_CONFIRMATION_DATE = "confirmationDate";
+	public static final String	PARAM_CONFIRMATION_DATE = "confirmationDate",
+								PARAM_CONTROLS_MEMBERSHIP = "controlsMembership";
 
 	@Id
 	@Column(name = COLUMN_ID)
