@@ -12,6 +12,7 @@ import com.idega.data.IDORelationshipException;
 import com.idega.data.IDORemoveRelationshipException;
 import com.idega.user.data.Group;
 import com.idega.util.CoreConstants;
+import com.idega.util.IWTimestamp;
 import com.idega.util.ListUtil;
 
 public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.idega.block.finance.data.Period {
@@ -39,6 +40,7 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	    addAttribute(getColumnToDate(),"To date",true,true,java.sql.Timestamp.class);
 	    addAttribute(getColumnConfirmationDate(),"Confirmation date",true,true,java.sql.Timestamp.class);
 	    addAttribute(getColumnControlsMembership(),"Controls membership",true,true,java.lang.Boolean.class);
+	    addAttribute(getColumnToDate(),"Generated payments date",true,true,java.sql.Timestamp.class);
 
 		addManyToManyRelationShip(Group.class, EXL_GROUPS_LIST);
 
@@ -54,6 +56,7 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
     public static String getColumnToDate(){return "TO_DATE";}
     public static String getColumnConfirmationDate(){return "CONFIRMATION_DATE";}
     public static String getColumnControlsMembership(){return "controls_membership";}
+    public static String getColumnGeneratedPaymentsDate(){return "GENERATED_PAYMENTS_DATE";}
 
   @Override
   public String getEntityName() {
@@ -173,6 +176,17 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
  }
 
 
+ @Override
+ public Timestamp getGeneratedPaymentsDate(){
+  return (Timestamp) getColumnValue(getColumnGeneratedPaymentsDate());
+}
+
+@Override
+public void setGeneratedPaymentsDate(Timestamp generatedPaymentsDate){
+  setColumn(getColumnGeneratedPaymentsDate(), generatedPaymentsDate);
+}
+
+
   public Object ejbFindByGroupAndDate(Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException {
 		IDOQuery sql = idoQuery();
 		sql.appendSelectAllFrom(this);
@@ -203,6 +217,23 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 		IDOQuery sql = idoQuery();
 		sql.appendSelectAllFrom(this);
 
+		Timestamp timestampFrom = null;
+		Timestamp timestampTo = null;
+		if (timestamp != null) {
+			IWTimestamp timestampFromIWT = new IWTimestamp(timestamp);
+			IWTimestamp timestampToIWT = new IWTimestamp(timestamp);
+			timestampFromIWT.setHour(23);
+			timestampFromIWT.setMinute(59);
+			timestampFromIWT.setSecond(59);
+			timestampFrom = timestampFromIWT.getTimestamp();
+
+			timestampToIWT.setHour(0);
+			timestampToIWT.setMinute(0);
+			timestampToIWT.setSecond(0);
+			timestampTo = timestampToIWT.getTimestamp();
+		}
+
+
 		sql.appendWhere();
 		sql.append(1);
 		sql.appendEqualSign();
@@ -214,16 +245,20 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 			.appendEquals(getColumnClub(), groupId);
 		sql.append(") ");
 
-		sql.appendAnd();
-		sql.append(CoreConstants.SPACE);
-		sql.append(timestamp);
-		sql.appendGreaterThanOrEqualsSign();
-		sql.append(getColumnFromDate());
-		sql.appendAnd();
-		sql.append(CoreConstants.SPACE);
-		sql.append(timestamp);
-		sql.appendLessThanOrEqualsSign();
-		sql.append(getColumnToDate());
+		if (timestampFrom != null) {
+			sql.appendAnd();
+			sql.append(CoreConstants.SPACE);
+			sql.append(timestampFrom);
+			sql.appendGreaterThanOrEqualsSign();
+			sql.append(getColumnFromDate());
+		}
+		if (timestampTo != null) {
+			sql.appendAnd();
+			sql.append(CoreConstants.SPACE);
+			sql.append(timestampTo);
+			sql.appendLessThanOrEqualsSign();
+			sql.append(getColumnToDate());
+		}
 
 		sql.appendOrderByDescending(getColumnToDate());
 
@@ -269,6 +304,28 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 		}
 		return null;
 	}
+
+
+	  public Collection ejbFindAllByGroupAndControlsMembership(Integer groupId, Boolean controlsMembership) throws javax.ejb.FinderException {
+			IDOQuery sql = idoQuery();
+			sql.appendSelectAllFrom(this);
+
+			sql.appendWhere();
+			sql.append(1);
+			sql.appendEqualSign();
+			sql.append(1);
+
+			sql.appendAndIsNotNull(getColumnGroup());
+			sql.appendAndEquals(getColumnGroup(), groupId);
+
+			if (controlsMembership != null) {
+				sql.appendAnd();
+				sql.append(CoreConstants.SPACE);
+				sql.appendEquals(getColumnControlsMembership(), controlsMembership.booleanValue());
+			}
+
+		  return idoFindPKsByQuery(sql);
+	  }
 
 
 }

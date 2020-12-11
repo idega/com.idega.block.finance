@@ -36,6 +36,10 @@ import com.idega.user.data.bean.Group;
 			name = Period.QUERY_FIND_VALID_FOR_CLUB,
 			query = "SELECT p FROM Period p JOIN p.club c WHERE CURRENT_TIMESTAMP > p.fromDate AND CURRENT_TIMESTAMP <= p.toDate AND c.groupID = :club " +
 			"AND p.controlsMembership = :controlsMembership order by p.toDate desc"
+	),
+	@NamedQuery(
+			name = Period.GET_ALL_INFINITE,
+			query = "SELECT p FROM Period p WHERE p.toDate IS NULL order by p.id asc"
 	)
 })
 @XmlTransient
@@ -54,10 +58,12 @@ public class Period implements Serializable {
 	private static final String COLUMN_VIRTUAL_GROUP = "VIRTUAL_GROUP";  //1. OPTION Putting the real groups hidden under the virtual group separated by COMMA //2. OPTION <club id or division id or union id>;<group type as: iwme_club>;<virtual group id as: general-members>
 	private static final String COLUMN_CONFIRMATION_DATE = "CONFIRMATION_DATE";
 	private static final String COLUMN_CONTROLS_MEMBERSHIP = "controls_membership";
+	private static final String COLUMN_GENERATED_PAYMENTS_DATE = "GENERATED_PAYMENTS_DATE";
 
 	public static final String GET_ALL = "getAll";
 	public static final String GET_BY_CONFIRMATION_DATE = "getByConfirmationDate";
 	public static final String QUERY_FIND_VALID_FOR_CLUB = "findValidForClub";
+	public static final String GET_ALL_INFINITE = "Period.getAllInfinite";
 
 	public static final String PARAM_CONFIRMATION_DATE = "confirmationDate";
 
@@ -96,8 +102,12 @@ public class Period implements Serializable {
 	@Column(name = COLUMN_CONFIRMATION_DATE)
 	private Date confirmationDate;
 
-	@Column(name = COLUMN_CONTROLS_MEMBERSHIP)
-	private Boolean controlsMembership;
+	@Column(name = COLUMN_CONTROLS_MEMBERSHIP, length = 1)
+	private Character controlsMembership;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = COLUMN_GENERATED_PAYMENTS_DATE)
+	private Date generatedPaymentsDate;
 
 	public Integer getId() {
 		return id;
@@ -172,11 +182,22 @@ public class Period implements Serializable {
 	}
 
 	public Boolean getControlsMembership() {
-		return controlsMembership;
+		if (this.controlsMembership == null) {
+			return false;
+		}
+		return this.controlsMembership == 'Y';
 	}
 
 	public void setControlsMembership(Boolean controlsMembership) {
-		this.controlsMembership = controlsMembership;
+		this.controlsMembership = controlsMembership ? 'Y' : 'N';
+	}
+
+	public Date getGeneratedPaymentsDate() {
+		return generatedPaymentsDate;
+	}
+
+	public void setGeneratedPaymentsDate(Date generatedPaymentsDate) {
+		this.generatedPaymentsDate = generatedPaymentsDate;
 	}
 
 	@Override

@@ -264,4 +264,5 @@ public interface FinanceService extends IBOService {
 
 	public Period getCurrentPeriod(Integer clubId);
 
+	public Collection<Period> getAllPeriodsByGroupAndControlsMembership(Integer groupId, Boolean controlsMembership);
 }

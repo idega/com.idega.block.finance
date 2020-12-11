@@ -12,5 +12,5 @@ public interface PriceDAO extends GenericDao {
 	public static final String BEAN_NAME = "priceDao";
 
 	public Price getById(Long priceId);
-	public List<Price> getAllByPeriodId(Long periodId);
+	public List<Price> getAllByPeriodId(Integer periodId);
 }

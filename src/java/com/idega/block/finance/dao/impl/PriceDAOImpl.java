@@ -31,7 +31,7 @@ public class PriceDAOImpl extends GenericDaoImpl implements PriceDAO {
 
 
 	@Override
-	public List<Price> getAllByPeriodId(Long periodId) {
+	public List<Price> getAllByPeriodId(Integer periodId) {
 		if (periodId == null) {
 			return null;
 		}
