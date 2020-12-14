@@ -21,9 +21,9 @@ public class PeriodHomeImpl extends com.idega.data.IDOFactory implements PeriodH
     }
 
 	@Override
-	public Period findByGroupAndDate(Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException{
+	public Period findByGroupAndDate(Integer groupId, Timestamp timestamp, Boolean controlsMembership) throws javax.ejb.FinderException{
 		com.idega.data.IDOEntity entity = this.idoCheckOutPooledEntity();
-		Object id = ((PeriodBMPBean)entity).ejbFindByGroupAndDate(groupId, timestamp);
+		Object id = ((PeriodBMPBean)entity).ejbFindByGroupAndDate(groupId, timestamp, controlsMembership);
 		this.idoCheckInPooledEntity(entity);
 		return this.findByPrimaryKey(id);
 	}

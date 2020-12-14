@@ -187,7 +187,7 @@ public void setGeneratedPaymentsDate(Timestamp generatedPaymentsDate){
 }
 
 
-  public Object ejbFindByGroupAndDate(Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException {
+  public Object ejbFindByGroupAndDate(Integer groupId, Timestamp timestamp, Boolean controlsMembership) throws javax.ejb.FinderException {
 		IDOQuery sql = idoQuery();
 		sql.appendSelectAllFrom(this);
 
@@ -209,6 +209,12 @@ public void setGeneratedPaymentsDate(Timestamp generatedPaymentsDate){
 		sql.append(timestamp);
 		sql.appendLessThanOrEqualsSign();
 		sql.append(getColumnToDate());
+
+		if (controlsMembership != null) {
+			sql.appendAnd();
+			sql.append(CoreConstants.SPACE);
+			sql.appendEquals(getColumnControlsMembership(), controlsMembership.booleanValue());
+		}
 
 	  return idoFindOnePKByQuery(sql);
   }

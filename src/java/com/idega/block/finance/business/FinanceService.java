@@ -242,7 +242,7 @@ public interface FinanceService extends IBOService {
 
 	public Period getPeriodById(Integer periodId);
 
-	public Period getPeriodByGroupAndDate(Integer groupId, Timestamp timestamp);
+	public Period getPeriodByGroupAndDate(Integer groupId, Timestamp timestamp, Boolean controlsMembership);
 
 	public Collection<Period> getAllPeriodsByGroupId(Integer groupId);
 

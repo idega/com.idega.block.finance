@@ -449,9 +449,9 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 	}
 
 	@Override
-	public Period getPeriodByGroupAndDate(Integer groupId, Timestamp timestamp) {
+	public Period getPeriodByGroupAndDate(Integer groupId, Timestamp timestamp, Boolean controlsMembership) {
 		try {
-			return getPeriodHome().findByGroupAndDate(groupId, timestamp);
+			return getPeriodHome().findByGroupAndDate(groupId, timestamp, controlsMembership);
 		} catch (Exception e) {
 			getLogger().log(Level.WARNING, "Could not get the period by groupId: " + groupId + " and timestamp: " + timestamp, e);
 		}
