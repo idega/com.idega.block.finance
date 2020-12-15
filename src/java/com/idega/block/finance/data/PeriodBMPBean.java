@@ -213,13 +213,13 @@ public void setGeneratedPaymentsDate(Timestamp generatedPaymentsDate){
 		if (controlsMembership != null) {
 			sql.appendAnd();
 			sql.append(CoreConstants.SPACE);
-			sql.appendEquals(getColumnControlsMembership(), controlsMembership.booleanValue());
+			sql.appendEquals(getColumnControlsMembership(), controlsMembership);
 		}
 
 	  return idoFindOnePKByQuery(sql);
   }
 
-  public Collection ejbFindAllByGroupAndDate(Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException {
+  public Collection<?> ejbFindAllByGroupAndDate(Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException {
 		IDOQuery sql = idoQuery();
 		sql.appendSelectAllFrom(this);
 
@@ -238,7 +238,6 @@ public void setGeneratedPaymentsDate(Timestamp generatedPaymentsDate){
 			timestampToIWT.setSecond(0);
 			timestampTo = timestampToIWT.getTimestamp();
 		}
-
 
 		sql.appendWhere();
 		sql.append(1);
@@ -271,7 +270,7 @@ public void setGeneratedPaymentsDate(Timestamp generatedPaymentsDate){
 	  return idoFindPKsByQuery(sql);
   }
 
-  public Collection ejbFindByGroup(Integer groupId)throws FinderException{
+  public Collection<?> ejbFindByGroup(Integer groupId)throws FinderException{
   	return super.idoFindPKsByQuery(super.idoQueryGetSelect().appendWhereEquals(getColumnGroup(), groupId).appendOrderBy(getColumnName()));
   }
 
@@ -311,27 +310,24 @@ public void setGeneratedPaymentsDate(Timestamp generatedPaymentsDate){
 		return null;
 	}
 
+	public Collection<?> ejbFindAllByGroupAndControlsMembership(Integer groupId, Boolean controlsMembership) throws javax.ejb.FinderException {
+		IDOQuery sql = idoQuery();
+		sql.appendSelectAllFrom(this);
 
-	  public Collection ejbFindAllByGroupAndControlsMembership(Integer groupId, Boolean controlsMembership) throws javax.ejb.FinderException {
-			IDOQuery sql = idoQuery();
-			sql.appendSelectAllFrom(this);
+		sql.appendWhere();
+		sql.append(1);
+		sql.appendEqualSign();
+		sql.append(1);
 
-			sql.appendWhere();
-			sql.append(1);
-			sql.appendEqualSign();
-			sql.append(1);
+		sql.appendAndIsNotNull(getColumnGroup());
+		sql.appendAndEquals(getColumnGroup(), groupId);
 
-			sql.appendAndIsNotNull(getColumnGroup());
-			sql.appendAndEquals(getColumnGroup(), groupId);
-
-			if (controlsMembership != null) {
-				sql.appendAnd();
-				sql.append(CoreConstants.SPACE);
-				sql.appendEquals(getColumnControlsMembership(), controlsMembership.booleanValue());
-			}
-
-		  return idoFindPKsByQuery(sql);
-	  }
-
+		if (controlsMembership != null) {
+			sql.appendAnd();
+			sql.append(CoreConstants.SPACE);
+			sql.appendEquals(getColumnControlsMembership(), controlsMembership.booleanValue());
+		}
+		return idoFindPKsByQuery(sql);
+	}
 
 }
