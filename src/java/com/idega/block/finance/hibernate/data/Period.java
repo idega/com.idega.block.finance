@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.apache.commons.io.IOUtils;
 
 import com.idega.user.data.bean.Group;
+import com.idega.util.CoreConstants;
 
 @Entity
 @Cacheable
@@ -203,11 +204,11 @@ public class Period implements Serializable {
 		if (this.controlsMembership == null) {
 			return false;
 		}
-		return this.controlsMembership == 'Y';
+		return this.controlsMembership == CoreConstants.CHAR_Y;
 	}
 
 	public void setControlsMembership(Boolean controlsMembership) {
-		this.controlsMembership = controlsMembership ? 'Y' : 'N';
+		this.controlsMembership = controlsMembership ? CoreConstants.CHAR_Y : CoreConstants.CHAR_N;
 	}
 
 	public Date getGeneratedPaymentsDate() {
