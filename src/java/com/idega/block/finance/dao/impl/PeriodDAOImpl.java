@@ -17,9 +17,9 @@ import com.idega.block.finance.dao.PeriodDAO;
 import com.idega.block.finance.hibernate.data.Period;
 import com.idega.core.persistence.Param;
 import com.idega.core.persistence.impl.GenericDaoImpl;
-import com.idega.util.CoreConstants;
 import com.idega.user.dao.GroupDAO;
 import com.idega.user.data.GroupTypeConstants;
+import com.idega.util.CoreConstants;
 import com.idega.util.ListUtil;
 
 @Repository(PeriodDAO.BEAN_NAME)
@@ -187,5 +187,17 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 		}
 		return null;
 	}
+
+
+	@Override
+	public List<Period> getAllNotEndedPeriods() {
+		try {
+			return getResultList(Period.QUERY_FIND_ALL_NOT_ENDED, Period.class);
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Error getting all not ended periods: ", e);
+		}
+		return null;
+	}
+
 
 }

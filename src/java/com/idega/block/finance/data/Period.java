@@ -1,5 +1,6 @@
 package com.idega.block.finance.data;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Collection;
 
@@ -33,6 +34,8 @@ public interface Period extends com.idega.data.IDOEntity
 	 public void setControlsMembership(boolean p0);
 	 public Timestamp getGeneratedPaymentsDate();
  	 public void setGeneratedPaymentsDate(Timestamp generatedPaymentsDate);
+ 	 public String getMemberEmailContent();
+ 	 public void setMemberEmailContent(InputStream memberEmailContent);
 
 
 	 public void addGroupToExclude(Group group) throws IDOAddRelationshipException;

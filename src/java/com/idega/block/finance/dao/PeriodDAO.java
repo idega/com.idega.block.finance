@@ -26,4 +26,6 @@ public interface PeriodDAO extends GenericDao {
 
 	public List<Period> getAllValidPeriods(Boolean controlsMembership);
 
+	public List<Period> getAllNotEndedPeriods();
+
 }

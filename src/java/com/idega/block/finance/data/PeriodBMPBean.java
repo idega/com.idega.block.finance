@@ -1,11 +1,16 @@
 package com.idega.block.finance.data;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collection;
 
 import javax.ejb.FinderException;
 
+import org.apache.commons.io.IOUtils;
+
+import com.idega.data.BlobWrapper;
 import com.idega.data.IDOAddRelationshipException;
 import com.idega.data.IDOQuery;
 import com.idega.data.IDORelationshipException;
@@ -41,6 +46,7 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	    addAttribute(getColumnConfirmationDate(),"Confirmation date",true,true,java.sql.Timestamp.class);
 	    addAttribute(getColumnControlsMembership(),"Controls membership",true,true,java.lang.Boolean.class);
 	    addAttribute(getColumnToDate(),"Generated payments date",true,true,java.sql.Timestamp.class);
+	    addAttribute(getColumnMemberEmailContent(),"Member email content",true,true,BlobWrapper.class);
 
 		addManyToManyRelationShip(Group.class, EXL_GROUPS_LIST);
 
@@ -57,6 +63,7 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
     public static String getColumnConfirmationDate(){return "CONFIRMATION_DATE";}
     public static String getColumnControlsMembership(){return "controls_membership";}
     public static String getColumnGeneratedPaymentsDate(){return "GENERATED_PAYMENTS_DATE";}
+    public static String getColumnMemberEmailContent(){return "MEMBER_EMAIL_CONTENT";}
 
   @Override
   public String getEntityName() {
@@ -178,13 +185,34 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 
  @Override
  public Timestamp getGeneratedPaymentsDate(){
-  return (Timestamp) getColumnValue(getColumnGeneratedPaymentsDate());
-}
+	 return (Timestamp) getColumnValue(getColumnGeneratedPaymentsDate());
+ }
 
-@Override
-public void setGeneratedPaymentsDate(Timestamp generatedPaymentsDate){
-  setColumn(getColumnGeneratedPaymentsDate(), generatedPaymentsDate);
-}
+ @Override
+ public void setGeneratedPaymentsDate(Timestamp generatedPaymentsDate){
+	  setColumn(getColumnGeneratedPaymentsDate(), generatedPaymentsDate);
+ }
+
+
+ @Override
+ public String getMemberEmailContent(){
+	 String emailContent = null;
+	 try {
+		 InputStream stream = getInputStreamColumnValue(getColumnMemberEmailContent());
+	     if (stream != null) {
+	    	 emailContent = IOUtils.toString(stream, StandardCharsets.UTF_8.name());
+	     }
+	 } catch (Exception e) {
+		 e.printStackTrace();
+	 }
+
+	 return emailContent;
+ }
+
+ @Override
+ public void setMemberEmailContent(InputStream memberEmailContent){
+   setColumn(getColumnMemberEmailContent(), memberEmailContent);
+ }
 
 
   public Object ejbFindByGroupAndDate(Integer groupId, Timestamp timestamp, Boolean controlsMembership) throws javax.ejb.FinderException {

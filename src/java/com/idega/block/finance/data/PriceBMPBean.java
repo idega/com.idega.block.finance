@@ -105,6 +105,8 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
     setColumn(getColumnType(), type);
   }
 
+
+
   public Object ejbFindByPeriodAndAge(Integer periodId, Integer age) throws javax.ejb.FinderException {
 		IDOQuery sql = idoQuery();
 		sql.appendSelectAllFrom(this);

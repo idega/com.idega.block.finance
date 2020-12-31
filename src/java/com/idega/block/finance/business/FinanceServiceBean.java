@@ -3,6 +3,8 @@
  *
  */
 package com.idega.block.finance.business;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -60,6 +62,7 @@ import com.idega.business.IBOServiceBean;
 import com.idega.data.IDOException;
 import com.idega.util.IWTimestamp;
 import com.idega.util.ListUtil;
+import com.idega.util.StringUtil;
 import com.idega.util.expression.ELUtil;
 /**
  * FinanceServiceBean
@@ -519,7 +522,8 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			Timestamp fromDate,
 			Timestamp toDate,
 			String virtualGroup,
-			Boolean controlsMembership
+			Boolean controlsMembership,
+			String memberEmailContent
 	) {
 		Period period = null;
 		try {
@@ -541,6 +545,10 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			period.setVirtualGroup(virtualGroup);
 			if (controlsMembership != null) {
 				period.setControlsMembership(controlsMembership);
+			}
+			if (!StringUtil.isEmpty(memberEmailContent)) {
+				InputStream memberEmailContentStream = new ByteArrayInputStream(memberEmailContent.getBytes());
+				period.setMemberEmailContent(memberEmailContentStream);
 			}
 
 			period.store();

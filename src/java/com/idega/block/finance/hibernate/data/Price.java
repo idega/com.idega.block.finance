@@ -18,7 +18,8 @@ import javax.persistence.Table;
 @Cacheable
 @Table(name = Price.TABLE_NAME)
 @NamedQueries({
-	@NamedQuery(name = Price.GET_PRICES_BY_PERIOD_ID, query = "FROM Price price WHERE price.period.id = :" + Price.PARAM_PERIOD_ID)
+	@NamedQuery(name = Price.GET_PRICES_BY_PERIOD_ID, query = "FROM Price price WHERE price.period.id = :" + Price.PARAM_PERIOD_ID),
+	@NamedQuery(name = Price.GET_PRICES_BY_IDS, query = "FROM Price price WHERE price.id IN (:" + Price.PARAM_PRICE_IDS + ")")
 })
 public class Price implements Serializable {
 	private static final long serialVersionUID = 2050014558123898958L;
@@ -33,8 +34,11 @@ public class Price implements Serializable {
 	private static final String COLUMN_PRICE = "PRICE";
 	private static final String COLUMN_TYPE = "TYPE";
 
-	public static final String GET_PRICES_BY_PERIOD_ID = "getPricesByPeriodId";
+	public static final String GET_PRICES_BY_PERIOD_ID = "Price.getPricesByPeriodId";
+	public static final String GET_PRICES_BY_IDS = "Price.getPricesByIds";
+
 	public static final String PARAM_PERIOD_ID = "periodId";
+	public static final String PARAM_PRICE_IDS = "priceIds";
 
 	@Id
 	@Column(name = COLUMN_ID)
@@ -115,6 +119,7 @@ public class Price implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
+
 
 
 

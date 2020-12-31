@@ -12,6 +12,7 @@ import com.idega.block.finance.dao.PriceDAO;
 import com.idega.block.finance.hibernate.data.Price;
 import com.idega.core.persistence.Param;
 import com.idega.core.persistence.impl.GenericDaoImpl;
+import com.idega.util.ListUtil;
 
 @Repository(PriceDAO.BEAN_NAME)
 @Scope(BeanDefinition.SCOPE_SINGLETON)
@@ -42,6 +43,23 @@ public class PriceDAOImpl extends GenericDaoImpl implements PriceDAO {
 							     new Param(Price.PARAM_PERIOD_ID, periodId));
 		} catch (Exception e) {
 			getLogger().log(Level.WARNING, "Error getting prices by period id: " + periodId, e);
+		}
+		return null;
+	}
+
+
+	@Override
+	public List<Price> getAllByIds(List<Long> priceIds) {
+		if (ListUtil.isEmpty(priceIds)) {
+			return null;
+		}
+
+		try {
+			return getResultList(Price.GET_PRICES_BY_IDS,
+							     Price.class,
+							     new Param(Price.PARAM_PRICE_IDS, priceIds));
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Error getting prices by price ids: " + priceIds, e);
 		}
 		return null;
 	}

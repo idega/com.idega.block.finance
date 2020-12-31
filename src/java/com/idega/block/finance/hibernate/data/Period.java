@@ -1,6 +1,9 @@
 package com.idega.block.finance.hibernate.data;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import javax.persistence.Cacheable;
@@ -10,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -17,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlTransient;
+
+import org.apache.commons.io.IOUtils;
 
 import com.idega.user.data.bean.Group;
 
@@ -40,6 +46,10 @@ import com.idega.user.data.bean.Group;
 	@NamedQuery(
 			name = Period.GET_ALL_INFINITE,
 			query = "SELECT p FROM Period p WHERE p.toDate IS NULL order by p.id asc"
+	),
+	@NamedQuery(
+			name = Period.QUERY_FIND_ALL_NOT_ENDED,
+			query = "SELECT p FROM Period p WHERE p.toDate IS NULL OR CURRENT_TIMESTAMP <= p.toDate order by p.fromDate desc"
 	)
 })
 @XmlTransient
@@ -59,10 +69,12 @@ public class Period implements Serializable {
 	private static final String COLUMN_CONFIRMATION_DATE = "CONFIRMATION_DATE";
 	private static final String COLUMN_CONTROLS_MEMBERSHIP = "controls_membership";
 	private static final String COLUMN_GENERATED_PAYMENTS_DATE = "GENERATED_PAYMENTS_DATE";
+	private static final String COLUMN_MEMBER_EMAIL_CONTENT = "MEMBER_EMAIL_CONTENT";
 
 	public static final String	GET_ALL = "getAll",
 								GET_BY_CONFIRMATION_DATE = "getByConfirmationDate",
-								QUERY_FIND_VALID_FOR_CLUB = "findValidForClub";
+								QUERY_FIND_VALID_FOR_CLUB = "findValidForClub",
+								QUERY_FIND_ALL_NOT_ENDED = "Period.findAllNotEnded";
 	public static final String GET_ALL_INFINITE = "Period.getAllInfinite";
 
 	public static final String	PARAM_CONFIRMATION_DATE = "confirmationDate",
@@ -109,6 +121,11 @@ public class Period implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = COLUMN_GENERATED_PAYMENTS_DATE)
 	private Date generatedPaymentsDate;
+
+	@Lob
+	@Column(name = COLUMN_MEMBER_EMAIL_CONTENT)
+	//@Type(type="text")
+	private String memberEmailContent;
 
 	public Integer getId() {
 		return id;
@@ -200,6 +217,28 @@ public class Period implements Serializable {
 	public void setGeneratedPaymentsDate(Date generatedPaymentsDate) {
 		this.generatedPaymentsDate = generatedPaymentsDate;
 	}
+
+
+	public String getMemberEmailContent() {
+		 String emailContent = null;
+		 try {
+			 if (memberEmailContent != null) {
+				 InputStream stream = new ByteArrayInputStream(memberEmailContent.getBytes());
+			     if (stream != null) {
+			    	 emailContent = IOUtils.toString(stream, StandardCharsets.UTF_8.name());
+			     }
+			 }
+		 } catch (Exception e) {
+			 e.printStackTrace();
+		 }
+
+		 return emailContent;
+	}
+
+	public void setMemberEmailContent(String memberEmailContent) {
+		this.memberEmailContent = memberEmailContent;
+	}
+
 
 	@Override
 	public String toString() {
