@@ -3,7 +3,6 @@ package com.idega.block.finance.hibernate.data;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import javax.persistence.Cacheable;
@@ -22,10 +21,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.apache.commons.io.IOUtils;
-
 import com.idega.user.data.bean.Group;
 import com.idega.util.CoreConstants;
+import com.idega.util.StringHandler;
 
 @Entity
 @Cacheable
@@ -226,7 +224,7 @@ public class Period implements Serializable {
 			 if (memberEmailContent != null) {
 				 InputStream stream = new ByteArrayInputStream(memberEmailContent.getBytes());
 			     if (stream != null) {
-			    	 emailContent = IOUtils.toString(stream, StandardCharsets.UTF_8.name());
+			    	 emailContent = StringHandler.getContentFromInputStream(stream);
 			     }
 			 }
 		 } catch (Exception e) {

@@ -1,14 +1,11 @@
 package com.idega.block.finance.data;
 
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collection;
 
 import javax.ejb.FinderException;
-
-import org.apache.commons.io.IOUtils;
 
 import com.idega.data.BlobWrapper;
 import com.idega.data.IDOAddRelationshipException;
@@ -19,6 +16,7 @@ import com.idega.user.data.Group;
 import com.idega.util.CoreConstants;
 import com.idega.util.IWTimestamp;
 import com.idega.util.ListUtil;
+import com.idega.util.StringHandler;
 
 public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.idega.block.finance.data.Period {
 	private static final long serialVersionUID = 9081605647262701182L;
@@ -200,7 +198,7 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	 try {
 		 InputStream stream = getInputStreamColumnValue(getColumnMemberEmailContent());
 	     if (stream != null) {
-	    	 emailContent = IOUtils.toString(stream, StandardCharsets.UTF_8.name());
+	    	 emailContent = StringHandler.getContentFromInputStream(stream);
 	     }
 	 } catch (Exception e) {
 		 e.printStackTrace();
