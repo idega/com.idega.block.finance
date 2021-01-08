@@ -18,8 +18,9 @@ import javax.persistence.Table;
 @Cacheable
 @Table(name = Price.TABLE_NAME)
 @NamedQueries({
-	@NamedQuery(name = Price.GET_PRICES_BY_PERIOD_ID, query = "FROM Price price WHERE price.period.id = :" + Price.PARAM_PERIOD_ID),
-	@NamedQuery(name = Price.GET_PRICES_BY_IDS, query = "FROM Price price WHERE price.id IN (:" + Price.PARAM_PRICE_IDS + ")")
+	@NamedQuery(name = Price.GET_PRICES_BY_PERIOD_ID, query = "FROM Price price WHERE price.period.id = :" + Price.PARAM_PERIOD_ID + " AND price.extraType IS NULL"),
+	@NamedQuery(name = Price.GET_PRICES_BY_IDS, query = "FROM Price price WHERE price.id IN (:" + Price.PARAM_PRICE_IDS + ")" + " AND price.extraType IS NULL"),
+	@NamedQuery(name = Price.GET_PRICES_BY_PERIOD_ID_AND_EXTRA_TYPE, query = "FROM Price price WHERE price.period.id = :" + Price.PARAM_PERIOD_ID + " AND price.extraType = :" + Price.PARAM_EXTRA_TYPE)
 })
 public class Price implements Serializable {
 	private static final long serialVersionUID = 2050014558123898958L;
@@ -33,12 +34,15 @@ public class Price implements Serializable {
 	private static final String COLUMN_AGE_TO = "AGE_TO";
 	private static final String COLUMN_PRICE = "PRICE";
 	private static final String COLUMN_TYPE = "TYPE";
+	private static final String COLUMN_EXTRA_TYPE = "EXTRA_TYPE";
 
 	public static final String GET_PRICES_BY_PERIOD_ID = "Price.getPricesByPeriodId";
 	public static final String GET_PRICES_BY_IDS = "Price.getPricesByIds";
+	public static final String GET_PRICES_BY_PERIOD_ID_AND_EXTRA_TYPE = "Price.getPricesByPeriodIdAndExtraType";
 
 	public static final String PARAM_PERIOD_ID = "periodId";
 	public static final String PARAM_PRICE_IDS = "priceIds";
+	public static final String PARAM_EXTRA_TYPE = "extraType";
 
 	@Id
 	@Column(name = COLUMN_ID)
@@ -63,6 +67,9 @@ public class Price implements Serializable {
 
 	@Column(name = COLUMN_TYPE)
 	private String type;
+
+	@Column(name = COLUMN_EXTRA_TYPE)
+	private String extraType;
 
 	public Long getId() {
 		return id;
@@ -118,6 +125,14 @@ public class Price implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getExtraType() {
+		return extraType;
+	}
+
+	public void setExtraType(String extraType) {
+		this.extraType = extraType;
 	}
 
 

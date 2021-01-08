@@ -9,10 +9,12 @@ import javax.ejb.FinderException;
 
 import com.idega.data.IDOQuery;
 import com.idega.util.CoreConstants;
+import com.idega.util.StringUtil;
 
 public class PriceBMPBean extends com.idega.data.GenericEntity implements com.idega.block.finance.data.Price {
 	private static final long serialVersionUID = -8068967341991727717L;
 
+	public static final String PRICE_TYPE_CLUB_REGISTRATION = "CLUB_REGISTRATION";
 
 	public PriceBMPBean() {
 	}
@@ -30,6 +32,7 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
 	    addAttribute(getColumnAgeTo(),"Age to",true,true,Integer.class);
 	    addAttribute(getColumnPrice(),"Price",true,true,Float.class);
 	    addAttribute(getColumnType(),"Type",true,true,java.lang.String.class);
+	    addAttribute(getColumnExtraType(),"Extra type",true,true,java.lang.String.class);
     }
 
 	public static String getPriceEntityName() {return "FIN_PRICE";}
@@ -39,6 +42,7 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
     public static String getColumnAgeTo() {return "AGE_TO";}
 	public static String getColumnPrice() {return "PRICE";}
 	public static String getColumnType() {return "TYPE";}
+	public static String getColumnExtraType() {return "EXTRA_TYPE";}
 
   @Override
   public String getEntityName() {
@@ -105,6 +109,16 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
     setColumn(getColumnType(), type);
   }
 
+  @Override
+  public String getExtraType(){
+    return getStringColumnValue(getColumnExtraType());
+  }
+
+  @Override
+  public void setExtraType(String extraType){
+    setColumn(getColumnExtraType(), extraType);
+  }
+
 
 
   public Object ejbFindByPeriodAndAge(Integer periodId, Integer age) throws javax.ejb.FinderException {
@@ -139,6 +153,31 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
   public Collection ejbFindByPeriod(Integer periodId)throws FinderException{
 	List<String> ordering = Arrays.asList(getColumnName(), getColumnAgeFrom());
   	return super.idoFindPKsByQuery(super.idoQueryGetSelect().appendWhereEquals(getColumnPeriod(), periodId).appendOrderBy(ordering.toArray(new String[ordering.size()])));
+  }
+
+
+  public Collection ejbFindByPeriodAndExtraType(Integer periodId, String extraType) throws javax.ejb.FinderException {
+		IDOQuery sql = idoQuery();
+		sql.appendSelectAllFrom(this);
+
+		sql.appendWhere();
+		sql.append(1);
+		sql.appendEqualSign();
+		sql.append(1);
+
+		sql.appendAndIsNotNull(getColumnPeriod());
+		sql.appendAndEquals(getColumnPeriod(), periodId);
+
+		if (StringUtil.isEmpty(extraType)) {
+			sql.append(CoreConstants.SPACE);
+			sql.appendAndIsNull(getColumnExtraType());
+		} else {
+			sql.appendAnd();
+			sql.append(CoreConstants.SPACE);
+			sql.appendEquals(getColumnExtraType(), CoreConstants.QOUTE_SINGLE_MARK + extraType + CoreConstants.QOUTE_SINGLE_MARK);
+		}
+
+		return idoFindPKsByQuery(sql);
   }
 
 }

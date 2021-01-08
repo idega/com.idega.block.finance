@@ -34,6 +34,14 @@ public class PriceHomeImpl extends com.idega.data.IDOFactory implements PriceHom
 		return this.getEntityCollectionForPrimaryKeys(ids);
 	}
 
+	@Override
+	public java.util.Collection findByPeriodAndExtraType(java.lang.Integer periodId, String extraType) throws javax.ejb.FinderException {
+		com.idega.data.IDOEntity entity = this.idoCheckOutPooledEntity();
+		java.util.Collection ids = ((PriceBMPBean)entity).ejbFindByPeriodAndExtraType(periodId, extraType);
+		this.idoCheckInPooledEntity(entity);
+		return this.getEntityCollectionForPrimaryKeys(ids);
+	}
+
 
 
 }

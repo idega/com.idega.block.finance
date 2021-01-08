@@ -598,11 +598,11 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 
 	@Override
 	public Price updatePrice(Integer priceId, Integer periodId, Integer ageFrom, Integer ageTo, Float price, String name) {
-		return updatePrice(priceId, periodId, ageFrom, ageTo, price, name, null);
+		return updatePrice(priceId, periodId, ageFrom, ageTo, price, name, null, null);
 	}
 
 	@Override
-	public Price updatePrice(Integer priceId, Integer periodId, Integer ageFrom, Integer ageTo, Float price, String name, String type) {
+	public Price updatePrice(Integer priceId, Integer periodId, Integer ageFrom, Integer ageTo, Float price, String name, String type, String extraType) {
 		try {
 			Price periodPrice = null;
 			if (priceId != null && priceId > 0) {
@@ -617,6 +617,7 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			periodPrice.setAgeTo(ageTo);
 			periodPrice.setPrice(price);
 			periodPrice.setType(type);
+			periodPrice.setExtraType(extraType);
 
 			periodPrice.store();
 
@@ -638,5 +639,15 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 		return null;
 	}
 
+
+	@Override
+	public Collection<Price> getAllPricesByPeriodIdAndExtraType(Integer periodId, String extraType) {
+		try {
+			return getPriceHome().findByPeriodAndExtraType(periodId, extraType);
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Could not get the prices by periodId: " + periodId + " and extra type: " + extraType, e);
+		}
+		return null;
+	}
 
 }

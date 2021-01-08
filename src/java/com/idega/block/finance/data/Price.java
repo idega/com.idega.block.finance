@@ -15,5 +15,7 @@ public interface Price extends com.idega.data.IDOEntity
 	 public void setPrice(Float price);
 	 public String getType();
 	 public void setType(String type);
+	 public String getExtraType();
+	 public void setExtraType(String extraType);
 
 }

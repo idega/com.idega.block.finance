@@ -7,5 +7,5 @@ public interface PriceHome extends com.idega.data.IDOHome {
 
  	public Price findByPeriodAndAge(Integer periodId, Integer age) throws javax.ejb.FinderException;
  	public java.util.Collection findByPeriod(Integer periodId) throws javax.ejb.FinderException;
-
+ 	public java.util.Collection findByPeriodAndExtraType(java.lang.Integer periodId, String extraType) throws javax.ejb.FinderException;
 }
