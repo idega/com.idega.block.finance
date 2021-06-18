@@ -53,6 +53,13 @@ public class PeriodHomeImpl extends com.idega.data.IDOFactory implements PeriodH
 		return this.getEntityCollectionForPrimaryKeys(ids);
 	}
 
+	@Override
+	public java.util.Collection findAllByGroupAndDatesAndControlsMembershipAndOlderThanGivenPeriodId(java.lang.Integer groupId, Timestamp timestampFrom, Timestamp timestampTo, Boolean controlsMembership, Integer periodId) throws javax.ejb.FinderException {
+		com.idega.data.IDOEntity entity = this.idoCheckOutPooledEntity();
+		java.util.Collection ids = ((PeriodBMPBean)entity).ejbFindAllByGroupAndDatesAndControlsMembershipAndOlderThanGivenPeriodId(groupId, timestampFrom, timestampTo, controlsMembership, periodId);
+		this.idoCheckInPooledEntity(entity);
+		return this.getEntityCollectionForPrimaryKeys(ids);
+	}
 
 
 

@@ -28,4 +28,5 @@ public interface PeriodDAO extends GenericDao {
 
 	public List<Period> getAllNotEndedPeriods();
 
+	public List<Period> getCurrentPeriodsForClub(Integer clubId);
 }

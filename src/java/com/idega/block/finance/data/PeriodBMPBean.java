@@ -245,6 +245,90 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	  return idoFindOnePKByQuery(sql);
   }
 
+  public Collection<?> ejbFindAllByGroupAndDatesAndControlsMembershipAndOlderThanGivenPeriodId(Integer groupId, Timestamp timestampFrom, Timestamp timestampTo, Boolean controlsMembership, Integer periodId) throws javax.ejb.FinderException {
+		IDOQuery sql = idoQuery();
+		sql.appendSelectAllFrom(this);
+
+		sql.appendWhere();
+		sql.append(1);
+		sql.appendEqualSign();
+		sql.append(1);
+
+		sql.appendAndIsNotNull(getColumnGroup());
+		sql.appendAndEquals(getColumnGroup(), groupId);
+
+		sql.appendAnd();
+		sql.append(CoreConstants.BRACKET_LEFT);
+		sql.append(CoreConstants.SPACE);
+
+		if (timestampTo != null) {
+			sql.append(CoreConstants.BRACKET_LEFT);
+			sql.append(CoreConstants.SPACE);
+			sql.append(timestampFrom);
+			sql.appendGreaterThanOrEqualsSign();
+			sql.append(getColumnFromDate());
+			sql.appendAnd();
+			sql.append(CoreConstants.SPACE);
+			sql.append(timestampFrom);
+			sql.appendLessThanOrEqualsSign();
+			sql.append(getColumnToDate());
+			sql.append(CoreConstants.SPACE);
+			sql.append(CoreConstants.BRACKET_RIGHT);
+
+			sql.appendOr();
+
+			sql.append(CoreConstants.BRACKET_LEFT);
+			sql.append(CoreConstants.SPACE);
+			sql.append(timestampTo);
+			sql.appendGreaterThanOrEqualsSign();
+			sql.append(getColumnFromDate());
+			sql.appendAnd();
+			sql.append(CoreConstants.SPACE);
+			sql.append(timestampTo);
+			sql.appendLessThanOrEqualsSign();
+			sql.append(getColumnToDate());
+			sql.append(CoreConstants.SPACE);
+			sql.append(CoreConstants.BRACKET_RIGHT);
+		} else {
+			sql.append(CoreConstants.BRACKET_LEFT);
+			sql.append(CoreConstants.SPACE);
+			sql.append(timestampFrom);
+			sql.appendGreaterThanOrEqualsSign();
+			sql.append(getColumnFromDate());
+			sql.appendAnd();
+			sql.append(CoreConstants.SPACE);
+			sql.append(timestampFrom);
+			sql.appendLessThanOrEqualsSign();
+			sql.append(getColumnToDate());
+			sql.append(CoreConstants.SPACE);
+			sql.append(CoreConstants.BRACKET_RIGHT);
+		}
+
+
+		sql.append(CoreConstants.SPACE);
+		sql.append(CoreConstants.BRACKET_RIGHT);
+
+		if (controlsMembership != null) {
+			sql.appendAnd();
+			sql.append(CoreConstants.SPACE);
+			sql.appendEquals(getColumnControlsMembership(), controlsMembership);
+		}
+
+		if (periodId != null) {
+			sql.appendAnd();
+			sql.append(CoreConstants.SPACE);
+			sql.append(getIDColumnName());
+			sql.appendLessThanSign();
+			sql.append(periodId);
+		}
+
+
+		sql.appendOrderByDescending(getColumnToDate());
+
+		return idoFindPKsByQuery(sql);
+  }
+
+
   public Collection<?> ejbFindAllByGroupAndDate(Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException {
 		IDOQuery sql = idoQuery();
 		sql.appendSelectAllFrom(this);

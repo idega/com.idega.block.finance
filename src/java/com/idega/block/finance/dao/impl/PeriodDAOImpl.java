@@ -98,6 +98,61 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 		return null;
 	}
 
+	@Override
+	public List<Period> getCurrentPeriodsForClub(Integer clubId) {
+		if (clubId == null) {
+			getLogger().warning("Club ID is not provided");
+			return null;
+		}
+
+		try {
+			List<Period> periods = getCurrentPeriodsForClubDo(clubId);
+			if (ListUtil.isEmpty(periods)) {
+				List<Integer> clubsIds = groupDAO.getParentGroupsIdsRecursive(Arrays.asList(clubId), Arrays.asList(GroupTypeConstants.GROUP_TYPE_CLUB));
+				if (!ListUtil.isEmpty(clubsIds)) {
+					for (Iterator<Integer> iter = clubsIds.iterator(); (iter.hasNext() && ListUtil.isEmpty(periods));) {
+						clubId = iter.next();
+						Period period = getPeriod(clubId);
+						if (period != null) {
+							periods.add(period);
+						}
+					}
+				}
+			}
+
+			if (!ListUtil.isEmpty(periods)) {
+				getLogger().info("Found periods " + periods + " for club " + clubId);
+			}
+			return periods;
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Error getting current season periods for club " + clubId, e);
+		}
+
+		return null;
+	}
+
+
+	private List<Period> getCurrentPeriodsForClubDo(Integer clubId) {
+		try {
+			List<Period> seasons = getResultList(
+					Period.QUERY_FIND_VALID_FOR_CLUB,
+					Period.class,
+					new Param("club", clubId),
+					new Param("controlsMembership", CoreConstants.Y)
+			);
+			if (ListUtil.isEmpty(seasons)) {
+				getLogger().log(Level.WARNING, "Club (" + clubId + ") has no financial period that controls membership for current date");
+				return null;
+			}
+
+			return seasons;
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Error getting current periods for club " + clubId, e);
+		}
+
+		return null;
+	}
+
 	private Period getPeriod(Integer clubId) {
 		try {
 			List<Period> seasons = getResultList(
