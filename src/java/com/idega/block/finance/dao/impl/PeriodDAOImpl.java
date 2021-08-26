@@ -243,7 +243,6 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 		return null;
 	}
 
-
 	@Override
 	public List<Period> getAllNotEndedPeriods() {
 		try {
@@ -253,6 +252,5 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 		}
 		return null;
 	}
-
 
 }

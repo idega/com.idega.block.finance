@@ -123,7 +123,6 @@ public class Period implements Serializable {
 
 	@Lob
 	@Column(name = COLUMN_MEMBER_EMAIL_CONTENT)
-	//@Type(type="text")
 	private String memberEmailContent;
 
 	public Integer getId() {
@@ -217,7 +216,6 @@ public class Period implements Serializable {
 		this.generatedPaymentsDate = generatedPaymentsDate;
 	}
 
-
 	public String getMemberEmailContent() {
 		 String emailContent = null;
 		 try {
@@ -238,10 +236,9 @@ public class Period implements Serializable {
 		this.memberEmailContent = memberEmailContent;
 	}
 
-
 	@Override
 	public String toString() {
-		return "ID: " + getId() + ", controls membership: " + getControlsMembership();
+		return "ID: " + getId() + ", controls membership: " + getControlsMembership() + ", from: " + getFromDate() + ", to: " + getToDate();
 	}
 
 }
