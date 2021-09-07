@@ -39,7 +39,7 @@ import com.idega.util.StringHandler;
 	),
 	@NamedQuery(
 			name = Period.QUERY_FIND_VALID_FOR_CLUB,
-			query = "SELECT p FROM Period p JOIN p.club c WHERE CURRENT_TIMESTAMP >= p.fromDate AND CURRENT_TIMESTAMP <= p.toDate AND c.groupID = :club " +
+			query = "SELECT p FROM Period p JOIN p.club c WHERE CURRENT_TIMESTAMP >= p.fromDate AND (CURRENT_TIMESTAMP <= p.toDate or p.toDate is null) AND c.groupID = :club " +
 			"AND p.controlsMembership = :" + Period.PARAM_CONTROLS_MEMBERSHIP + " order by p.toDate desc"
 	),
 	@NamedQuery(
