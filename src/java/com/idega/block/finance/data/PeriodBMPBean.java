@@ -12,6 +12,7 @@ import com.idega.data.IDOAddRelationshipException;
 import com.idega.data.IDOQuery;
 import com.idega.data.IDORelationshipException;
 import com.idega.data.IDORemoveRelationshipException;
+import com.idega.idegaweb.IWMainApplication;
 import com.idega.user.data.Group;
 import com.idega.util.CoreConstants;
 import com.idega.util.IWTimestamp;
@@ -315,13 +316,14 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 		}
 
 		if (periodId != null) {
-			sql.appendAnd();
-			sql.append(CoreConstants.SPACE);
-			sql.append(getIDColumnName());
-			sql.appendLessThanSign();
-			sql.append(periodId);
+			if (IWMainApplication.getDefaultIWMainApplication().getSettings().getBoolean("fin.overlapping_periods_by_ids", false)) {
+				sql.appendAnd();
+				sql.append(CoreConstants.SPACE);
+				sql.append(getIDColumnName());
+				sql.appendLessThanSign();
+				sql.append(periodId);
+			}
 		}
-
 
 		sql.appendOrderByDescending(getColumnToDate());
 
