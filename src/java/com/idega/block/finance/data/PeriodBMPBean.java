@@ -367,6 +367,64 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 			sql.appendGreaterThanOrEqualsSign();
 			sql.append(getColumnFromDate());
 		}
+
+		sql.append(" and (")
+			.append(getColumnToDate())
+			.appendIsNull();
+
+		if (timestampTo != null) {
+			sql.appendOr();
+			sql.append(timestampTo);
+			sql.appendLessThanOrEqualsSign();
+			sql.append(getColumnToDate());
+		}
+
+		sql.append(") ");
+
+		sql.appendOrderByDescending(getColumnToDate());
+
+	  return idoFindPKsByQuery(sql);
+  }
+
+
+  public Collection<?> ejbFindAllByGroupStillValid(Integer groupId, Timestamp timestamp) throws javax.ejb.FinderException {
+		IDOQuery sql = idoQuery();
+		sql.appendSelectAllFrom(this);
+
+		Timestamp timestampFrom = null;
+		Timestamp timestampTo = null;
+		if (timestamp != null) {
+			IWTimestamp timestampFromIWT = new IWTimestamp(timestamp);
+			IWTimestamp timestampToIWT = new IWTimestamp(timestamp);
+			timestampFromIWT.setHour(23);
+			timestampFromIWT.setMinute(59);
+			timestampFromIWT.setSecond(59);
+			timestampFrom = timestampFromIWT.getTimestamp();
+
+			timestampToIWT.setHour(0);
+			timestampToIWT.setMinute(0);
+			timestampToIWT.setSecond(0);
+			timestampTo = timestampToIWT.getTimestamp();
+		}
+
+		sql.appendWhere();
+		sql.append(1);
+		sql.appendEqualSign();
+		sql.append(1);
+
+		sql.append(" and (")
+			.appendEquals(getColumnGroup(), groupId)
+			.append(" or ")
+			.appendEquals(getColumnClub(), groupId);
+		sql.append(") ");
+
+		if (timestampFrom != null) {
+			sql.appendAnd();
+			sql.append(CoreConstants.SPACE);
+			sql.append(timestampFrom);
+			sql.appendGreaterThanOrEqualsSign();
+			sql.append(getColumnFromDate());
+		}
 		if (timestampTo != null) {
 			sql.appendAnd();
 			sql.append(CoreConstants.SPACE);
