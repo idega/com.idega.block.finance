@@ -18,4 +18,6 @@ public interface Price extends com.idega.data.IDOEntity
 	 public String getExtraType();
 	 public void setExtraType(String extraType);
 
+	 public Integer getDateOfMonthlyPayments();
+	 public void setDateOfMonthlyPayments(Integer dateOfMonthlyPayments);
 }

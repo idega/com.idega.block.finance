@@ -33,6 +33,7 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
 	    addAttribute(getColumnPrice(),"Price",true,true,Float.class);
 	    addAttribute(getColumnType(),"Type",true,true,java.lang.String.class);
 	    addAttribute(getColumnExtraType(),"Extra type",true,true,java.lang.String.class);
+	    addAttribute(getColumnDateOfMonthlyPayments(),"Date of monthly payments",true,true,Integer.class);
     }
 
 	public static String getPriceEntityName() {return "FIN_PRICE";}
@@ -43,6 +44,7 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
 	public static String getColumnPrice() {return "PRICE";}
 	public static String getColumnType() {return "TYPE";}
 	public static String getColumnExtraType() {return "EXTRA_TYPE";}
+	public static String getColumnDateOfMonthlyPayments() {return "DATE_MONTHLY_PAYMENTS";}
 
   @Override
   public String getEntityName() {
@@ -119,6 +121,15 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
     setColumn(getColumnExtraType(), extraType);
   }
 
+  @Override
+  public Integer getDateOfMonthlyPayments() {
+    return (Integer) getColumnValue(getColumnDateOfMonthlyPayments());
+  }
+
+  @Override
+  public void setDateOfMonthlyPayments(Integer dateOfMonthlyPayments) {
+    setColumn(getColumnDateOfMonthlyPayments(), dateOfMonthlyPayments);
+  }
 
 
   public Object ejbFindByPeriodAndAge(Integer periodId, Integer age) throws javax.ejb.FinderException {

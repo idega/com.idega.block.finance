@@ -35,6 +35,7 @@ public class Price implements Serializable {
 	private static final String COLUMN_PRICE = "PRICE";
 	private static final String COLUMN_TYPE = "TYPE";
 	private static final String COLUMN_EXTRA_TYPE = "EXTRA_TYPE";
+	private static final String COLUMN_DATE_MONTHLY_PAYMENTS = "DATE_MONTHLY_PAYMENTS";
 
 	public static final String GET_PRICES_BY_PERIOD_ID = "Price.getPricesByPeriodId";
 	public static final String GET_PRICES_BY_IDS = "Price.getPricesByIds";
@@ -70,6 +71,10 @@ public class Price implements Serializable {
 
 	@Column(name = COLUMN_EXTRA_TYPE)
 	private String extraType;
+
+	@Column(name = COLUMN_DATE_MONTHLY_PAYMENTS)
+	private Integer dateOfMonthlyPayments;
+
 
 	public Long getId() {
 		return id;
@@ -133,6 +138,14 @@ public class Price implements Serializable {
 
 	public void setExtraType(String extraType) {
 		this.extraType = extraType;
+	}
+
+	public Integer getDateOfMonthlyPayments() {
+		return dateOfMonthlyPayments;
+	}
+
+	public void setDateOfMonthlyPayments(Integer dateOfMonthlyPayments) {
+		this.dateOfMonthlyPayments = dateOfMonthlyPayments;
 	}
 
 
