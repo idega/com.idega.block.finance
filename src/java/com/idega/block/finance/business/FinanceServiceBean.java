@@ -523,7 +523,9 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			Timestamp toDate,
 			String virtualGroup,
 			Boolean controlsMembership,
-			String memberEmailContent
+			String memberEmailContent,
+			String certificateAdditionalText,
+			String certificateColor
 	) {
 		Period period = null;
 		try {
@@ -550,6 +552,9 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 				InputStream memberEmailContentStream = new ByteArrayInputStream(memberEmailContent.getBytes());
 				period.setMemberEmailContent(memberEmailContentStream);
 			}
+
+			period.setCertificateAdditionalText(certificateAdditionalText);
+			period.setCertificateColor(certificateColor);
 
 			period.store();
 

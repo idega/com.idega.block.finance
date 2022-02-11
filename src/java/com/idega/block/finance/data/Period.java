@@ -36,6 +36,10 @@ public interface Period extends com.idega.data.IDOEntity
  	 public void setGeneratedPaymentsDate(Timestamp generatedPaymentsDate);
  	 public String getMemberEmailContent();
  	 public void setMemberEmailContent(InputStream memberEmailContent);
+ 	 public String getCertificateAdditionalText();
+ 	 public void setCertificateAdditionalText(String certificateAdditionalText);
+ 	 public String getCertificateColor();
+ 	 public void setCertificateColor(String certificateColor);
 
 
 	 public void addGroupToExclude(Group group) throws IDOAddRelationshipException;

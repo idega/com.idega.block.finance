@@ -69,6 +69,8 @@ public class Period implements Serializable {
 	private static final String COLUMN_CONTROLS_MEMBERSHIP = "controls_membership";
 	private static final String COLUMN_GENERATED_PAYMENTS_DATE = "GENERATED_PAYMENTS_DATE";
 	private static final String COLUMN_MEMBER_EMAIL_CONTENT = "MEMBER_EMAIL_CONTENT";
+	private static final String COLUMN_CERTIFICATE_ADD_TEXT = "CERTIFICATE_ADD_TEXT";
+	private static final String COLUMN_CERTIFICATE_COLOR = "CERTIFICATE_COLOR";
 
 	public static final String	GET_ALL = "getAll",
 								GET_BY_CONFIRMATION_DATE = "getByConfirmationDate",
@@ -124,6 +126,12 @@ public class Period implements Serializable {
 	@Lob
 	@Column(name = COLUMN_MEMBER_EMAIL_CONTENT)
 	private String memberEmailContent;
+
+	@Column(name = COLUMN_CERTIFICATE_ADD_TEXT)
+	private String certificateAdditionalText;
+
+	@Column(name = COLUMN_CERTIFICATE_COLOR)
+	private String certificateColor;
 
 	public Integer getId() {
 		return id;
@@ -214,6 +222,24 @@ public class Period implements Serializable {
 
 	public void setGeneratedPaymentsDate(Date generatedPaymentsDate) {
 		this.generatedPaymentsDate = generatedPaymentsDate;
+	}
+
+
+
+	public String getCertificateAdditionalText() {
+		return certificateAdditionalText;
+	}
+
+	public void setCertificateAdditionalText(String certificateAdditionalText) {
+		this.certificateAdditionalText = certificateAdditionalText;
+	}
+
+	public String getCertificateColor() {
+		return certificateColor;
+	}
+
+	public void setCertificateColor(String certificateColor) {
+		this.certificateColor = certificateColor;
 	}
 
 	public String getMemberEmailContent() {

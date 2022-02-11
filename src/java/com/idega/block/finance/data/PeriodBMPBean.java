@@ -46,6 +46,8 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	    addAttribute(getColumnControlsMembership(),"Controls membership",true,true,java.lang.Boolean.class);
 	    addAttribute(getColumnToDate(),"Generated payments date",true,true,java.sql.Timestamp.class);
 	    addAttribute(getColumnMemberEmailContent(),"Member email content",true,true,BlobWrapper.class);
+	    addAttribute(getColumnCertificateAdditionalText(),"Certificate additional text",true,true,java.lang.String.class);
+	    addAttribute(getColumnCertificateColor(),"Certificate color",true,true,java.lang.String.class);
 
 		addManyToManyRelationShip(Group.class, EXL_GROUPS_LIST);
 
@@ -63,6 +65,8 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
     public static String getColumnControlsMembership(){return "controls_membership";}
     public static String getColumnGeneratedPaymentsDate(){return "GENERATED_PAYMENTS_DATE";}
     public static String getColumnMemberEmailContent(){return "MEMBER_EMAIL_CONTENT";}
+	public static String getColumnCertificateAdditionalText(){return "CERTIFICATE_ADD_TEXT";}
+	public static String getColumnCertificateColor(){return "CERTIFICATE_COLOR";}
 
   @Override
   public String getEntityName() {
@@ -192,6 +196,25 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	  setColumn(getColumnGeneratedPaymentsDate(), generatedPaymentsDate);
  }
 
+ @Override
+ public String getCertificateAdditionalText(){
+   return getStringColumnValue(getColumnCertificateAdditionalText());
+ }
+
+ @Override
+ public void setCertificateAdditionalText(String certificateAdditionalText){
+   setColumn(getColumnCertificateAdditionalText(), certificateAdditionalText);
+ }
+
+ @Override
+ public String getCertificateColor(){
+   return getStringColumnValue(getColumnCertificateColor());
+ }
+
+ @Override
+ public void setCertificateColor(String certificateColor){
+   setColumn(getColumnCertificateColor(), certificateColor);
+ }
 
  @Override
  public String getMemberEmailContent(){

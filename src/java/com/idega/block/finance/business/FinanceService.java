@@ -246,7 +246,9 @@ public interface FinanceService extends IBOService {
 
 	public Collection<Period> getAllPeriodsByGroupId(Integer groupId);
 
-	public Period updatePeriod(Integer periodId, Integer groupId, Integer divisionId, Integer clubId, String name, Timestamp fromDate, Timestamp toDate, String virtualGroup, Boolean controlsMembership, String memberEmailContent);
+	public Period updatePeriod(Integer periodId, Integer groupId, Integer divisionId, Integer clubId, String name,
+			Timestamp fromDate, Timestamp toDate, String virtualGroup, Boolean controlsMembership, String memberEmailContent,
+			String certificateAdditionalText, String certificateColor);
 
 	public void removePrice(Integer priceId) throws FinderException, RemoteException, RemoveException;
 
