@@ -525,7 +525,8 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			Boolean controlsMembership,
 			String memberEmailContent,
 			String certificateAdditionalText,
-			String certificateColor
+			String certificateColor,
+			Boolean old
 	) {
 		Period period = null;
 		try {
@@ -555,6 +556,7 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 
 			period.setCertificateAdditionalText(certificateAdditionalText);
 			period.setCertificateColor(certificateColor);
+			period.setOld(old);
 
 			period.store();
 

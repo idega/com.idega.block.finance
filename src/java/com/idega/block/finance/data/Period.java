@@ -40,6 +40,8 @@ public interface Period extends com.idega.data.IDOEntity
  	 public void setCertificateAdditionalText(String certificateAdditionalText);
  	 public String getCertificateColor();
  	 public void setCertificateColor(String certificateColor);
+	 public boolean getOld();
+	 public void setOld(boolean p0);
 
 
 	 public void addGroupToExclude(Group group) throws IDOAddRelationshipException;

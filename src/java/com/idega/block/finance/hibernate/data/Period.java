@@ -71,6 +71,7 @@ public class Period implements Serializable {
 	private static final String COLUMN_MEMBER_EMAIL_CONTENT = "MEMBER_EMAIL_CONTENT";
 	private static final String COLUMN_CERTIFICATE_ADD_TEXT = "CERTIFICATE_ADD_TEXT";
 	private static final String COLUMN_CERTIFICATE_COLOR = "CERTIFICATE_COLOR";
+	private static final String COLUMN_OLD = "OLD";
 
 	public static final String	GET_ALL = "getAll",
 								GET_BY_CONFIRMATION_DATE = "getByConfirmationDate",
@@ -132,6 +133,10 @@ public class Period implements Serializable {
 
 	@Column(name = COLUMN_CERTIFICATE_COLOR)
 	private String certificateColor;
+
+	@Column(name = COLUMN_OLD, length = 1)
+	private Character old;
+
 
 	public Integer getId() {
 		return id;
@@ -261,6 +266,18 @@ public class Period implements Serializable {
 	public void setMemberEmailContent(String memberEmailContent) {
 		this.memberEmailContent = memberEmailContent;
 	}
+
+	public Boolean getOld() {
+		if (this.old == null) {
+			return false;
+		}
+		return this.old == CoreConstants.CHAR_Y;
+	}
+
+	public void setOld(Boolean old) {
+		this.old = old ? CoreConstants.CHAR_Y : CoreConstants.CHAR_N;
+	}
+
 
 	@Override
 	public String toString() {
