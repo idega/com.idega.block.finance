@@ -89,4 +89,31 @@ public class PriceDAOImpl extends GenericDaoImpl implements PriceDAO {
 		return null;
 	}
 
+	@Override
+	public List<Price> getAllByPeriodIdAndDefault(Integer periodId, Boolean isDefault) {
+		if (periodId == null || isDefault == null) {
+			return null;
+		}
+
+		try {
+			if (isDefault == Boolean.TRUE) {
+				return getResultList(
+						Price.GET_PRICES_BY_PERIOD_ID_AND_IS_DEFAULT,
+						Price.class,
+						new Param(Price.PARAM_PERIOD_ID, periodId)
+				);
+			} else {
+				return getResultList(
+						Price.GET_PRICES_BY_PERIOD_ID_AND_IS_OPTIONAL,
+						Price.class,
+						new Param(Price.PARAM_PERIOD_ID, periodId)
+				);
+			}
+		} catch (Exception e) {
+			getLogger().log(Level.WARNING, "Error getting prices by period id: " + periodId + " and default: " + isDefault, e);
+		}
+		return null;
+	}
+
+
 }

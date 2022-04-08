@@ -34,6 +34,8 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
 	    addAttribute(getColumnType(),"Type",true,true,java.lang.String.class);
 	    addAttribute(getColumnExtraType(),"Extra type",true,true,java.lang.String.class);
 	    addAttribute(getColumnDateOfMonthlyPayments(),"Date of monthly payments",true,true,Integer.class);
+	    addAttribute(getColumnIsDefault(),"Default price",true,true,java.lang.Boolean.class);
+	    addAttribute(getColumnCertificateAdditionalText(),"Certificate additional text",true,true,java.lang.String.class);
     }
 
 	public static String getPriceEntityName() {return "FIN_PRICE";}
@@ -45,6 +47,8 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
 	public static String getColumnType() {return "TYPE";}
 	public static String getColumnExtraType() {return "EXTRA_TYPE";}
 	public static String getColumnDateOfMonthlyPayments() {return "DATE_MONTHLY_PAYMENTS";}
+	public static String getColumnIsDefault(){return "IS_DEFAULT";}
+	public static String getColumnCertificateAdditionalText(){return "CERTIFICATE_ADD_TEXT";}
 
   @Override
   public String getEntityName() {
@@ -129,6 +133,27 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
   @Override
   public void setDateOfMonthlyPayments(Integer dateOfMonthlyPayments) {
     setColumn(getColumnDateOfMonthlyPayments(), dateOfMonthlyPayments);
+  }
+
+  @Override
+  public void setIsDefault(boolean isDefault){
+     setColumn(getColumnIsDefault(), isDefault);
+  }
+
+  @Override
+  public boolean getIsDefault(){
+     return getBooleanColumnValue(getColumnIsDefault(), true);
+  }
+
+
+  @Override
+  public String getCertificateAdditionalText(){
+    return getStringColumnValue(getColumnCertificateAdditionalText());
+  }
+
+  @Override
+  public void setCertificateAdditionalText(String certificateAdditionalText){
+    setColumn(getColumnCertificateAdditionalText(), certificateAdditionalText);
   }
 
 

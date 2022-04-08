@@ -16,4 +16,6 @@ public interface PriceDAO extends GenericDao {
 	public List<Price> getAllByIds(List<Long> priceIds);
 
 	public List<Price> getAllByPeriodIdAndExtraType(Integer periodId, String extraType);
+
+	public List<Price> getAllByPeriodIdAndDefault(Integer periodId, Boolean isDefault);
 }

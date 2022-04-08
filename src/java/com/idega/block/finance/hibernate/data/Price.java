@@ -14,13 +14,25 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.idega.util.CoreConstants;
+
 @Entity
 @Cacheable
 @Table(name = Price.TABLE_NAME)
 @NamedQueries({
 	@NamedQuery(name = Price.GET_PRICES_BY_PERIOD_ID, query = "FROM Price price WHERE price.period.id = :" + Price.PARAM_PERIOD_ID + " AND price.extraType IS NULL"),
 	@NamedQuery(name = Price.GET_PRICES_BY_IDS, query = "FROM Price price WHERE price.id IN (:" + Price.PARAM_PRICE_IDS + ")" + " AND price.extraType IS NULL"),
-	@NamedQuery(name = Price.GET_PRICES_BY_PERIOD_ID_AND_EXTRA_TYPE, query = "FROM Price price WHERE price.period.id = :" + Price.PARAM_PERIOD_ID + " AND price.extraType = :" + Price.PARAM_EXTRA_TYPE)
+	@NamedQuery(name = Price.GET_PRICES_BY_PERIOD_ID_AND_EXTRA_TYPE, query = "FROM Price price WHERE price.period.id = :" + Price.PARAM_PERIOD_ID + " AND price.extraType = :" + Price.PARAM_EXTRA_TYPE),
+	@NamedQuery(
+			name = Price.GET_PRICES_BY_PERIOD_ID_AND_IS_DEFAULT,
+			query = "FROM Price price WHERE price.period.id = :" + Price.PARAM_PERIOD_ID
+				+ " AND (price.isDefault IS NULL OR price.isDefault = 'Y' OR price.isDefault = '1')"
+	),
+	@NamedQuery(
+			name = Price.GET_PRICES_BY_PERIOD_ID_AND_IS_OPTIONAL,
+			query = "FROM Price price WHERE price.period.id = :" + Price.PARAM_PERIOD_ID
+				+ " AND (price.isDefault = 'N' OR price.isDefault = '0')"
+	)
 })
 public class Price implements Serializable {
 	private static final long serialVersionUID = 2050014558123898958L;
@@ -36,14 +48,19 @@ public class Price implements Serializable {
 	private static final String COLUMN_TYPE = "TYPE";
 	private static final String COLUMN_EXTRA_TYPE = "EXTRA_TYPE";
 	private static final String COLUMN_DATE_MONTHLY_PAYMENTS = "DATE_MONTHLY_PAYMENTS";
+	private static final String COLUMN_IS_DEFAULT = "IS_DEFAULT";
+	private static final String COLUMN_CERTIFICATE_ADD_TEXT = "CERTIFICATE_ADD_TEXT";
 
 	public static final String GET_PRICES_BY_PERIOD_ID = "Price.getPricesByPeriodId";
 	public static final String GET_PRICES_BY_IDS = "Price.getPricesByIds";
 	public static final String GET_PRICES_BY_PERIOD_ID_AND_EXTRA_TYPE = "Price.getPricesByPeriodIdAndExtraType";
+	public static final String GET_PRICES_BY_PERIOD_ID_AND_IS_DEFAULT = "Price.getPricesByPeriodIdAndIsDefault";
+	public static final String GET_PRICES_BY_PERIOD_ID_AND_IS_OPTIONAL = "Price.getPricesByPeriodIdAndIsOptional";
 
 	public static final String PARAM_PERIOD_ID = "periodId";
 	public static final String PARAM_PRICE_IDS = "priceIds";
 	public static final String PARAM_EXTRA_TYPE = "extraType";
+	public static final String PARAM_DEFAULT = "isDefault";
 
 	@Id
 	@Column(name = COLUMN_ID)
@@ -74,6 +91,12 @@ public class Price implements Serializable {
 
 	@Column(name = COLUMN_DATE_MONTHLY_PAYMENTS)
 	private Integer dateOfMonthlyPayments;
+
+	@Column(name = COLUMN_IS_DEFAULT, length = 1)
+	private Character isDefault;
+
+	@Column(name = COLUMN_CERTIFICATE_ADD_TEXT)
+	private String certificateAdditionalText;
 
 
 	public Long getId() {
@@ -148,6 +171,24 @@ public class Price implements Serializable {
 		this.dateOfMonthlyPayments = dateOfMonthlyPayments;
 	}
 
+	public Boolean getIsDefault() {
+		if (this.isDefault == null) {
+			return true;
+		}
+		return this.isDefault == CoreConstants.CHAR_Y;
+	}
+
+	public void setIsDefault(Boolean isDefault) {
+		this.isDefault = isDefault ? CoreConstants.CHAR_Y : CoreConstants.CHAR_N;
+	}
+
+	public String getCertificateAdditionalText() {
+		return certificateAdditionalText;
+	}
+
+	public void setCertificateAdditionalText(String certificateAdditionalText) {
+		this.certificateAdditionalText = certificateAdditionalText;
+	}
 
 
 

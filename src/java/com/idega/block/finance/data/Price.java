@@ -17,6 +17,10 @@ public interface Price extends com.idega.data.IDOEntity
 	 public void setType(String type);
 	 public String getExtraType();
 	 public void setExtraType(String extraType);
+	 public void setIsDefault(boolean isDefault);
+	 public boolean getIsDefault();
+ 	 public String getCertificateAdditionalText();
+ 	 public void setCertificateAdditionalText(String certificateAdditionalText);
 
 	 public Integer getDateOfMonthlyPayments();
 	 public void setDateOfMonthlyPayments(Integer dateOfMonthlyPayments);
