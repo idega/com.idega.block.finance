@@ -6,8 +6,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +23,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.idega.core.file.data.bean.ICFile;
 import com.idega.user.data.bean.Group;
 import com.idega.util.CoreConstants;
 import com.idega.util.StringHandler;
@@ -72,6 +75,7 @@ public class Period implements Serializable {
 	private static final String COLUMN_CERTIFICATE_ADD_TEXT = "CERTIFICATE_ADD_TEXT";
 	private static final String COLUMN_CERTIFICATE_COLOR = "CERTIFICATE_COLOR";
 	private static final String COLUMN_OLD = "OLD";
+	private static final String COLUMN_ATTACHMENT = "ATTACHMENT";
 
 	public static final String	GET_ALL = "getAll",
 								GET_BY_CONFIRMATION_DATE = "getByConfirmationDate",
@@ -136,6 +140,10 @@ public class Period implements Serializable {
 
 	@Column(name = COLUMN_OLD, length = 1)
 	private Character old;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = COLUMN_ATTACHMENT)
+	private ICFile attachment;
 
 
 	public Integer getId() {
@@ -278,6 +286,15 @@ public class Period implements Serializable {
 		this.old = old ? CoreConstants.CHAR_Y : CoreConstants.CHAR_N;
 	}
 
+
+
+	public ICFile getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(ICFile attachment) {
+		this.attachment = attachment;
+	}
 
 	@Override
 	public String toString() {

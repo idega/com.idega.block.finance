@@ -51,6 +51,9 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	    addAttribute(getColumnOld(),"Old period",true,true,java.lang.Boolean.class);
 
 		addManyToManyRelationShip(Group.class, EXL_GROUPS_LIST);
+		addOneToOneRelationship(getColumnAttachment(), "Attachment", com.idega.core.file.data.ICFile.class);
+
+		this.setNullable(getColumnAttachment(), true);
 
     }
 
@@ -69,6 +72,7 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	public static String getColumnCertificateAdditionalText(){return "CERTIFICATE_ADD_TEXT";}
 	public static String getColumnCertificateColor(){return "CERTIFICATE_COLOR";}
 	public static String getColumnOld(){return "OLD";}
+	public static String getColumnAttachment(){return "ATTACHMENT";}
 
   @Override
   public String getEntityName() {
@@ -229,6 +233,15 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
     return getBooleanColumnValue(getColumnOld(), false);
  }
 
+@Override
+public Integer getAttachment() {
+	return getIntColumnValue(getColumnAttachment());
+}
+
+@Override
+public void setAttachment(Integer fileID) {
+	setColumn(getColumnAttachment(), fileID);
+}
 
  @Override
  public String getMemberEmailContent(){
