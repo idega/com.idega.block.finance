@@ -27,6 +27,7 @@ import com.idega.util.CoreConstants;
 			name = Price.GET_PRICES_BY_PERIOD_ID_AND_IS_DEFAULT,
 			query = "FROM Price price WHERE price.period.id = :" + Price.PARAM_PERIOD_ID
 				+ " AND (price.isDefault IS NULL OR price.isDefault = 'Y' OR price.isDefault = '1')"
+				+ " AND price.extraType IS NULL"
 	),
 	@NamedQuery(
 			name = Price.GET_PRICES_BY_PERIOD_ID_AND_IS_OPTIONAL,
