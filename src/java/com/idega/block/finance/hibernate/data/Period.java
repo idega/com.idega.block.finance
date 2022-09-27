@@ -76,6 +76,9 @@ public class Period implements Serializable {
 	private static final String COLUMN_CERTIFICATE_COLOR = "CERTIFICATE_COLOR";
 	private static final String COLUMN_OLD = "OLD";
 	private static final String COLUMN_ATTACHMENT = "ATTACHMENT";
+	private static final String COLUMN_DAY_OF_WEEK = "day_of_week";
+	private static final String COLUMN_DAY_OF_WEEK_START = "day_of_week_start";
+	private static final String COLUMN_DAY_OF_WEEK_END = "day_of_week_end";
 
 	public static final String	GET_ALL = "getAll",
 								GET_BY_CONFIRMATION_DATE = "getByConfirmationDate",
@@ -144,6 +147,16 @@ public class Period implements Serializable {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = COLUMN_ATTACHMENT)
 	private ICFile attachment;
+
+	@Column(name = COLUMN_DAY_OF_WEEK)
+	private Integer dayOfWeek;
+
+	@Column(name = COLUMN_DAY_OF_WEEK_START)
+	private String dayOfWeekStart;
+
+	@Column(name = COLUMN_DAY_OF_WEEK_END)
+	private String dayOfWeekEnd;
+
 
 
 	public Integer getId() {
@@ -294,6 +307,32 @@ public class Period implements Serializable {
 
 	public void setAttachment(ICFile attachment) {
 		this.attachment = attachment;
+	}
+
+
+
+	public Integer getDayOfWeek() {
+		return dayOfWeek;
+	}
+
+	public void setDayOfWeek(Integer dayOfWeek) {
+		this.dayOfWeek = dayOfWeek;
+	}
+
+	public String getDayOfWeekStart() {
+		return dayOfWeekStart;
+	}
+
+	public void setDayOfWeekStart(String dayOfWeekStart) {
+		this.dayOfWeekStart = dayOfWeekStart;
+	}
+
+	public String getDayOfWeekEnd() {
+		return dayOfWeekEnd;
+	}
+
+	public void setDayOfWeekEnd(String dayOfWeekEnd) {
+		this.dayOfWeekEnd = dayOfWeekEnd;
 	}
 
 	@Override
