@@ -166,6 +166,9 @@ public class PeriodDAOImpl extends GenericDaoImpl implements PeriodDAO {
 				return null;
 			}
 
+			if (seasons.size() > 1) {
+				getLogger().info("There are multiple valid fiscal periods for club " + clubId + ": " + seasons);
+			}
 			return seasons.iterator().next();
 		} catch (Exception e) {
 			getLogger().log(Level.WARNING, "Error getting current fiscal period for club " + clubId, e);
