@@ -605,7 +605,7 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 
 	@Override
 	public Price updatePrice(Integer priceId, Integer periodId, Integer ageFrom, Integer ageTo, Float price, String name) {
-		return updatePrice(priceId, periodId, ageFrom, ageTo, price, name, null, null, null, null, null);
+		return updatePrice(priceId, periodId, ageFrom, ageTo, price, name, null, null, null, null, null, null);
 	}
 
 	@Override
@@ -620,7 +620,8 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			String extraType,
 			Integer dateOfMonthlyPayments,
 			Boolean isDefault,
-			String certificateAdditionalText
+			String certificateAdditionalText,
+			Integer linkedPeriodId
 	) {
 		try {
 			Price periodPrice = null;
@@ -640,6 +641,7 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			periodPrice.setDateOfMonthlyPayments(dateOfMonthlyPayments);
 			periodPrice.setIsDefault(isDefault);
 			periodPrice.setCertificateAdditionalText(certificateAdditionalText);
+			periodPrice.setLinkedPeriodId(linkedPeriodId);
 
 			periodPrice.store();
 

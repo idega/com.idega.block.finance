@@ -36,6 +36,7 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
 	    addAttribute(getColumnDateOfMonthlyPayments(),"Date of monthly payments",true,true,Integer.class);
 	    addAttribute(getColumnIsDefault(),"Default price",true,true,java.lang.Boolean.class);
 	    addAttribute(getColumnCertificateAdditionalText(),"Certificate additional text",true,true,java.lang.String.class);
+	    addAttribute(getColumnLinkedPeriod(),"Linked period",true,true,Integer.class,"many-to-one",Period.class);
     }
 
 	public static String getPriceEntityName() {return "FIN_PRICE";}
@@ -49,6 +50,7 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
 	public static String getColumnDateOfMonthlyPayments() {return "DATE_MONTHLY_PAYMENTS";}
 	public static String getColumnIsDefault(){return "IS_DEFAULT";}
 	public static String getColumnCertificateAdditionalText(){return "CERTIFICATE_ADD_TEXT";}
+	public static String getColumnLinkedPeriod() {return "LINKED_PERIOD_ID";}
 
   @Override
   public String getEntityName() {
@@ -155,6 +157,17 @@ public class PriceBMPBean extends com.idega.data.GenericEntity implements com.id
   public void setCertificateAdditionalText(String certificateAdditionalText){
     setColumn(getColumnCertificateAdditionalText(), certificateAdditionalText);
   }
+
+  @Override
+  public Integer getLinkedPeriodId() {
+    return getIntColumnValue(getColumnLinkedPeriod());
+  }
+
+  @Override
+  public void setLinkedPeriodId(Integer periodId) {
+    setColumn(getColumnLinkedPeriod(), periodId);
+  }
+
 
 
   public Object ejbFindByPeriodAndAge(Integer periodId, Integer age) throws javax.ejb.FinderException {

@@ -51,6 +51,7 @@ public class Price implements Serializable {
 	private static final String COLUMN_DATE_MONTHLY_PAYMENTS = "DATE_MONTHLY_PAYMENTS";
 	private static final String COLUMN_IS_DEFAULT = "IS_DEFAULT";
 	private static final String COLUMN_CERTIFICATE_ADD_TEXT = "CERTIFICATE_ADD_TEXT";
+	private static final String COLUMN_LINKED_PERIOD_ID = "LINKED_PERIOD_ID";
 
 	public static final String GET_PRICES_BY_PERIOD_ID = "Price.getPricesByPeriodId";
 	public static final String GET_PRICES_BY_IDS = "Price.getPricesByIds";
@@ -98,6 +99,10 @@ public class Price implements Serializable {
 
 	@Column(name = COLUMN_CERTIFICATE_ADD_TEXT)
 	private String certificateAdditionalText;
+
+	@ManyToOne
+	@JoinColumn(name = COLUMN_LINKED_PERIOD_ID)
+	private Period linkedPeriod;
 
 
 	public Long getId() {
@@ -189,6 +194,14 @@ public class Price implements Serializable {
 
 	public void setCertificateAdditionalText(String certificateAdditionalText) {
 		this.certificateAdditionalText = certificateAdditionalText;
+	}
+
+	public Period getLinkedPeriod() {
+		return linkedPeriod;
+	}
+
+	public void setLinkedPeriod(Period linkedPeriod) {
+		this.linkedPeriod = linkedPeriod;
 	}
 
 

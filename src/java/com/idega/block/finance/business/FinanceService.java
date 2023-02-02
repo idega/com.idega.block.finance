@@ -273,7 +273,9 @@ public interface FinanceService extends IBOService {
 			String extraType,
 			Integer dateOfMonthlyPayments,
 			Boolean isDefault,
-			String certificateAdditionalText
+			String certificateAdditionalText,
+			Integer linkedPeriodId
+
 	);
 
 	public Collection<Period> getAllPeriodsByGroupAndDate(Integer groupId, Timestamp timestamp);
