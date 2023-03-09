@@ -641,7 +641,9 @@ public class FinanceServiceBean extends IBOServiceBean implements FinanceService
 			periodPrice.setDateOfMonthlyPayments(dateOfMonthlyPayments);
 			periodPrice.setIsDefault(isDefault);
 			periodPrice.setCertificateAdditionalText(certificateAdditionalText);
-			periodPrice.setLinkedPeriodId(linkedPeriodId);
+			if (linkedPeriodId != null && linkedPeriodId > 0) {
+				periodPrice.setLinkedPeriodId(linkedPeriodId);
+			}
 
 			periodPrice.store();
 
