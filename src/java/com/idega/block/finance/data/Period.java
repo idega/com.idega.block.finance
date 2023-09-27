@@ -46,10 +46,13 @@ public interface Period extends com.idega.data.IDOEntity
 	 public Integer getAttachment();
 	 public void setAttachment(Integer fileID);
 
-
 	 public void addGroupToExclude(Group group) throws IDOAddRelationshipException;
 	 public void removeExcludedGroup(Group group) throws IDORemoveRelationshipException;
 	 public void removeAllExcludedGroups() throws IDORemoveRelationshipException;
 	 public Collection<Group> getAllExcludedGroups();
+
+	 public Integer getMaxDuration();
+
+	 public void setMaxDuration(Integer maxDuration);
 
 }

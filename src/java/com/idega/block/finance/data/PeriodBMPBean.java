@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import javax.ejb.FinderException;
 
+import com.idega.block.finance.hibernate.data.Period;
 import com.idega.data.BlobWrapper;
 import com.idega.data.IDOAddRelationshipException;
 import com.idega.data.IDOQuery;
@@ -20,6 +21,7 @@ import com.idega.util.ListUtil;
 import com.idega.util.StringHandler;
 
 public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.idega.block.finance.data.Period {
+
 	private static final long serialVersionUID = 9081605647262701182L;
 
 	public static final String EXL_GROUPS_LIST = getPeriodEntityName() + "_EXL_GROUPS";
@@ -49,12 +51,12 @@ public class PeriodBMPBean extends com.idega.data.GenericEntity implements com.i
 	    addAttribute(getColumnCertificateAdditionalText(),"Certificate additional text",true,true,java.lang.String.class);
 	    addAttribute(getColumnCertificateColor(),"Certificate color",true,true,java.lang.String.class);
 	    addAttribute(getColumnOld(),"Old period",true,true,java.lang.Boolean.class);
+	    addAttribute(Period.COLUMN_MAX_DURATION, "Max duration", true, true, Integer.class);
 
 		addManyToManyRelationShip(Group.class, EXL_GROUPS_LIST);
 		addOneToOneRelationship(getColumnAttachment(), "Attachment", com.idega.core.file.data.ICFile.class);
 
 		this.setNullable(getColumnAttachment(), true);
-
     }
 
 	public static String getPeriodEntityName() {return "FIN_PERIOD";}
@@ -548,6 +550,16 @@ public void setAttachment(Integer fileID) {
 			sql.appendEquals(getColumnControlsMembership(), controlsMembership.booleanValue());
 		}
 		return idoFindPKsByQuery(sql);
+	}
+
+	@Override
+	public Integer getMaxDuration() {
+		return getIntegerColumnValue(Period.COLUMN_MAX_DURATION);
+	}
+
+	@Override
+	public void setMaxDuration(Integer maxDuration) {
+		setColumn(Period.COLUMN_MAX_DURATION, maxDuration);
 	}
 
 }

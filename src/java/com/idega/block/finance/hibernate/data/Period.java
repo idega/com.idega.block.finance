@@ -61,33 +61,35 @@ public class Period implements Serializable {
 	public static final String	TABLE_NAME = "FIN_PERIOD",
 								COLUMN_ID = "FIN_PERIOD_ID";
 
-	private static final String COLUMN_GROUP_ID = "GROUP_ID";
-	private static final String COLUMN_DIVISION_ID = "DIVISION_ID";
-	private static final String COLUMN_CLUB_ID = "CLUB_ID";
-	private static final String COLUMN_NAME = "NAME";
-	private static final String COLUMN_FROM_DATE = "FROM_DATE";
-	private static final String COLUMN_TO_DATE = "TO_DATE";
-	private static final String COLUMN_VIRTUAL_GROUP = "VIRTUAL_GROUP";  //1. OPTION Putting the real groups hidden under the virtual group separated by COMMA //2. OPTION <club id or division id or union id>;<group type as: iwme_club>;<virtual group id as: general-members>
-	private static final String COLUMN_CONFIRMATION_DATE = "CONFIRMATION_DATE";
-	private static final String COLUMN_CONTROLS_MEMBERSHIP = "controls_membership";
-	private static final String COLUMN_GENERATED_PAYMENTS_DATE = "GENERATED_PAYMENTS_DATE";
-	private static final String COLUMN_MEMBER_EMAIL_CONTENT = "MEMBER_EMAIL_CONTENT";
-	private static final String COLUMN_CERTIFICATE_ADD_TEXT = "CERTIFICATE_ADD_TEXT";
-	private static final String COLUMN_CERTIFICATE_COLOR = "CERTIFICATE_COLOR";
-	private static final String COLUMN_OLD = "OLD";
-	private static final String COLUMN_ATTACHMENT = "ATTACHMENT";
-	private static final String COLUMN_DAY_OF_WEEK = "day_of_week";
-	private static final String COLUMN_DAY_OF_WEEK_START = "day_of_week_start";
-	private static final String COLUMN_DAY_OF_WEEK_END = "day_of_week_end";
+	private static final String COLUMN_GROUP_ID = "GROUP_ID",
+								COLUMN_DIVISION_ID = "DIVISION_ID",
+								COLUMN_CLUB_ID = "CLUB_ID",
+								COLUMN_NAME = "NAME",
+								COLUMN_FROM_DATE = "FROM_DATE",
+								COLUMN_TO_DATE = "TO_DATE",
+								COLUMN_VIRTUAL_GROUP = "VIRTUAL_GROUP",  //1. OPTION Putting the real groups hidden under the virtual group separated by COMMA //2. OPTION <club id or division id or union id>;<group type as: iwme_club>;<virtual group id as: general-members>
+								COLUMN_CONFIRMATION_DATE = "CONFIRMATION_DATE",
+								COLUMN_CONTROLS_MEMBERSHIP = "controls_membership",
+								COLUMN_GENERATED_PAYMENTS_DATE = "GENERATED_PAYMENTS_DATE",
+								COLUMN_MEMBER_EMAIL_CONTENT = "MEMBER_EMAIL_CONTENT",
+								COLUMN_CERTIFICATE_ADD_TEXT = "CERTIFICATE_ADD_TEXT",
+								COLUMN_CERTIFICATE_COLOR = "CERTIFICATE_COLOR",
+								COLUMN_OLD = "OLD",
+								COLUMN_ATTACHMENT = "ATTACHMENT",
+								COLUMN_DAY_OF_WEEK = "day_of_week",
+								COLUMN_DAY_OF_WEEK_START = "day_of_week_start",
+								COLUMN_DAY_OF_WEEK_END = "day_of_week_end";
 
 	public static final String	GET_ALL = "getAll",
 								GET_BY_CONFIRMATION_DATE = "getByConfirmationDate",
 								QUERY_FIND_VALID_FOR_CLUB = "findValidForClub",
-								QUERY_FIND_ALL_NOT_ENDED = "Period.findAllNotEnded";
-	public static final String GET_ALL_INFINITE = "Period.getAllInfinite";
+								QUERY_FIND_ALL_NOT_ENDED = "Period.findAllNotEnded",
+								GET_ALL_INFINITE = "Period.getAllInfinite",
 
-	public static final String	PARAM_CONFIRMATION_DATE = "confirmationDate",
-								PARAM_CONTROLS_MEMBERSHIP = "controlsMembership";
+								PARAM_CONFIRMATION_DATE = "confirmationDate",
+								PARAM_CONTROLS_MEMBERSHIP = "controlsMembership",
+
+								COLUMN_MAX_DURATION = "max_duration";
 
 	@Id
 	@Column(name = COLUMN_ID)
@@ -157,7 +159,8 @@ public class Period implements Serializable {
 	@Column(name = COLUMN_DAY_OF_WEEK_END)
 	private String dayOfWeekEnd;
 
-
+	@Column(name = COLUMN_MAX_DURATION)
+	private Integer maxDuration;
 
 	public Integer getId() {
 		return id;
@@ -250,8 +253,6 @@ public class Period implements Serializable {
 		this.generatedPaymentsDate = generatedPaymentsDate;
 	}
 
-
-
 	public String getCertificateAdditionalText() {
 		return certificateAdditionalText;
 	}
@@ -299,8 +300,6 @@ public class Period implements Serializable {
 		this.old = old ? CoreConstants.CHAR_Y : CoreConstants.CHAR_N;
 	}
 
-
-
 	public ICFile getAttachment() {
 		return attachment;
 	}
@@ -308,8 +307,6 @@ public class Period implements Serializable {
 	public void setAttachment(ICFile attachment) {
 		this.attachment = attachment;
 	}
-
-
 
 	public Integer getDayOfWeek() {
 		return dayOfWeek;
@@ -333,6 +330,14 @@ public class Period implements Serializable {
 
 	public void setDayOfWeekEnd(String dayOfWeekEnd) {
 		this.dayOfWeekEnd = dayOfWeekEnd;
+	}
+
+	public Integer getMaxDuration() {
+		return maxDuration;
+	}
+
+	public void setMaxDuration(Integer maxDuration) {
+		this.maxDuration = maxDuration;
 	}
 
 	@Override
