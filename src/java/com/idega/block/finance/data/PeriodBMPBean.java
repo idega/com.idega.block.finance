@@ -562,4 +562,67 @@ public void setAttachment(Integer fileID) {
 		setColumn(Period.COLUMN_MAX_DURATION, maxDuration);
 	}
 
+	public Collection<?> ejbFindAllByGroupAndDateAndControlsMembership(Integer groupId, Timestamp timestamp, Boolean controlsMembership) throws javax.ejb.FinderException {
+			IDOQuery sql = idoQuery();
+			sql.appendSelectAllFrom(this);
+
+			Timestamp timestampFrom = null;
+			Timestamp timestampTo = null;
+			if (timestamp != null) {
+				IWTimestamp timestampFromIWT = new IWTimestamp(timestamp);
+				IWTimestamp timestampToIWT = new IWTimestamp(timestamp);
+				timestampFromIWT.setHour(23);
+				timestampFromIWT.setMinute(59);
+				timestampFromIWT.setSecond(59);
+				timestampFrom = timestampFromIWT.getTimestamp();
+
+				timestampToIWT.setHour(0);
+				timestampToIWT.setMinute(0);
+				timestampToIWT.setSecond(0);
+				timestampTo = timestampToIWT.getTimestamp();
+			}
+
+			sql.appendWhere();
+			sql.append(1);
+			sql.appendEqualSign();
+			sql.append(1);
+
+			sql.append(" and (")
+				.appendEquals(getColumnGroup(), groupId)
+				.append(" or ")
+				.appendEquals(getColumnClub(), groupId);
+			sql.append(") ");
+
+			if (timestampFrom != null) {
+				sql.appendAnd();
+				sql.append(CoreConstants.SPACE);
+				sql.append(timestampFrom);
+				sql.appendGreaterThanOrEqualsSign();
+				sql.append(getColumnFromDate());
+			}
+
+			sql.append(" and (")
+				.append(getColumnToDate())
+				.appendIsNull();
+
+			if (timestampTo != null) {
+				sql.appendOr();
+				sql.append(timestampTo);
+				sql.appendLessThanOrEqualsSign();
+				sql.append(getColumnToDate());
+			}
+
+			sql.append(") ");
+
+			if (controlsMembership != null) {
+				sql.appendAnd();
+				sql.append(CoreConstants.SPACE);
+				sql.appendEquals(getColumnControlsMembership(), controlsMembership);
+			}
+
+			sql.appendOrderByDescending(getColumnToDate());
+
+		  return idoFindPKsByQuery(sql);
+	  }
+
 }

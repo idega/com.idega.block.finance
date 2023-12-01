@@ -13,4 +13,6 @@ public interface PeriodHome extends com.idega.data.IDOHome {
  	public java.util.Collection findAllByGroupAndControlsMembership(java.lang.Integer groupId, Boolean controlsMembership) throws javax.ejb.FinderException;
 
  	public java.util.Collection findAllByGroupAndDatesAndControlsMembershipAndOlderThanGivenPeriodId(java.lang.Integer groupId, Timestamp timestampFrom, Timestamp timestampTo, Boolean controlsMembership, Integer periodId) throws javax.ejb.FinderException;
+
+ 	public java.util.Collection findAllByGroupAndDateAndControlsMembership(java.lang.Integer groupId, Timestamp timestamp, Boolean controlsMembership) throws javax.ejb.FinderException;
 }
